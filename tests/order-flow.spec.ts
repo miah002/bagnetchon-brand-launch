@@ -55,3 +55,125 @@ test.describe("Order flow — happy path", () => {
     await expect(page.getByText(/BGN-[A-Z0-9]{4}\d{4}/)).toBeVisible();
   });
 });
+
+test.describe("Order flow — edge cases", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/menu", { waitUntil: "networkidle" });
+    await page.evaluate(() => localStorage.removeItem("bagnetchon_cart_v1"));
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByText("Nothing in your cart yet.")).toBeVisible();
+  });
+
+  test("empty cart shows empty state on /checkout", async ({ page }) => {
+    await page.goto("/checkout");
+    await expect(page.getByRole("heading", { name: "Your cart is empty" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Browse the menu" })).toBeVisible();
+  });
+
+  test("Place Order button is disabled with blank name", async ({ page }) => {
+    await mockDelivery(page);
+
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+    await page.getByRole("link", { name: "Proceed to Checkout" }).click();
+
+    // Fill everything except name
+    await page.getByLabel("Phone").fill("9546259631");
+    await page.getByLabel("Email").fill("maria@test.com");
+    await page.getByLabel("Street address").fill("123 Palm Ave");
+    await page.getByLabel("City").fill("Fort Lauderdale");
+    await page.getByLabel("ZIP").fill("33301");
+
+    await expect(page.getByRole("button", { name: "Place Order" })).toBeDisabled();
+  });
+
+  test("Place Order button is disabled with invalid email", async ({ page }) => {
+    await mockDelivery(page);
+
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+    await page.getByRole("link", { name: "Proceed to Checkout" }).click();
+
+    await page.getByLabel("Full name").fill("Maria Santos");
+    await page.getByLabel("Phone").fill("9546259631");
+    await page.getByLabel("Email").fill("not-an-email");
+    await page.getByLabel("Street address").fill("123 Palm Ave");
+    await page.getByLabel("City").fill("Fort Lauderdale");
+    await page.getByLabel("ZIP").fill("33301");
+
+    await expect(page.getByRole("button", { name: "Place Order" })).toBeDisabled();
+  });
+
+  test("Place Order button disabled when ZIP is not 5 digits", async ({ page }) => {
+    await mockDelivery(page);
+
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+    await page.getByRole("link", { name: "Proceed to Checkout" }).click();
+
+    await page.getByLabel("Full name").fill("Maria Santos");
+    await page.getByLabel("Phone").fill("9546259631");
+    await page.getByLabel("Email").fill("maria@test.com");
+    await page.getByLabel("Street address").fill("123 Palm Ave");
+    await page.getByLabel("City").fill("Fort Lauderdale");
+    await page.getByLabel("ZIP").fill("123"); // only 3 digits
+
+    await expect(page.getByRole("button", { name: "Place Order" })).toBeDisabled();
+  });
+
+  test("ZIP input strips non-digit characters", async ({ page }) => {
+    // Need an item in cart so the checkout form renders (not the empty-cart screen)
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+    await page.getByRole("link", { name: "Proceed to Checkout" }).click();
+
+    const zipField = page.getByLabel("ZIP");
+    await zipField.click();
+    await zipField.pressSequentially("abc12def345");
+    await expect(zipField).toHaveValue("12345");
+  });
+
+  test("cart qty increase and decrease", async ({ page }) => {
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+
+    const cartAside = page.locator("aside").filter({ hasText: "Your Order" });
+
+    // Increase qty to 2
+    await cartAside.getByRole("button", { name: "Increase" }).click();
+    await expect(cartAside.locator("span.min-w-4")).toHaveText("2");
+
+    // Decrease back to 1
+    await cartAside.getByRole("button", { name: "Decrease" }).click();
+    await expect(cartAside.locator("span.min-w-4")).toHaveText("1");
+
+    // Decrease to 0 — item should be removed
+    await cartAside.getByRole("button", { name: "Decrease" }).click();
+    await expect(page.getByText("Nothing in your cart yet.")).toBeVisible();
+  });
+
+  test("remove button removes item from cart", async ({ page }) => {
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+
+    const cartAside = page.locator("aside").filter({ hasText: "Your Order" });
+    await expect(cartAside.getByText("Original Bagnet")).toBeVisible();
+
+    await cartAside.getByRole("button", { name: /Remove Original Bagnet/i }).click();
+    await expect(page.getByText("Nothing in your cart yet.")).toBeVisible();
+  });
+
+  test("cart persists across navigation", async ({ page }) => {
+    // Add item on /menu
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
+
+    // Navigate to home then back
+    await page.goto("/");
+    await page.goto("/menu", { waitUntil: "networkidle" });
+
+    // Item still in cart
+    const cartAside = page.locator("aside").filter({ hasText: "Your Order" });
+    await expect(cartAside.getByText("Original Bagnet")).toBeVisible();
+  });
+});
