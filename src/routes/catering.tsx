@@ -75,6 +75,7 @@ function CateringPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     setF((p) => ({ ...p, source: detectSource() }));
