@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as MenuRouteImport } from './routes/menu'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CateringRouteImport } from './routes/catering'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -24,6 +25,11 @@ const OurStoryRoute = OurStoryRouteImport.update({
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
 }
@@ -69,20 +77,36 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/catering' | '/checkout' | '/menu' | '/our-story'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/catering'
+    | '/checkout'
+    | '/contact'
+    | '/menu'
+    | '/our-story'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/catering' | '/checkout' | '/menu' | '/our-story'
+  to:
+    | '/'
+    | '/admin'
+    | '/catering'
+    | '/checkout'
+    | '/contact'
+    | '/menu'
+    | '/our-story'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/catering'
     | '/checkout'
+    | '/contact'
     | '/menu'
     | '/our-story'
   fileRoutesById: FileRoutesById
@@ -92,6 +116,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   CateringRoute: typeof CateringRoute
   CheckoutRoute: typeof CheckoutRoute
+  ContactRoute: typeof ContactRoute
   MenuRoute: typeof MenuRoute
   OurStoryRoute: typeof OurStoryRoute
 }
@@ -110,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/menu'
       fullPath: '/menu'
       preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -148,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   CateringRoute: CateringRoute,
   CheckoutRoute: CheckoutRoute,
+  ContactRoute: ContactRoute,
   MenuRoute: MenuRoute,
   OurStoryRoute: OurStoryRoute,
 }
