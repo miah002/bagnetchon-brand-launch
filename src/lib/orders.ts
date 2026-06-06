@@ -49,7 +49,7 @@ export async function createOrder(
     address_city: order.customer.city,
     address_zip: order.customer.zip,
     source: order.source,
-    items: order.lines,
+    items: order.lines as unknown as Record<string, unknown>[],
     subtotal: order.subtotal,
     tax: order.tax,
     delivery_fee: order.deliveryFee,
