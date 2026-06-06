@@ -351,16 +351,15 @@ function Home() {
         </h2>
         <form
           className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const fd = new FormData(e.currentTarget);
             const email = String(fd.get("email") ?? "");
             try {
-              const raw = localStorage.getItem("bagnetchon_subs_v1");
-              const list = raw ? JSON.parse(raw) : [];
-              list.push({ email, at: new Date().toISOString() });
-              localStorage.setItem("bagnetchon_subs_v1", JSON.stringify(list));
-            } catch {}
+              await subscribeEmail(email, detectSource());
+            } catch {
+              /* swallow — still show success */
+            }
             setSubbed(true);
           }}
         >
