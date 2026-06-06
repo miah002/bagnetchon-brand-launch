@@ -1,4 +1,5 @@
 import type { CartLine } from "@/context/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface Order {
   ref: string;
@@ -15,45 +16,58 @@ export interface Order {
   subtotal: number;
   tax: number;
   deliveryFee: number;
+  deliveryMiles?: number | null;
   total: number;
   source: string;
 }
 
-const STORAGE = "bagnetchon_orders_v1";
+function genRef() {
+  return (
+    "BGN-" +
+    Math.random().toString(36).slice(2, 6).toUpperCase() +
+    Date.now().toString().slice(-4)
+  );
+}
 
 /**
- * Stub order creator. Persists locally; designed so a future Stripe Checkout
- * call can drop in here without disturbing callers.
+ * Persists an order in Lovable Cloud. Payment stays STUBBED.
  *
- * TODO(stripe): replace local persistence with a server fn that creates a
- * Stripe Checkout Session and returns the redirect URL. The function should
- * receive this `order` payload unchanged.
+ * TODO(stripe): create a Stripe Checkout Session here, store
+ * stripe_session_id, and redirect the user instead of returning success
+ * immediately. Update status='paid' / payment_status='paid' via Stripe webhook.
  */
 export async function createOrder(
   order: Omit<Order, "ref" | "createdAt">,
 ): Promise<Order> {
-  const ref =
-    "BCN-" +
-    Math.random().toString(36).slice(2, 6).toUpperCase() +
-    "-" +
-    Date.now().toString().slice(-4);
-  const full: Order = { ...order, ref, createdAt: new Date().toISOString() };
-  try {
-    const raw = localStorage.getItem(STORAGE);
-    const list: Order[] = raw ? JSON.parse(raw) : [];
-    list.push(full);
-    localStorage.setItem(STORAGE, JSON.stringify(list));
-  } catch {
-    /* ignore */
-  }
-  return full;
-}
+  const ref = genRef();
+  const payload = {
+    order_ref: ref,
+    customer_name: order.customer.name,
+    customer_email: order.customer.email,
+    customer_phone: order.customer.phone,
+    address_street: order.customer.street,
+    address_city: order.customer.city,
+    address_zip: order.customer.zip,
+    source: order.source,
+    items: order.lines,
+    subtotal: order.subtotal,
+    tax: order.tax,
+    delivery_fee: order.deliveryFee,
+    delivery_miles: order.deliveryMiles ?? null,
+    total: order.total,
+    status: "pending",
+    payment_status: "unpaid",
+  };
 
-export function listOrders(): Order[] {
-  try {
-    const raw = localStorage.getItem(STORAGE);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
+  const { data: row, error } = await supabase
+    .from("orders")
+    .insert(payload)
+    .select("created_at")
+    .single();
+
+  if (error || !row) {
+    throw new Error(error?.message ?? "Could not place order");
   }
+
+  return { ...order, ref, createdAt: row.created_at };
 }
