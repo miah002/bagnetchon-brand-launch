@@ -50,8 +50,9 @@ export async function estimateDistanceMiles(
       body: JSON.stringify({ origin: KITCHEN_ORIGIN, destination: address }),
     });
     if (!res.ok) return null;
-    const data = (await res.json()) as { miles?: number };
-    return typeof data.miles === "number" ? data.miles : null;
+    const data = (await res.json()) as { miles?: number; unresolved?: boolean };
+    if (data.unresolved || typeof data.miles !== "number") return null;
+    return data.miles;
   } catch {
     return null;
   }
