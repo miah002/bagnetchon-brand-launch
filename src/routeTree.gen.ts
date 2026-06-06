@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CateringRouteImport } from './routes/catering'
 import { Route as IndexRouteImport } from './routes/index'
 
 const MenuRoute = MenuRouteImport.update({
@@ -23,6 +24,11 @@ const CheckoutRoute = CheckoutRouteImport.update({
   path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CateringRoute = CateringRouteImport.update({
+  id: '/catering',
+  path: '/catering',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
   '/menu': typeof MenuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
   '/menu': typeof MenuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
   '/menu': typeof MenuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checkout' | '/menu'
+  fullPaths: '/' | '/catering' | '/checkout' | '/menu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout' | '/menu'
-  id: '__root__' | '/' | '/checkout' | '/menu'
+  to: '/' | '/catering' | '/checkout' | '/menu'
+  id: '__root__' | '/' | '/catering' | '/checkout' | '/menu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CateringRoute: typeof CateringRoute
   CheckoutRoute: typeof CheckoutRoute
   MenuRoute: typeof MenuRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catering': {
+      id: '/catering'
+      path: '/catering'
+      fullPath: '/catering'
+      preLoaderRoute: typeof CateringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CateringRoute: CateringRoute,
   CheckoutRoute: CheckoutRoute,
   MenuRoute: MenuRoute,
 }
