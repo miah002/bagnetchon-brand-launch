@@ -75,6 +75,7 @@ function CateringPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     setF((p) => ({ ...p, source: detectSource() }));
@@ -105,19 +106,27 @@ function CateringPage() {
     e.preventDefault();
     if (!valid || submitting) return;
     setSubmitting(true);
-    await submitInquiry({
-      name: f.name,
-      email: f.email,
-      phone: f.phone,
-      eventDate: f.date,
-      guestCount: Number(f.guests),
-      location: f.location,
-      package: f.package || undefined,
-      notes: f.notes || undefined,
-      source: f.source,
-    });
+    setSubmitError(null);
+    try {
+      await submitInquiry({
+        type: "catering",
+        name: f.name,
+        email: f.email,
+        phone: f.phone,
+        eventDate: f.date,
+        guestCount: Number(f.guests),
+        location: f.location,
+        package: f.package || undefined,
+        notes: f.notes || undefined,
+        source: f.source,
+      });
+      setSuccess(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Could not submit. Please try again.",
+      );
+    }
     setSubmitting(false);
-    setSuccess(true);
   };
 
   return (
@@ -298,6 +307,11 @@ function CateringPage() {
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               Send Inquiry
             </button>
+            {submitError && (
+              <p role="alert" className="text-sm text-destructive">
+                {submitError}
+              </p>
+            )}
           </form>
         )}
       </section>
