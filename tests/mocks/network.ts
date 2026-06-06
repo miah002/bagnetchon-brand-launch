@@ -6,9 +6,9 @@ import type { Page } from "@playwright/test";
  * Supabase .insert().select().single() unwraps first element of array.
  */
 export async function mockOrderInsert(page: Page) {
-  await page.route("**rest/v1/orders**", (route) => {
+  await page.route("**/rest/v1/orders*", (route) => {
     if (route.request().method() !== "POST") return route.continue();
-    route.fulfill({
+    await route.fulfill({
       status: 200,
       contentType: "application/json",
       body: JSON.stringify([{ created_at: "2026-01-01T00:00:00Z" }]),
@@ -21,9 +21,9 @@ export async function mockOrderInsert(page: Page) {
  * POST **/rest/v1/inquiries** → [{ id, created_at }]
  */
 export async function mockInquiryInsert(page: Page) {
-  await page.route("**rest/v1/inquiries**", (route) => {
+  await page.route("**/rest/v1/inquiries*", (route) => {
     if (route.request().method() !== "POST") return route.continue();
-    route.fulfill({
+    await route.fulfill({
       status: 200,
       contentType: "application/json",
       body: JSON.stringify([{ id: "mock-id", created_at: "2026-01-01T00:00:00Z" }]),
@@ -36,12 +36,12 @@ export async function mockInquiryInsert(page: Page) {
  * POST **/rest/v1/subscribers** → [] (no select, just needs 200 and no error key)
  */
 export async function mockSubscriberInsert(page: Page) {
-  await page.route("**rest/v1/subscribers**", (route) => {
+  await page.route("**/rest/v1/subscribers*", (route) => {
     if (route.request().method() !== "POST") return route.continue();
-    route.fulfill({
+    await route.fulfill({
       status: 201,
       contentType: "application/json",
-      body: JSON.stringify([]),
+      body: JSON.stringify([{ id: "mock-sub-id" }]),
     });
   });
 }
@@ -51,8 +51,9 @@ export async function mockSubscriberInsert(page: Page) {
  * Returns 200 so it doesn't leave pending requests open.
  */
 export async function mockNotifyInquiry(page: Page) {
-  await page.route("**functions/v1/notify-inquiry**", (route) => {
-    route.fulfill({ status: 200, body: "{}" });
+  await page.route("**/functions/v1/notify-inquiry*", (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    await route.fulfill({ status: 200, body: "{}" });
   });
 }
 
