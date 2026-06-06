@@ -106,6 +106,7 @@ function CateringPage() {
     e.preventDefault();
     if (!valid || submitting) return;
     setSubmitting(true);
+    setSubmitError(null);
     try {
       await submitInquiry({
         type: "catering",
