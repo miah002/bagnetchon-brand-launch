@@ -6,23 +6,26 @@ import {
 
 test.describe("Order flow — happy path", () => {
   test.beforeEach(async ({ page }) => {
-    // Clear localStorage so cart is empty at test start
-    await page.goto("/");
+    // Navigate to menu, clear cart, reload, and verify cart is empty
+    await page.goto("/menu", { waitUntil: "networkidle" });
     await page.evaluate(() => localStorage.removeItem("bagnetchon_cart_v1"));
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByText("Nothing in your cart yet.")).toBeVisible();
   });
 
   test("customer can add item, proceed to checkout, and place order", async ({ page }) => {
     await mockOrderInsert(page);
     await mockDelivery(page);
 
-    // 1. Go to menu, add first item (Original Bagnet, $18.50)
-    // waitUntil:"networkidle" ensures React has fully hydrated before we click
+    // 1. Add Original Bagnet to cart
+    // waitUntil:"networkidle" in beforeEach ensures React has fully hydrated before we click
     // (SSR renders the button in HTML but onClick isn't attached until hydration completes)
-    await page.goto("/menu", { waitUntil: "networkidle" });
-    await page.getByRole("button", { name: "Add to cart" }).first().click();
+    const originalBagnetCard = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await originalBagnetCard.getByRole("button", { name: "Add to cart" }).click();
 
     // 2. Cart sidebar shows item
-    await expect(page.getByText("Original Bagnet").first()).toBeVisible();
+    const cartAside = page.locator("aside").filter({ hasText: "Your Order" });
+    await expect(cartAside.getByText("Original Bagnet")).toBeVisible();
     await expect(page.getByRole("link", { name: "Proceed to Checkout" })).toBeVisible();
 
     // 3. Proceed to checkout
