@@ -105,19 +105,26 @@ function CateringPage() {
     e.preventDefault();
     if (!valid || submitting) return;
     setSubmitting(true);
-    await submitInquiry({
-      name: f.name,
-      email: f.email,
-      phone: f.phone,
-      eventDate: f.date,
-      guestCount: Number(f.guests),
-      location: f.location,
-      package: f.package || undefined,
-      notes: f.notes || undefined,
-      source: f.source,
-    });
+    try {
+      await submitInquiry({
+        type: "catering",
+        name: f.name,
+        email: f.email,
+        phone: f.phone,
+        eventDate: f.date,
+        guestCount: Number(f.guests),
+        location: f.location,
+        package: f.package || undefined,
+        notes: f.notes || undefined,
+        source: f.source,
+      });
+      setSuccess(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Could not submit. Please try again.",
+      );
+    }
     setSubmitting(false);
-    setSuccess(true);
   };
 
   return (
