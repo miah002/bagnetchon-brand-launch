@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      inquiries: {
+        Row: {
+          created_at: string
+          email: string
+          event_date: string | null
+          guest_count: number | null
+          id: string
+          location: string | null
+          message: string | null
+          metadata: Json | null
+          name: string
+          package: string | null
+          phone: string | null
+          source: string
+          status: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          event_date?: string | null
+          guest_count?: number | null
+          id?: string
+          location?: string | null
+          message?: string | null
+          metadata?: Json | null
+          name: string
+          package?: string | null
+          phone?: string | null
+          source?: string
+          status?: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          event_date?: string | null
+          guest_count?: number | null
+          id?: string
+          location?: string | null
+          message?: string | null
+          metadata?: Json | null
+          name?: string
+          package?: string | null
+          phone?: string | null
+          source?: string
+          status?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address_city: string
+          address_street: string
+          address_zip: string
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          delivery_fee: number
+          delivery_miles: number | null
+          id: string
+          items: Json
+          order_ref: string
+          payment_status: string
+          source: string
+          status: string
+          stripe_session_id: string | null
+          subtotal: number
+          tax: number
+          total: number
+        }
+        Insert: {
+          address_city: string
+          address_street: string
+          address_zip: string
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          delivery_fee?: number
+          delivery_miles?: number | null
+          id?: string
+          items: Json
+          order_ref: string
+          payment_status?: string
+          source?: string
+          status?: string
+          stripe_session_id?: string | null
+          subtotal: number
+          tax: number
+          total: number
+        }
+        Update: {
+          address_city?: string
+          address_street?: string
+          address_zip?: string
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          delivery_fee?: number
+          delivery_miles?: number | null
+          id?: string
+          items?: Json
+          order_ref?: string
+          payment_status?: string
+          source?: string
+          status?: string
+          stripe_session_id?: string | null
+          subtotal?: number
+          tax?: number
+          total?: number
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
