@@ -11,6 +11,8 @@ import { useCart, formatPrice } from "@/context/CartContext";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useState } from "react";
 import { pageMeta } from "@/lib/seo";
+import { subscribeEmail } from "@/lib/subscribers";
+import { detectSource } from "@/lib/source";
 
 export const Route = createFileRoute("/")({
   head: () =>
