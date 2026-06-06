@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CateringRouteImport } from './routes/catering'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
 const MenuRoute = MenuRouteImport.update({
@@ -29,6 +30,11 @@ const CateringRoute = CateringRouteImport.update({
   path: '/catering',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
   '/menu': typeof MenuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
   '/menu': typeof MenuRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/catering': typeof CateringRoute
   '/checkout': typeof CheckoutRoute
   '/menu': typeof MenuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/catering' | '/checkout' | '/menu'
+  fullPaths: '/' | '/admin' | '/catering' | '/checkout' | '/menu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/catering' | '/checkout' | '/menu'
-  id: '__root__' | '/' | '/catering' | '/checkout' | '/menu'
+  to: '/' | '/admin' | '/catering' | '/checkout' | '/menu'
+  id: '__root__' | '/' | '/admin' | '/catering' | '/checkout' | '/menu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   CateringRoute: typeof CateringRoute
   CheckoutRoute: typeof CheckoutRoute
   MenuRoute: typeof MenuRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CateringRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   CateringRoute: CateringRoute,
   CheckoutRoute: CheckoutRoute,
   MenuRoute: MenuRoute,
