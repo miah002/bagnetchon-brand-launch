@@ -1,54 +1,61 @@
+import { supabase } from "@/integrations/supabase/client";
+
 export interface Inquiry {
   ref: string;
   createdAt: string;
+  type: "catering" | "contact";
   name: string;
   email: string;
-  phone: string;
-  eventDate: string;
-  guestCount: number;
-  location: string;
+  phone?: string;
+  eventDate?: string;
+  guestCount?: number;
+  location?: string;
   package?: string;
   notes?: string;
   source: string;
 }
 
-const STORAGE = "bagnetchon_inquiries_v1";
-
-/** Placeholder for Formspree-style endpoint. */
-export const FORM_ENDPOINT = "https://formspree.io/f/REPLACE_ME";
-
 /**
- * Stub inquiry submitter. Persists locally; designed so backend (DB + email)
- * drops in cleanly later.
- *
- * TODO(backend): POST to a server fn that writes to Supabase + emails
- * catering@bagnetchon.com, replacing this local persistence.
+ * Inserts an inquiry into Lovable Cloud, then fires the notify-inquiry
+ * edge function (best-effort). NEVER throws if email/notify isn't configured —
+ * the user always sees success once the row is saved.
  */
 export async function submitInquiry(
   data: Omit<Inquiry, "ref" | "createdAt">,
 ): Promise<Inquiry> {
-  const ref =
-    "INQ-" +
-    Math.random().toString(36).slice(2, 6).toUpperCase() +
-    "-" +
-    Date.now().toString().slice(-4);
-  const full: Inquiry = { ...data, ref, createdAt: new Date().toISOString() };
-  try {
-    const raw = localStorage.getItem(STORAGE);
-    const list: Inquiry[] = raw ? JSON.parse(raw) : [];
-    list.push(full);
-    localStorage.setItem(STORAGE, JSON.stringify(list));
-  } catch {
-    /* ignore */
-  }
-  return full;
-}
+  const payload = {
+    type: data.type,
+    source: data.source,
+    name: data.name,
+    email: data.email,
+    phone: data.phone ?? null,
+    event_date: data.eventDate || null,
+    guest_count: data.guestCount ?? null,
+    location: data.location ?? null,
+    package: data.package ?? null,
+    message: data.notes ?? null,
+  };
 
-export function listInquiries(): Inquiry[] {
-  try {
-    const raw = localStorage.getItem(STORAGE);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
+  const { data: row, error } = await supabase
+    .from("inquiries")
+    .insert(payload)
+    .select("id, created_at")
+    .single();
+
+  if (error || !row) {
+    throw new Error(error?.message ?? "Could not submit inquiry");
   }
+
+  // Fire-and-forget owner notification.
+  supabase.functions
+    .invoke("notify-inquiry", { body: { id: row.id, ...payload } })
+    .catch(() => {
+      /* swallow: never block success */
+    });
+
+  return {
+    ...data,
+    ref: row.id,
+    createdAt: row.created_at,
+  };
 }
