@@ -17,6 +17,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CateringRouteImport } from './routes/catering'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicDeliveryDistanceRouteImport } from './routes/api/public/delivery-distance'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -58,6 +59,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicDeliveryDistanceRoute =
+  ApiPublicDeliveryDistanceRouteImport.update({
+    id: '/api/public/delivery-distance',
+    path: '/api/public/delivery-distance',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/public/delivery-distance': typeof ApiPublicDeliveryDistanceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/public/delivery-distance': typeof ApiPublicDeliveryDistanceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +98,7 @@ export interface FileRoutesById {
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/public/delivery-distance': typeof ApiPublicDeliveryDistanceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +111,7 @@ export interface FileRouteTypes {
     | '/menu'
     | '/our-story'
     | '/sitemap.xml'
+    | '/api/public/delivery-distance'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +122,7 @@ export interface FileRouteTypes {
     | '/menu'
     | '/our-story'
     | '/sitemap.xml'
+    | '/api/public/delivery-distance'
   id:
     | '__root__'
     | '/'
@@ -121,6 +133,7 @@ export interface FileRouteTypes {
     | '/menu'
     | '/our-story'
     | '/sitemap.xml'
+    | '/api/public/delivery-distance'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +145,7 @@ export interface RootRouteChildren {
   MenuRoute: typeof MenuRoute
   OurStoryRoute: typeof OurStoryRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicDeliveryDistanceRoute: typeof ApiPublicDeliveryDistanceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/delivery-distance': {
+      id: '/api/public/delivery-distance'
+      path: '/api/public/delivery-distance'
+      fullPath: '/api/public/delivery-distance'
+      preLoaderRoute: typeof ApiPublicDeliveryDistanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,7 +225,18 @@ const rootRouteChildren: RootRouteChildren = {
   MenuRoute: MenuRoute,
   OurStoryRoute: OurStoryRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicDeliveryDistanceRoute: ApiPublicDeliveryDistanceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
