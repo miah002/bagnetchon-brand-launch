@@ -307,6 +307,11 @@ function CateringPage() {
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               Send Inquiry
             </button>
+            {submitError && (
+              <p role="alert" className="text-sm text-destructive">
+                {submitError}
+              </p>
+            )}
           </form>
         )}
       </section>
