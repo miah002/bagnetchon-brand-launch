@@ -485,7 +485,7 @@ function OrdersTab() {
                                 {(r.items ?? []).map((line, i) => (
                                   <li key={i} className="flex justify-between text-sm">
                                     <span>{line.qty} × {line.item?.name ?? "Item"}</span>
-                                    <span className="font-medium">{formatPrice(line.lineTotal)}</span>
+                                    <span className="font-medium">{formatPrice(Number(line.lineTotal ?? 0))}</span>
                                   </li>
                                 ))}
                               </ul>

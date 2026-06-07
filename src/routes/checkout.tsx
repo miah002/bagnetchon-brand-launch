@@ -114,7 +114,7 @@ function Checkout() {
         city: f.fulfillment === "pickup" ? "Pickup" : f.city,
         zip: f.fulfillment === "pickup" ? "00000" : f.zip,
       },
-      lines: cart.lines,
+      lines: cart.resolved,
       subtotal: cart.subtotal,
       tax: cart.tax,
       deliveryFee: f.fulfillment === "pickup" ? 0 : deliveryFee,
