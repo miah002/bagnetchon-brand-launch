@@ -66,27 +66,27 @@ test.describe("Catering inquiry", () => {
   });
 
   test("validation: today's date shows future-date error", async ({ page }) => {
-    await page.goto("/catering");
+    await page.goto("/catering", { waitUntil: "networkidle" });
 
-    // Fill name and email first so React has committed at least one state update —
-    // this ensures the date field's onChange closure captures non-initial form state,
-    // which is required for pressSequentially to correctly update React state.
+    // Fill name and email first
     await page.getByLabel("Full Name").fill("James Tan");
     await page.getByLabel("Email").fill("james@test.com");
 
-    // The date input has min=today (set by the component via new Date().toISOString()).
-    // page.fill() silently rejects dates <= min; we use pressSequentially with keyboard
-    // events instead, which DO trigger React's onChange. Chrome date inputs are segmented
-    // (MM/DD/YYYY), so we type digits directly. We derive today's MMDDYYYY from the
-    // input's own min attribute to avoid Node/browser timezone mismatch.
-    const todayMMDDYYYY = await page.locator("#cdate").evaluate((el: HTMLInputElement) => {
-      const iso = el.getAttribute("min")!; // "YYYY-MM-DD" matching component's today
-      const [y, m, d] = iso.split("-");
-      return m + d + y; // "MMDDYYYY" for Chrome date segment keyboard input
+    // The date input has min=today — page.fill() silently rejects dates <= min.
+    // We derive today's ISO date from the input's own min attribute (to avoid
+    // Node/browser timezone mismatch), then inject it via the React synthetic
+    // event pathway (nativeInputValueSetter + input event) so React state updates.
+    await page.locator("#cdate").evaluate((el: HTMLInputElement) => {
+      const todayIso = el.getAttribute("min")!; // "YYYY-MM-DD" from the component
+      // Use the React internal setter so that React's onChange fires correctly
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        "value"
+      )!.set!;
+      nativeInputValueSetter.call(el, todayIso);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
     });
-
-    await page.locator("#cdate").click();
-    await page.locator("#cdate").pressSequentially(todayMMDDYYYY);
 
     // The date error appears because f.date <= today; button stays disabled
     await expect(page.getByText("Date must be in the future")).toBeVisible();
