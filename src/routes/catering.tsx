@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Photo } from "@/components/Photo";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
@@ -62,6 +63,7 @@ interface Form {
 }
 
 function CateringPage() {
+  const ref = useScrollReveal();
   const [f, setF] = useState<Form>({
     name: "",
     email: "",
@@ -130,12 +132,12 @@ function CateringPage() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative" ref={ref as React.RefObject<HTMLDivElement>}>
       {/* HERO */}
       <section className="relative overflow-hidden">
         <BaybayinWatermark glyph="ᜃ" className="-right-10 top-10 text-foreground" size="text-[24rem]" />
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-8 md:py-24">
-          <div>
+          <div className="reveal">
             <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
               Catering
             </p>
@@ -166,13 +168,15 @@ function CateringPage() {
               includes traditional dipping sauces and serving utensils.
             </p>
           </div>
-          <Photo
-            src={IMAGES.fiestaSpread}
-            alt="Bagnetchon fiesta spread"
-            aspect="4/5"
-            rounded="rounded-tl-[3rem] rounded-br-[3rem]"
-            eager
-          />
+          <div className="reveal">
+            <Photo
+              src={IMAGES.fiestaSpread}
+              alt="Bagnetchon fiesta spread"
+              aspect="4/5"
+              rounded="rounded-tl-[3rem] rounded-br-[3rem]"
+              eager
+            />
+          </div>
         </div>
       </section>
 
@@ -180,10 +184,11 @@ function CateringPage() {
       <section id="packages" className="mx-auto max-w-7xl px-4 py-16 md:px-8">
         <h2 className="font-display text-3xl md:text-5xl">Packages</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {PACKAGES.map((p) => (
+          {PACKAGES.map((p, i) => (
             <article
               key={p.name}
-              className="relative flex flex-col rounded-2xl border border-border bg-card p-6 shadow-ambient"
+              className="reveal relative flex flex-col rounded-2xl border border-border bg-card p-6 shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm"
+              style={{ transitionDelay: `${i * 60}ms` }}
             >
               {p.badge && (
                 <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground">

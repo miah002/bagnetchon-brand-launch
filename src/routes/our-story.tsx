@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Photo } from "@/components/Photo";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { IMAGES } from "@/data/images";
 import { pageMeta } from "@/lib/seo";
@@ -17,11 +18,12 @@ export const Route = createFileRoute("/our-story")({
 });
 
 function Story() {
+  const ref = useScrollReveal();
   return (
-    <div className="relative">
+    <div className="relative" ref={ref as React.RefObject<HTMLDivElement>}>
       <BaybayinWatermark glyph="ᜈ" className="-left-10 top-20 text-foreground" size="text-[22rem]" />
 
-      <section className="mx-auto max-w-3xl px-4 pt-16 md:px-8 md:pt-24">
+      <section className="reveal mx-auto max-w-3xl px-4 pt-16 md:px-8 md:pt-24">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
           Our Story
         </p>
@@ -31,14 +33,16 @@ function Story() {
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-12 md:px-8">
-        <Photo
-          src={IMAGES.chefKitchen}
-          alt="Chef in the Bagnetchon kitchen"
-          aspect="16/10"
-          rounded="rounded-tl-[2.5rem] rounded-br-[2.5rem]"
-          eager
-        />
-        <div className="prose-bagnet mt-10 space-y-6 text-lg leading-relaxed text-foreground/90">
+        <div className="reveal">
+          <Photo
+            src={IMAGES.chefKitchen}
+            alt="Chef in the Bagnetchon kitchen"
+            aspect="16/10"
+            rounded="rounded-tl-[2.5rem] rounded-br-[2.5rem]"
+            eager
+          />
+        </div>
+        <div className="reveal prose-bagnet mt-10 space-y-6 text-lg leading-relaxed text-foreground/90">
           <p>
             Bagnetchon was born from an obsession. Our Ilocano chef-formulator
             grew up on bagnet — the crackle, the marrow-soft fat, the Sunday
@@ -63,7 +67,7 @@ function Story() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-3">
+        <div className="reveal mt-10 flex flex-wrap gap-3">
           <Link
             to="/menu"
             className="btn-sheen rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground"
