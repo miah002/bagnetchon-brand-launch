@@ -92,7 +92,7 @@ export function Nav() {
             (954) 625-9631
           </a>
           <Link
-            to="/menu"
+            to="/checkout"
             className="relative inline-flex items-center gap-2 rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background hover:bg-primary"
             aria-label={`Cart with ${itemCount} items`}
           >

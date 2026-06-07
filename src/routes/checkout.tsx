@@ -127,8 +127,8 @@ function Checkout() {
         <CheckCircle2 className="mx-auto h-14 w-14 text-brand-green" />
         <h1 className="mt-4 font-display text-4xl md:text-5xl">Salamat!</h1>
         <p className="mt-3 text-muted-foreground">
-          Your order is in. We'll text you at the number provided with pickup
-          or delivery details.
+          Your order is in. We'll be in touch at the contact info you provided
+          with pickup or delivery details.
         </p>
         <p className="mt-6 inline-block rounded-full bg-secondary px-4 py-2 font-mono text-sm">
           Order ref: <strong>{success.ref}</strong>
@@ -136,7 +136,7 @@ function Checkout() {
         <div className="mt-8">
           <Link
             to="/menu"
-            className="rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground"
+            className="btn-sheen rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground"
           >
             Order more
           </Link>
@@ -152,7 +152,7 @@ function Checkout() {
         <p className="mt-3 text-muted-foreground">Add a dish to get started.</p>
         <Link
           to="/menu"
-          className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground"
+          className="btn-sheen mt-6 inline-block rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground"
         >
           Browse the menu
         </Link>
@@ -162,7 +162,13 @@ function Checkout() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 md:px-8 md:py-20">
-      <h1 className="font-display text-4xl md:text-5xl">Checkout</h1>
+      <Link
+        to="/menu"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"
+      >
+        ← Back to menu
+      </Link>
+      <h1 className="mt-4 font-display text-4xl md:text-5xl">Checkout</h1>
       <form onSubmit={handleSubmit} className="mt-8 grid gap-8 md:grid-cols-[1fr_360px]">
         <div className="space-y-8">
           <Section title="Your details">
