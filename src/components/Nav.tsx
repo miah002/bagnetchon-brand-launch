@@ -119,7 +119,7 @@ export function Nav() {
       {/* Mobile drawer */}
       {open && (
         <div
-          className="fixed inset-0 z-[60] md:hidden"
+          className="fixed inset-0 z-[60] animate-in fade-in duration-200 md:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
@@ -130,7 +130,7 @@ export function Nav() {
             className="absolute inset-0 bg-foreground/40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-0 h-full w-80 max-w-[88%] bg-background p-6 shadow-2xl">
+          <div className="absolute right-0 top-0 h-full w-80 max-w-[88%] animate-in slide-in-from-right duration-200 bg-background p-6 shadow-2xl">
             <div className="flex items-center justify-between">
               <span className="font-display text-xl font-bold">
                 BAGNET<span className="text-primary">CHON</span>
