@@ -183,7 +183,8 @@ function Home() {
           {bestsellers.map((item, i) => (
             <article
               key={item.id}
-              className="reveal group flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient"
+              className="reveal group flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm"
+              style={{ transitionDelay: `${i * 60}ms` }}
             >
               <div className="relative">
                 <Photo
