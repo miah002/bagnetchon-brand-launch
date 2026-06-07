@@ -48,6 +48,7 @@ function Checkout() {
   const [estimating, setEstimating] = useState(false);
   const [estimateMsg, setEstimateMsg] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [success, setSuccess] = useState<{ ref: string } | null>(null);
 
   useEffect(() => {
@@ -103,27 +104,33 @@ function Checkout() {
     e.preventDefault();
     if (!canSubmit) return;
     setSubmitting(true);
-    // TODO(stripe): replace with Stripe Checkout session call here.
-    const order = await createOrder({
-      fulfillment: f.fulfillment,
-      customer: {
-        name: f.name,
-        phone: f.phone,
-        email: f.email,
-        street: f.fulfillment === "pickup" ? "Pickup" : f.street,
-        city: f.fulfillment === "pickup" ? "Pickup" : f.city,
-        zip: f.fulfillment === "pickup" ? "00000" : f.zip,
-      },
-      lines: cart.resolved,
-      subtotal: cart.subtotal,
-      tax: cart.tax,
-      deliveryFee: f.fulfillment === "pickup" ? 0 : deliveryFee,
-      total: f.fulfillment === "pickup" ? cart.total(0) : total,
-      source: f.source,
-    });
-    cart.clear();
-    setSuccess({ ref: order.ref });
-    setSubmitting(false);
+    setSubmitError(null);
+    try {
+      // TODO(stripe): replace with Stripe Checkout session call here.
+      const order = await createOrder({
+        fulfillment: f.fulfillment,
+        customer: {
+          name: f.name,
+          phone: f.phone,
+          email: f.email,
+          street: f.fulfillment === "pickup" ? "Pickup" : f.street,
+          city: f.fulfillment === "pickup" ? "Pickup" : f.city,
+          zip: f.fulfillment === "pickup" ? "00000" : f.zip,
+        },
+        lines: cart.resolved,
+        subtotal: cart.subtotal,
+        tax: cart.tax,
+        deliveryFee: f.fulfillment === "pickup" ? 0 : deliveryFee,
+        total: f.fulfillment === "pickup" ? cart.total(0) : total,
+        source: f.source,
+      });
+      cart.clear();
+      setSuccess({ ref: order.ref });
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Could not place order. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (success) {
@@ -309,6 +316,9 @@ function Checkout() {
             <p className="mt-3 text-center text-xs text-muted-foreground">
               Payment integration coming soon — your order is reserved on submit.
             </p>
+            {submitError && (
+              <p className="mt-2 text-center text-xs text-destructive">{submitError}</p>
+            )}
           </div>
         </aside>
       </form>
