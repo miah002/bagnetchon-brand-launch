@@ -1,13 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-interface DistanceRow {
-  distance?: { value: number };
-  status?: string;
-}
-interface DistanceResp {
-  status?: string;
-  rows?: { elements?: DistanceRow[] }[];
-  error_message?: string;
+interface RouteResp {
+  routes?: { distanceMeters?: number }[];
+  error?: { message?: string };
 }
 
 /**
@@ -15,6 +10,9 @@ interface DistanceResp {
  * Body: { origin: string, destination: string }
  * Returns: { miles } on success, or { unresolved: true, reason } so the UI
  * can fall back to "We'll confirm your delivery cost after you order."
+ *
+ * Uses Google Routes API (replaces legacy Distance Matrix API).
+ * Enable "Routes API" in Google Cloud Console.
  */
 export const Route = createFileRoute("/api/public/delivery-distance")({
   server: {
@@ -31,7 +29,6 @@ export const Route = createFileRoute("/api/public/delivery-distance")({
         if (!origin || !rawDest) {
           return Response.json({ unresolved: true, reason: "missing_fields" }, { status: 400 });
         }
-        // If user passed a bare 5-digit ZIP, scope it to US for accuracy.
         const destination = /^\d{5}$/.test(rawDest) ? `${rawDest}, USA` : rawDest;
 
         const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -39,26 +36,34 @@ export const Route = createFileRoute("/api/public/delivery-distance")({
           return Response.json({ unresolved: true, reason: "no_api_key" });
         }
 
-        const url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json");
-        url.searchParams.set("origins", origin);
-        url.searchParams.set("destinations", destination);
-        url.searchParams.set("units", "imperial");
-        url.searchParams.set("key", apiKey);
-
         try {
-          const res = await fetch(url.toString());
+          const res = await fetch(
+            "https://routes.googleapis.com/directions/v2:computeRoutes",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Goog-Api-Key": apiKey,
+                "X-Goog-FieldMask": "routes.distanceMeters",
+              },
+              body: JSON.stringify({
+                origin: { address: origin },
+                destination: { address: destination },
+                travelMode: "DRIVE",
+                routingPreference: "TRAFFIC_UNAWARE",
+              }),
+            },
+          );
+
           if (!res.ok) {
             return Response.json({ unresolved: true, reason: "upstream_error" });
           }
-          const data = (await res.json()) as DistanceResp;
-          if (data.status && data.status !== "OK") {
-            return Response.json({ unresolved: true, reason: data.status });
+          const data = (await res.json()) as RouteResp;
+          const meters = data.routes?.[0]?.distanceMeters;
+          if (typeof meters !== "number") {
+            return Response.json({ unresolved: true, reason: "no_route" });
           }
-          const el = data.rows?.[0]?.elements?.[0];
-          if (!el || el.status !== "OK" || !el.distance) {
-            return Response.json({ unresolved: true, reason: el?.status ?? "no_route" });
-          }
-          const miles = el.distance.value / 1609.344;
+          const miles = meters / 1609.344;
           return Response.json({ miles });
         } catch {
           return Response.json({ unresolved: true, reason: "fetch_failed" });
