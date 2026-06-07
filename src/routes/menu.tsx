@@ -82,8 +82,7 @@ function MenuPage() {
             {items.map((item, i) => (
               <li
                 key={item.id}
-                className="reveal flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm"
-                style={{ transitionDelay: `${i * 50}ms` }}
+                className="flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm"
               >
                 <div className="relative">
                   <Photo

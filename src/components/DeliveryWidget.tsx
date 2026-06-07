@@ -3,6 +3,7 @@ import { Loader2, MapPin } from "lucide-react";
 import {
   calcDeliveryFee,
   estimateDistanceMiles,
+  DELIVERY_TIERS,
   type DeliveryEstimate,
 } from "@/config/delivery";
 
@@ -86,7 +87,27 @@ export function DeliveryWidget({ compact = false }: Props) {
         </div>
       )}
       {message && (
-        <p className="mt-4 text-sm text-muted-foreground">{message}</p>
+        <div className="mt-4 space-y-2">
+          <p className="text-sm text-muted-foreground">{message}</p>
+          <div className="rounded-xl border border-border p-3 text-sm">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Estimated rates
+            </p>
+            {DELIVERY_TIERS.map((tier, i) => (
+              <div key={tier.maxMiles} className="flex justify-between py-0.5">
+                <span className="text-muted-foreground">
+                  {i === 0 ? "Under" : `${DELIVERY_TIERS[i - 1].maxMiles}–`}
+                  {tier.maxMiles} mi
+                </span>
+                <span className="font-semibold">${tier.fee}</span>
+              </div>
+            ))}
+            <div className="flex justify-between py-0.5">
+              <span className="text-muted-foreground">30+ mi</span>
+              <span className="font-semibold text-muted-foreground">Quote</span>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
