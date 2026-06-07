@@ -72,7 +72,8 @@ interface Subscriber {
   source: string;
 }
 
-const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
+const ADMIN_EMAILS: string[] = ((import.meta.env.VITE_ADMIN_EMAIL as string | undefined) ?? "")
+  .split(",").map((e) => e.trim()).filter(Boolean);
 
 function Admin() {
   const [session, setSession] = useState<Session | null>(null);
@@ -80,9 +81,12 @@ function Admin() {
   const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
+    const isAllowed = (s: Session | null) =>
+      !s || ADMIN_EMAILS.length === 0 || ADMIN_EMAILS.includes(s.user.email ?? "");
+
     supabase.auth.getSession().then(({ data }) => {
       const s = data.session;
-      if (s && ADMIN_EMAIL && s.user.email !== ADMIN_EMAIL) {
+      if (!isAllowed(s)) {
         supabase.auth.signOut();
         setUnauthorized(true);
       } else {
@@ -91,7 +95,7 @@ function Admin() {
       setLoading(false);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      if (s && ADMIN_EMAIL && s.user.email !== ADMIN_EMAIL) {
+      if (!isAllowed(s)) {
         supabase.auth.signOut();
         setUnauthorized(true);
         setSession(null);
