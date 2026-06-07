@@ -287,7 +287,7 @@ function Checkout() {
             </ul>
             <dl className="mt-4 space-y-1 border-t border-border pt-4 text-sm">
               <Row label="Subtotal" value={formatPrice(cart.subtotal)} />
-              <Row label="Tax (7%)" value={formatPrice(cart.tax)} muted />
+              <Row label="Tax (7.75%)" value={formatPrice(cart.tax)} muted />
               <Row
                 label={f.fulfillment === "delivery" ? "Delivery" : "Pickup"}
                 value={f.fulfillment === "pickup" ? "Free" : (estimate ? formatPrice(deliveryFee) : "—")}

@@ -201,7 +201,7 @@ function MenuPage() {
                     <dd>{formatPrice(cart.subtotal)}</dd>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
-                    <dt>Tax (7%)</dt>
+                    <dt>Tax (7.75%)</dt>
                     <dd>{formatPrice(cart.tax)}</dd>
                   </div>
                   <div className="flex justify-between font-display text-lg font-semibold">

@@ -501,7 +501,7 @@ function OrdersTab() {
                                   <dd>{formatPrice(Number(r.subtotal))}</dd>
                                 </div>
                                 <div className="flex justify-between">
-                                  <dt className="text-muted-foreground">Tax (7%)</dt>
+                                  <dt className="text-muted-foreground">Tax (7.75%)</dt>
                                   <dd>{formatPrice(Number(r.tax))}</dd>
                                 </div>
                                 {Number(r.delivery_fee) > 0 && (

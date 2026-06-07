@@ -2,7 +2,7 @@ export const KITCHEN_ORIGIN =
   (import.meta.env.VITE_KITCHEN_ORIGIN as string | undefined) ??
   "Anaheim, CA 92801";
 
-export const TAX_RATE = 0.07;
+export const TAX_RATE = 0.0775;
 
 export interface DeliveryTier {
   maxMiles: number;
