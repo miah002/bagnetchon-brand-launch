@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Photo } from "./Photo";
 import { IMAGES } from "@/data/images";
+import { cn } from "@/lib/utils";
 
 const items = [
   { name: "Signature Bagnet", image: IMAGES.bagnetCloseup, tag: "Crisp · Cured · Twice-fried" },
@@ -39,7 +40,8 @@ export function SignatureCarousel() {
             type="button"
             onClick={() => scrollTo(idx - 1)}
             aria-label="Previous"
-            className="rounded-full border border-border p-3 hover:bg-muted"
+            disabled={idx === 0}
+            className="rounded-full border border-border p-3 hover:bg-muted disabled:opacity-40"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -47,7 +49,8 @@ export function SignatureCarousel() {
             type="button"
             onClick={() => scrollTo(idx + 1)}
             aria-label="Next"
-            className="rounded-full border border-border p-3 hover:bg-muted"
+            disabled={idx === items.length - 1}
+            className="rounded-full border border-border p-3 hover:bg-muted disabled:opacity-40"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -63,7 +66,7 @@ export function SignatureCarousel() {
             key={it.name}
             className="snap-center shrink-0 basis-[82%] sm:basis-[55%] md:basis-[38%] lg:basis-[28%]"
           >
-            <div className="overflow-hidden rounded-tl-[2rem] rounded-br-[2rem] bg-card shadow-ambient">
+            <div className="overflow-hidden rounded-tl-[2rem] rounded-br-[2rem] bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm">
               <Photo
                 src={it.image}
                 alt={it.name}
@@ -80,6 +83,26 @@ export function SignatureCarousel() {
           </li>
         ))}
       </ul>
+
+      {/* Dot indicators */}
+      <div className="mt-4 flex justify-center gap-2" role="tablist" aria-label="Carousel position">
+        {items.map((it, i) => (
+          <button
+            key={it.name}
+            type="button"
+            role="tab"
+            aria-selected={idx === i}
+            aria-label={`Go to ${it.name}`}
+            onClick={() => scrollTo(i)}
+            className={cn(
+              "h-2 rounded-full transition-all duration-300",
+              idx === i
+                ? "w-6 bg-primary"
+                : "w-2 bg-border hover:bg-muted-foreground",
+            )}
+          />
+        ))}
+      </div>
     </section>
   );
 }
