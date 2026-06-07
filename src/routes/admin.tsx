@@ -35,7 +35,7 @@ interface Inquiry {
   message: string | null;
   status: Status;
 }
-type OrderStatus = "pending" | "confirmed" | "ready" | "completed" | "cancelled";
+type OrderStatus = "pending" | "confirmed" | "ready" | "completed" | "cancelled" | "paid";
 
 interface OrderItem {
   id: string;
@@ -391,11 +391,12 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
 
 const ORDER_STATUSES: OrderStatus[] = ["pending", "confirmed", "ready", "completed", "cancelled"];
 
-const STATUS_COLORS: Record<OrderStatus, string> = {
+const STATUS_COLORS: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
   confirmed: "bg-blue-100 text-blue-800",
   ready: "bg-purple-100 text-purple-800",
   completed: "bg-green-100 text-green-800",
+  paid: "bg-green-100 text-green-800",
   cancelled: "bg-red-100 text-red-800",
 };
 
@@ -462,7 +463,7 @@ function OrdersTab() {
                         aria-label="Order status"
                         value={r.status}
                         onChange={(e) => setStatus(r.id, e.target.value as OrderStatus)}
-                        className={`rounded-full border-0 px-2 py-1 text-xs font-semibold capitalize focus:outline-none focus:ring-2 focus:ring-ring ${STATUS_COLORS[r.status]}`}
+                        className={`rounded-full border-0 px-2 py-1 text-xs font-semibold capitalize focus:outline-none focus:ring-2 focus:ring-ring ${STATUS_COLORS[r.status] ?? "bg-gray-100 text-gray-800"}`}
                       >
                         {ORDER_STATUSES.map((s) => (
                           <option key={s} value={s} className="bg-background text-foreground">{s}</option>
