@@ -23,11 +23,7 @@ export interface Order {
 }
 
 function genRef() {
-  return (
-    "BGN-" +
-    Math.random().toString(36).slice(2, 6).toUpperCase() +
-    Date.now().toString().slice(-4)
-  );
+  return "BGN-" + crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase();
 }
 
 /**
