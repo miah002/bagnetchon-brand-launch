@@ -469,7 +469,6 @@ function OrdersTab() {
                           <option key={s} value={s} className="bg-background text-foreground">{s}</option>
                         ))}
                       </select>
-                      <div className="mt-1 text-xs text-muted-foreground capitalize">{r.payment_status}</div>
                     </Td>
                   </tr>
                   {expanded && (
