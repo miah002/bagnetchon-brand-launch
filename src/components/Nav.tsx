@@ -84,12 +84,12 @@ export function Nav() {
 
         <div className="flex items-center gap-2">
           <a
-            href="tel:+19546259631"
+            href="tel:+15625449882"
             className="hidden items-center gap-2 rounded-full border border-border px-3 py-2 text-sm font-medium hover:border-primary hover:text-primary md:inline-flex"
             aria-label="Call Bagnetchon"
           >
             <Phone className="h-4 w-4" />
-            (954) 625-9631
+            (562) 544-9882
           </a>
           <Link
             to="/checkout"
@@ -159,11 +159,11 @@ export function Nav() {
               ))}
             </nav>
             <a
-              href="tel:+19546259631"
+              href="tel:+15625449882"
               className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground"
             >
               <Phone className="h-4 w-4" />
-              (954) 625-9631
+              (562) 544-9882
             </a>
           </div>
         </div>

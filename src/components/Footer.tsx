@@ -21,25 +21,25 @@ export function Footer() {
           </p>
           <div className="mt-6 flex flex-col gap-2 text-sm">
             <a
-              href="tel:+19546259631"
+              href="tel:+15625449882"
               className="inline-flex items-center gap-2 hover:text-accent"
             >
               <Phone className="h-4 w-4" />
-              (954) 625-9631
+              (562) 544-9882
             </a>
             <a
-              href="mailto:hello@bagnetchon.com"
+              href="mailto:bagnetchon@gmail.com"
               className="inline-flex items-center gap-2 hover:text-accent"
             >
               <Mail className="h-4 w-4" />
-              hello@bagnetchon.com
+              bagnetchon@gmail.com
             </a>
             <a
-              href="mailto:catering@bagnetchon.com"
+              href="mailto:bagnetchon@gmail.com"
               className="inline-flex items-center gap-2 hover:text-accent"
             >
               <Mail className="h-4 w-4" />
-              catering@bagnetchon.com
+              bagnetchon@gmail.com
             </a>
           </div>
         </div>
@@ -103,7 +103,7 @@ export function Footer() {
             </a>
           </div>
           <p className="mt-10 text-xs text-background/60">
-            © {new Date().getFullYear()} Bagnetchon. Made with crackle in South Florida.
+            © {new Date().getFullYear()} Bagnetchon. Made with crackle in Anaheim, CA.
           </p>
         </div>
       </div>

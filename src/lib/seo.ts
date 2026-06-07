@@ -1,10 +1,10 @@
 export const SITE = {
   name: "Bagnetchon",
   tagline: "Crispy. Crackling. Criminally Good.",
-  phone: "(954) 625-9631",
-  phoneE164: "+19546259631",
-  emailHello: "hello@bagnetchon.com",
-  emailCatering: "catering@bagnetchon.com",
+  phone: "(562) 544-9882",
+  phoneE164: "+15625449882",
+  emailHello: "bagnetchon@gmail.com",
+  emailCatering: "bagnetchon@gmail.com",
 };
 
 export function pageMeta(opts: {
@@ -46,12 +46,12 @@ export const LOCAL_BUSINESS_JSONLD = {
   email: SITE.emailHello,
   servesCuisine: "Filipino",
   priceRange: "$$",
-  areaServed: ["Broward County", "Miami-Dade County", "Palm Beach County"],
+  areaServed: ["Anaheim", "Fullerton", "Garden Grove", "Irvine", "Cerritos", "West Covina", "Pomona", "Los Angeles"],
   address: {
     "@type": "PostalAddress",
-    addressRegion: "FL",
+    addressRegion: "CA",
     addressCountry: "US",
-    addressLocality: "South Florida",
+    addressLocality: "Anaheim",
   },
   openingHoursSpecification: [
     {

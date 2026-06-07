@@ -13,7 +13,7 @@ export const Route = createFileRoute("/contact")({
     pageMeta({
       title: "Contact",
       description:
-        "Call (954) 625-9631, email hello@bagnetchon.com, or DM us anywhere. Serving Broward, Miami-Dade, and Palm Beach.",
+        "Call (562) 544-9882, email bagnetchon@gmail.com, or DM us anywhere. Serving Orange County, Los Angeles, and Southern California.",
       path: "/contact",
     }),
   component: Contact,
@@ -68,11 +68,11 @@ function Contact() {
 
       <section className="mx-auto mt-12 grid max-w-5xl gap-5 px-4 sm:grid-cols-2 md:px-8">
         {[
-          { icon: <Phone />, title: "Call us", lines: ["(954) 625-9631", "Fastest for same-day orders"], href: "tel:+19546259631" },
+          { icon: <Phone />, title: "Call us", lines: ["(562) 544-9882", "Fastest for same-day orders"], href: "tel:+15625449882" },
           { icon: <Mail />, title: "Catering", lines: ["catering@bagnetchon.com", "Events of 10 to 500"], href: "mailto:catering@bagnetchon.com" },
-          { icon: <Mail />, title: "General", lines: ["hello@bagnetchon.com", "Press, partnerships, hellos"], href: "mailto:hello@bagnetchon.com" },
+          { icon: <Mail />, title: "General", lines: ["bagnetchon@gmail.com", "Press, partnerships, hellos"], href: "mailto:bagnetchon@gmail.com" },
           { icon: <Clock />, title: "Hours", lines: ["Fri – Sun", "11:00 am – 8:00 pm"] },
-          { icon: <MapPin />, title: "Service Area", lines: ["Broward · Miami-Dade · Palm Beach", "Delivery, pickup & catering"] },
+          { icon: <MapPin />, title: "Service Area", lines: ["Orange County · Los Angeles · IE", "Delivery, pickup & catering"] },
         ].map((card, i) => (
           <div key={card.title} className="reveal" style={{ transitionDelay: `${i * 60}ms` }}>
             <Card {...card} />

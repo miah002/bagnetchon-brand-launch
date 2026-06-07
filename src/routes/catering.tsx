@@ -15,7 +15,7 @@ export const Route = createFileRoute("/catering")({
     pageMeta({
       title: "Catering",
       description:
-        "Bagnetchon catering across South Florida — 10 to 500 guests. Whole lechon, fiesta platters, full-service packages. Inquire today.",
+        "Bagnetchon catering across Southern California — 10 to 500 guests. Whole lechon, fiesta platters, full-service packages. Inquire today.",
       path: "/catering",
       image: IMAGES.teamEvent,
     }),

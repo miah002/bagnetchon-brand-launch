@@ -55,7 +55,7 @@ function Checkout() {
   }, []);
 
   const addr = useMemo(
-    () => `${f.street}, ${f.city}, FL ${f.zip}`,
+    () => `${f.street}, ${f.city}, CA ${f.zip}`,
     [f.street, f.city, f.zip],
   );
   const addrReady =

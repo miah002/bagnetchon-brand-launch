@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Bagnet + Lechon. Crispy, crackling, criminally good Filipino food in South Florida. Order online or book catering.",
+          "Bagnet + Lechon. Crispy, crackling, criminally good Filipino food in Anaheim, CA. Order online or book catering.",
       },
       { name: "theme-color", content: "#D7141A" },
       { property: "og:site_name", content: SITE.name },

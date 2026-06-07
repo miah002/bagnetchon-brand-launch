@@ -15,7 +15,7 @@ export const Route = createFileRoute("/menu")({
     pageMeta({
       title: "Menu",
       description:
-        "Order Bagnetchon online — Original Bagnet, Lechon Belly, Sisig Bagnet, Kare-Kare, Fiesta Platters and more. Delivery across South Florida.",
+        "Order Bagnetchon online — Original Bagnet, Lechon Belly, Sisig Bagnet, Kare-Kare, Fiesta Platters and more. Delivery across Southern California.",
       path: "/menu",
     }),
   component: MenuPage,

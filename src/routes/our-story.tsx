@@ -10,7 +10,7 @@ export const Route = createFileRoute("/our-story")({
     pageMeta({
       title: "Our Story",
       description:
-        "From the hills of Ilocos to the coast of Florida. The story behind Bagnetchon — an Ilocano chef-formulator's healthier reinvention of bagnet and lechon.",
+        "From the hills of Ilocos to the heart of California. The story behind Bagnetchon — an Ilocano chef-formulator's healthier reinvention of bagnet and lechon.",
       path: "/our-story",
       image: IMAGES.chefKitchen,
     }),
@@ -28,7 +28,7 @@ function Story() {
           Our Story
         </p>
         <h1 className="mt-3 font-display text-5xl md:text-6xl leading-[1.05]">
-          From the hills of Ilocos to the coast of Florida.
+          From the hills of Ilocos to the heart of California.
         </h1>
       </section>
 

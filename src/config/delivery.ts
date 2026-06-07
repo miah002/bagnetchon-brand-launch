@@ -1,6 +1,6 @@
 export const KITCHEN_ORIGIN =
   (import.meta.env.VITE_KITCHEN_ORIGIN as string | undefined) ??
-  "REPLACE_WITH_KITCHEN_ADDRESS, South Florida";
+  "Anaheim, CA 92801";
 
 export const TAX_RATE = 0.07;
 

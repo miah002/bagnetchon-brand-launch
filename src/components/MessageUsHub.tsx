@@ -2,8 +2,8 @@ import { useState } from "react";
 import { MessageCircle, Phone, Mail, Facebook, Instagram, X } from "lucide-react";
 
 const channels = [
-  { label: "Call", href: "tel:+19546259631", Icon: Phone, color: "bg-primary text-primary-foreground" },
-  { label: "Email", href: "mailto:hello@bagnetchon.com", Icon: Mail, color: "bg-accent text-accent-foreground" },
+  { label: "Call", href: "tel:+15625449882", Icon: Phone, color: "bg-primary text-primary-foreground" },
+  { label: "Email", href: "mailto:bagnetchon@gmail.com", Icon: Mail, color: "bg-accent text-accent-foreground" },
   { label: "Facebook", href: "https://facebook.com/bagnetchon", Icon: Facebook, color: "bg-[#1877F2] text-white" },
   { label: "Instagram", href: "https://instagram.com/bagnetchon", Icon: Instagram, color: "bg-[#E4405F] text-white" },
   { label: "TikTok", href: "https://tiktok.com/@bagnetchon", Icon: TikTokIcon, color: "bg-foreground text-background" },

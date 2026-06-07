@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
     pageMeta({
       title: "Crispy. Crackling. Criminally Good.",
       description:
-        "Bagnet + Lechon in South Florida. Organic process, probiotic herbs & spices, meticulous humidity & temperature control. Order online or book catering.",
+        "Bagnet + Lechon in Anaheim, CA. Organic process, probiotic herbs & spices, meticulous humidity & temperature control. Order online or book catering.",
       path: "/",
       image: IMAGES.hero,
     }),
@@ -54,7 +54,7 @@ function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-12 md:gap-12 md:px-8 md:pb-28 md:pt-16">
           <div className="md:col-span-6">
             <p className="font-display text-xs uppercase tracking-[0.35em] text-primary">
-              From the hills of Ilocos to the coast of Florida
+              From the hills of Ilocos to the heart of California
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
               Crispy.<br />
@@ -137,7 +137,7 @@ function Home() {
               Our Story
             </p>
             <h2 id="story-heading" className="mt-3 font-display text-4xl md:text-5xl">
-              A healthier bagnet, reinvented in South Florida.
+              A healthier bagnet, reinvented in Anaheim, CA.
             </h2>
             <p className="mt-5 text-muted-foreground">
               Our Ilocano chef-formulator threw out the deep fryer and rebuilt
@@ -289,7 +289,7 @@ function Home() {
             {
               q: "Catered our 80-person debut. The whole lechon got a standing ovation. I'm not kidding.",
               n: "James T.",
-              loc: "Miami Beach",
+              loc: "Irvine, CA",
             },
           ].map((t) => (
             <figure
@@ -320,13 +320,13 @@ function Home() {
               Where we crackle
             </p>
             <h2 className="mt-2 font-display text-3xl md:text-5xl">
-              South Florida, end to end.
+              Southern California, end to end.
             </h2>
             <ul className="mt-6 space-y-4">
               {[
-                ["Broward", "Daily Delivery & Pickup"],
-                ["Miami-Dade", "Tue / Thu / Sat Deliveries"],
-                ["Palm Beach", "Weekend Catering Only"],
+                ["Orange County", "Anaheim · Irvine · Garden Grove"],
+                ["Los Angeles", "LA · Cerritos · West Covina"],
+                ["Inland Empire", "Pomona · Fullerton · Catering"],
               ].map(([area, info]) => (
                 <li
                   key={area}
