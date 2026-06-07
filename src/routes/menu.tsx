@@ -1,3 +1,4 @@
+import React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
@@ -7,6 +8,7 @@ import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { MENU, CATEGORIES, type MenuCategory } from "@/data/menu";
 import { useCart, formatPrice } from "@/context/CartContext";
 import { pageMeta } from "@/lib/seo";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export const Route = createFileRoute("/menu")({
   head: () =>
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/menu")({
 });
 
 function MenuPage() {
+  const ref = useScrollReveal();
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("All");
   const cart = useCart();
 
@@ -32,13 +35,13 @@ function MenuPage() {
   );
 
   return (
-    <div className="relative">
+    <div className="relative" ref={ref as React.RefObject<HTMLDivElement>}>
       <BaybayinWatermark
         glyph="ᜎ"
         className="-right-10 top-20 text-foreground"
         size="text-[22rem]"
       />
-      <header className="mx-auto max-w-7xl px-4 pt-12 md:px-8 md:pt-20">
+      <header className="reveal mx-auto max-w-7xl px-4 pt-12 md:px-8 md:pt-20">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
           Order Online
         </p>
@@ -79,7 +82,8 @@ function MenuPage() {
             {items.map((item, i) => (
               <li
                 key={item.id}
-                className="flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient"
+                className="reveal flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm"
+                style={{ transitionDelay: `${i * 50}ms` }}
               >
                 <div className="relative">
                   <Photo
