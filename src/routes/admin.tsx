@@ -72,17 +72,33 @@ interface Subscriber {
   source: string;
 }
 
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
+
 function Admin() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+      const s = data.session;
+      if (s && ADMIN_EMAIL && s.user.email !== ADMIN_EMAIL) {
+        supabase.auth.signOut();
+        setUnauthorized(true);
+      } else {
+        setSession(s);
+      }
       setLoading(false);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s);
+      if (s && ADMIN_EMAIL && s.user.email !== ADMIN_EMAIL) {
+        supabase.auth.signOut();
+        setUnauthorized(true);
+        setSession(null);
+      } else {
+        setSession(s);
+        setUnauthorized(false);
+      }
     });
     return () => sub.subscription.unsubscribe();
   }, []);
@@ -91,6 +107,22 @@ function Admin() {
     return (
       <div className="flex min-h-[60dvh] items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+  if (unauthorized) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-20 text-center md:px-8">
+        <h1 className="font-display text-3xl">Unauthorized</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          This account does not have admin access.
+        </p>
+        <button
+          onClick={() => { setUnauthorized(false); }}
+          className="mt-6 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
+        >
+          Back to sign in
+        </button>
       </div>
     );
   }
