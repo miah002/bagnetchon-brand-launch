@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { Loader2, LogOut, Plus } from "lucide-react";
+import { ChevronDown, ChevronRight, Loader2, LogOut, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
@@ -35,10 +35,20 @@ interface Inquiry {
   message: string | null;
   status: Status;
 }
+type OrderStatus = "pending" | "confirmed" | "ready" | "completed" | "cancelled";
+
+interface OrderItem {
+  id: string;
+  qty: number;
+  lineTotal: number;
+  item: { name: string; price: number | null };
+}
+
 interface Order {
   id: string;
   created_at: string;
   order_ref: string;
+  fulfillment: string | null;
   customer_name: string;
   customer_email: string;
   customer_phone: string;
@@ -46,8 +56,13 @@ interface Order {
   address_city: string;
   address_zip: string;
   source: string;
+  items: OrderItem[] | null;
+  subtotal: number;
+  tax: number;
+  delivery_fee: number;
+  delivery_miles: number | null;
   total: number;
-  status: string;
+  status: OrderStatus;
   payment_status: string;
 }
 interface Subscriber {
@@ -374,9 +389,20 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
   );
 }
 
+const ORDER_STATUSES: OrderStatus[] = ["pending", "confirmed", "ready", "completed", "cancelled"];
+
+const STATUS_COLORS: Record<OrderStatus, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  confirmed: "bg-blue-100 text-blue-800",
+  ready: "bg-purple-100 text-purple-800",
+  completed: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
 function OrdersTab() {
   const [rows, setRows] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
     supabase
@@ -389,13 +415,18 @@ function OrdersTab() {
       });
   }, []);
 
+  const setStatus = async (id: string, status: OrderStatus) => {
+    setRows((p) => p.map((r) => (r.id === id ? { ...r, status } : r)));
+    await supabase.from("orders").update({ status }).eq("id", id);
+  };
+
   return (
     <div className="overflow-x-auto rounded-2xl border border-border bg-card">
       <table className="w-full text-left text-sm">
         <thead className="bg-secondary text-xs uppercase tracking-wider">
           <tr>
-            <Th>Date</Th><Th>Ref</Th><Th>Customer</Th><Th>Address</Th>
-            <Th>Source</Th><Th>Total</Th><Th>Status</Th>
+            <Th></Th><Th>Date</Th><Th>Ref</Th><Th>Customer</Th><Th>Fulfillment</Th>
+            <Th>Total</Th><Th>Status</Th>
           </tr>
         </thead>
         <tbody>
@@ -404,28 +435,106 @@ function OrdersTab() {
           ) : rows.length === 0 ? (
             <tr><td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">No orders yet.</td></tr>
           ) : (
-            rows.map((r) => (
-              <tr key={r.id} className="border-t border-border">
-                <Td>{new Date(r.created_at).toLocaleString()}</Td>
-                <Td className="font-mono text-xs">{r.order_ref}</Td>
-                <Td>
-                  <div>{r.customer_name}</div>
-                  <div className="text-xs text-muted-foreground">{r.customer_email}</div>
-                  <div className="text-xs text-muted-foreground">{r.customer_phone}</div>
-                </Td>
-                <Td className="text-xs">
-                  {r.address_street}<br />{r.address_city} {r.address_zip}
-                </Td>
-                <Td>{r.source}</Td>
-                <Td>{formatPrice(Number(r.total))}</Td>
-                <Td>
-                  <span className="rounded-full bg-accent/30 px-2 py-1 text-xs font-semibold capitalize">
-                    {r.status}
-                  </span>
-                  <div className="mt-1 text-xs text-muted-foreground capitalize">{r.payment_status}</div>
-                </Td>
-              </tr>
-            ))
+            rows.map((r) => {
+              const expanded = expandedId === r.id;
+              return (
+                <>
+                  <tr
+                    key={r.id}
+                    className="cursor-pointer border-t border-border hover:bg-muted/40"
+                    onClick={() => setExpandedId(expanded ? null : r.id)}
+                  >
+                    <Td>
+                      {expanded
+                        ? <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
+                    </Td>
+                    <Td className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</Td>
+                    <Td className="font-mono text-xs">{r.order_ref}</Td>
+                    <Td>
+                      <div className="font-medium">{r.customer_name}</div>
+                      <div className="text-xs text-muted-foreground">{r.customer_email}</div>
+                      <div className="text-xs text-muted-foreground">{r.customer_phone}</div>
+                    </Td>
+                    <Td className="capitalize">{r.fulfillment ?? "delivery"}</Td>
+                    <Td className="font-semibold">{formatPrice(Number(r.total))}</Td>
+                    <Td onClick={(e) => e.stopPropagation()}>
+                      <select
+                        aria-label="Order status"
+                        value={r.status}
+                        onChange={(e) => setStatus(r.id, e.target.value as OrderStatus)}
+                        className={`rounded-full border-0 px-2 py-1 text-xs font-semibold capitalize focus:outline-none focus:ring-2 focus:ring-ring ${STATUS_COLORS[r.status]}`}
+                      >
+                        {ORDER_STATUSES.map((s) => (
+                          <option key={s} value={s} className="bg-background text-foreground">{s}</option>
+                        ))}
+                      </select>
+                      <div className="mt-1 text-xs text-muted-foreground capitalize">{r.payment_status}</div>
+                    </Td>
+                  </tr>
+                  {expanded && (
+                    <tr key={`${r.id}-detail`} className="border-t border-border bg-secondary/40">
+                      <td colSpan={7} className="px-6 py-4">
+                        <div className="grid gap-4 md:grid-cols-2">
+                          {/* Items */}
+                          <div>
+                            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Items ordered</p>
+                            {(r.items ?? []).length === 0 ? (
+                              <p className="text-xs text-muted-foreground">No items recorded.</p>
+                            ) : (
+                              <ul className="space-y-1">
+                                {(r.items ?? []).map((line, i) => (
+                                  <li key={i} className="flex justify-between text-sm">
+                                    <span>{line.qty} × {line.item?.name ?? "Item"}</span>
+                                    <span className="font-medium">{formatPrice(line.lineTotal)}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                          {/* Breakdown + address */}
+                          <div className="space-y-3">
+                            <div>
+                              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Price breakdown</p>
+                              <dl className="space-y-0.5 text-sm">
+                                <div className="flex justify-between">
+                                  <dt className="text-muted-foreground">Subtotal</dt>
+                                  <dd>{formatPrice(Number(r.subtotal))}</dd>
+                                </div>
+                                <div className="flex justify-between">
+                                  <dt className="text-muted-foreground">Tax (7%)</dt>
+                                  <dd>{formatPrice(Number(r.tax))}</dd>
+                                </div>
+                                {Number(r.delivery_fee) > 0 && (
+                                  <div className="flex justify-between">
+                                    <dt className="text-muted-foreground">
+                                      Delivery fee
+                                      {r.delivery_miles != null && ` (${r.delivery_miles.toFixed(1)} mi)`}
+                                    </dt>
+                                    <dd>{formatPrice(Number(r.delivery_fee))}</dd>
+                                  </div>
+                                )}
+                                <div className="flex justify-between border-t border-border pt-1 font-semibold">
+                                  <dt>Total</dt>
+                                  <dd>{formatPrice(Number(r.total))}</dd>
+                                </div>
+                              </dl>
+                            </div>
+                            {r.fulfillment === "delivery" && r.address_street && (
+                              <div>
+                                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Delivery address</p>
+                                <p className="text-sm">{r.address_street}</p>
+                                <p className="text-sm">{r.address_city} {r.address_zip}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </>
+              );
+            })
           )}
         </tbody>
       </table>
@@ -477,6 +586,6 @@ function SubscribersTab() {
 function Th({ children }: { children: React.ReactNode }) {
   return <th className="px-4 py-3">{children}</th>;
 }
-function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <td className={`px-4 py-3 align-top ${className}`}>{children}</td>;
+function Td({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void }) {
+  return <td className={`px-4 py-3 align-top ${className}`} onClick={onClick}>{children}</td>;
 }
