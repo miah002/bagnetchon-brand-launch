@@ -68,7 +68,8 @@ export async function createOrder(
     .single();
 
   if (error || !row) {
-    throw new Error(error?.message ?? "Could not place order");
+    console.error("Order insert failed:", error?.message);
+    throw new Error("Could not place order. Please try again.");
   }
 
   // Fire-and-forget owner notification — never blocks success.

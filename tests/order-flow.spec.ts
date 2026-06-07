@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import {
   mockOrderInsert,
+  mockOrderInsertError,
   mockDelivery,
 } from "./mocks/network";
 
@@ -53,6 +54,44 @@ test.describe("Order flow — happy path", () => {
     // 8. Success screen
     await expect(page.getByRole("heading", { name: "Salamat!" })).toBeVisible();
     await expect(page.getByText(/BGN-[A-Z0-9]{4}\d{4}/)).toBeVisible();
+  });
+});
+
+test.describe("Order flow — Supabase error handling", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/menu", { waitUntil: "networkidle" });
+    await page.evaluate(() => localStorage.removeItem("bagnetchon_cart_v1"));
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByText("Nothing in your cart yet.")).toBeVisible();
+  });
+
+  test("shows error and stops spinner when order insert fails", async ({ page }) => {
+    await mockOrderInsertError(page, "column \"fulfillment\" of relation \"orders\" does not exist");
+    await mockDelivery(page);
+
+    const card = page.locator("li").filter({ hasText: "Original Bagnet" });
+    await card.getByRole("button", { name: "Add to cart" }).click();
+    await page.getByRole("link", { name: "Proceed to Checkout" }).click();
+
+    await page.getByLabel("Full name").fill("Test User");
+    await page.getByLabel("Phone").fill("5625449882");
+    await page.getByLabel("Email").fill("test@bagnetchon.com");
+    await page.getByLabel("Street address").fill("100 S Harbor Blvd");
+    await page.getByLabel("City").fill("Anaheim");
+    await page.getByLabel("ZIP").fill("92805");
+
+    // Wait for delivery estimate
+    await expect(page.getByText("8.2 mi")).toBeVisible();
+
+    const btn = page.getByRole("button", { name: "Place Order" });
+    await btn.click();
+
+    // Button must not stay disabled/spinning
+    await expect(btn).not.toBeDisabled({ timeout: 5_000 });
+
+    // Error shown — success screen must NOT appear
+    await expect(page.getByText("Could not place order", { exact: false })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Salamat!" })).not.toBeVisible();
   });
 });
 

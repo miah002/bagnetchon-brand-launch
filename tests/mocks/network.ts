@@ -47,6 +47,17 @@ export async function mockNotifyOrder(page: Page) {
   });
 }
 
+export async function mockOrderInsertError(page: Page, message = "Could not place order") {
+  await page.route("**/rest/v1/orders*", async (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    await route.fulfill({
+      status: 400,
+      contentType: "application/json",
+      body: JSON.stringify({ code: "42703", message, details: null, hint: null }),
+    });
+  });
+}
+
 export async function mockDelivery(page: Page, miles = 8.2) {
   await page.route("**/api/public/delivery-distance*", async (route) => {
     if (route.request().method() !== "POST") return route.continue();
