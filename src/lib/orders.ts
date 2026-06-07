@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 export interface Order {
   ref: string;
   createdAt: string;
+  fulfillment: "delivery" | "pickup";
   customer: {
     name: string;
     phone: string;
@@ -42,6 +43,7 @@ export async function createOrder(
   const ref = genRef();
   const payload = {
     order_ref: ref,
+    fulfillment: order.fulfillment,
     customer_name: order.customer.name,
     customer_email: order.customer.email,
     customer_phone: order.customer.phone,

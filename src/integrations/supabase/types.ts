@@ -76,6 +76,7 @@ export type Database = {
           customer_phone: string
           delivery_fee: number
           delivery_miles: number | null
+          fulfillment: string
           id: string
           items: Json
           order_ref: string
@@ -97,6 +98,7 @@ export type Database = {
           customer_phone: string
           delivery_fee?: number
           delivery_miles?: number | null
+          fulfillment?: string
           id?: string
           items: Json
           order_ref: string
@@ -118,6 +120,7 @@ export type Database = {
           customer_phone?: string
           delivery_fee?: number
           delivery_miles?: number | null
+          fulfillment?: string
           id?: string
           items?: Json
           order_ref?: string

@@ -29,6 +29,7 @@ interface Fields {
   city: string;
   zip: string;
   source: string;
+  fulfillment: "delivery" | "pickup";
 }
 
 function Checkout() {
@@ -41,6 +42,7 @@ function Checkout() {
     city: "",
     zip: "",
     source: "Website",
+    fulfillment: "delivery",
   });
   const [estimate, setEstimate] = useState<DeliveryEstimate | null>(null);
   const [estimating, setEstimating] = useState(false);
@@ -56,7 +58,11 @@ function Checkout() {
     () => `${f.street}, ${f.city}, FL ${f.zip}`,
     [f.street, f.city, f.zip],
   );
-  const addrReady = f.street.length > 2 && f.city.length > 1 && /^\d{5}$/.test(f.zip);
+  const addrReady =
+    f.fulfillment === "delivery" &&
+    f.street.length > 2 &&
+    f.city.length > 1 &&
+    /^\d{5}$/.test(f.zip);
 
   useEffect(() => {
     let cancelled = false;
@@ -90,9 +96,7 @@ function Checkout() {
     f.name &&
     f.phone &&
     /\S+@\S+\.\S+/.test(f.email) &&
-    f.street &&
-    f.city &&
-    /^\d{5}$/.test(f.zip) &&
+    (f.fulfillment === "pickup" || (f.street && f.city && /^\d{5}$/.test(f.zip))) &&
     !submitting;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,19 +105,20 @@ function Checkout() {
     setSubmitting(true);
     // TODO(stripe): replace with Stripe Checkout session call here.
     const order = await createOrder({
+      fulfillment: f.fulfillment,
       customer: {
         name: f.name,
         phone: f.phone,
         email: f.email,
-        street: f.street,
-        city: f.city,
-        zip: f.zip,
+        street: f.fulfillment === "pickup" ? "Pickup" : f.street,
+        city: f.fulfillment === "pickup" ? "Pickup" : f.city,
+        zip: f.fulfillment === "pickup" ? "00000" : f.zip,
       },
       lines: cart.lines,
       subtotal: cart.subtotal,
       tax: cart.tax,
-      deliveryFee,
-      total,
+      deliveryFee: f.fulfillment === "pickup" ? 0 : deliveryFee,
+      total: f.fulfillment === "pickup" ? cart.total(0) : total,
       source: f.source,
     });
     cart.clear();
@@ -171,6 +176,31 @@ function Checkout() {
       <h1 className="mt-4 font-display text-4xl md:text-5xl">Checkout</h1>
       <form onSubmit={handleSubmit} className="mt-8 grid gap-8 md:grid-cols-[1fr_360px]">
         <div className="space-y-8">
+          <Section title="Fulfillment">
+            <div role="radiogroup" aria-label="Order fulfillment" className="flex gap-3">
+              {(["delivery", "pickup"] as const).map((opt) => (
+                <label
+                  key={opt}
+                  className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 px-4 py-3 font-medium capitalize transition ${
+                    f.fulfillment === opt
+                      ? "border-primary bg-primary/5 text-primary"
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="fulfillment"
+                    value={opt}
+                    checked={f.fulfillment === opt}
+                    onChange={() => setF({ ...f, fulfillment: opt })}
+                    className="sr-only"
+                  />
+                  {opt === "delivery" ? "🚗 Delivery" : "🏠 Pickup"}
+                </label>
+              ))}
+            </div>
+          </Section>
+
           <Section title="Your details">
             <Grid>
               <Field label="Full name" id="name" value={f.name} onChange={(v) => setF({ ...f, name: v })} required />
@@ -179,45 +209,53 @@ function Checkout() {
             </Grid>
           </Section>
 
-          <Section title="Delivery">
-            <Grid>
-              <Field label="Street address" id="street" value={f.street} onChange={(v) => setF({ ...f, street: v })} required full />
-              <Field label="City" id="city" value={f.city} onChange={(v) => setF({ ...f, city: v })} required />
-              <Field label="ZIP" id="zip" value={f.zip} onChange={(v) => setF({ ...f, zip: v.replace(/\D/g, "").slice(0, 5) })} required />
-            </Grid>
-            <div className="mt-4 rounded-xl bg-secondary p-4 text-sm">
-              {!addrReady && (
-                <p className="text-muted-foreground">
-                  Enter your address to see your delivery fee.
-                </p>
-              )}
-              {estimating && (
-                <p className="flex items-center gap-2 text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Calculating distance…
-                </p>
-              )}
-              {estimate && (
-                <>
-                  <div className="flex justify-between">
-                    <span>Distance</span>
-                    <span className="font-semibold">{estimate.miles.toFixed(1)} mi</span>
-                  </div>
-                  <div className="mt-1 flex justify-between">
-                    <span>Delivery fee</span>
-                    <span className="font-semibold text-primary">
-                      {formatPrice(estimate.fee)}
-                    </span>
-                  </div>
-                  {estimate.needsQuote && (
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      Over 30 miles — we'll contact you to confirm this quote.
-                    </p>
-                  )}
-                </>
-              )}
-              {estimateMsg && <p className="text-muted-foreground">{estimateMsg}</p>}
-            </div>
-          </Section>
+          {f.fulfillment === "delivery" ? (
+            <Section title="Delivery">
+              <Grid>
+                <Field label="Street address" id="street" value={f.street} onChange={(v) => setF({ ...f, street: v })} required full />
+                <Field label="City" id="city" value={f.city} onChange={(v) => setF({ ...f, city: v })} required />
+                <Field label="ZIP" id="zip" value={f.zip} onChange={(v) => setF({ ...f, zip: v.replace(/\D/g, "").slice(0, 5) })} required />
+              </Grid>
+              <div className="mt-4 rounded-xl bg-secondary p-4 text-sm">
+                {!addrReady && (
+                  <p className="text-muted-foreground">
+                    Enter your address to see your delivery fee.
+                  </p>
+                )}
+                {estimating && (
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Calculating distance…
+                  </p>
+                )}
+                {estimate && (
+                  <>
+                    <div className="flex justify-between">
+                      <span>Distance</span>
+                      <span className="font-semibold">{estimate.miles.toFixed(1)} mi</span>
+                    </div>
+                    <div className="mt-1 flex justify-between">
+                      <span>Delivery fee</span>
+                      <span className="font-semibold text-primary">
+                        {formatPrice(estimate.fee)}
+                      </span>
+                    </div>
+                    {estimate.needsQuote && (
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        Over 30 miles — we'll contact you to confirm this quote.
+                      </p>
+                    )}
+                  </>
+                )}
+                {estimateMsg && <p className="text-muted-foreground">{estimateMsg}</p>}
+              </div>
+            </Section>
+          ) : (
+            <Section title="Pickup">
+              <p className="text-sm text-muted-foreground">
+                We'll confirm your pickup time and location via the contact info provided. Lead time: 24 hours.
+              </p>
+            </Section>
+          )}
 
           <Section title="How did you hear about us?">
             <label htmlFor="source" className="sr-only">Source</label>
@@ -250,7 +288,11 @@ function Checkout() {
             <dl className="mt-4 space-y-1 border-t border-border pt-4 text-sm">
               <Row label="Subtotal" value={formatPrice(cart.subtotal)} />
               <Row label="Tax (7%)" value={formatPrice(cart.tax)} muted />
-              <Row label="Delivery" value={estimate ? formatPrice(deliveryFee) : "—"} muted />
+              <Row
+                label={f.fulfillment === "delivery" ? "Delivery" : "Pickup"}
+                value={f.fulfillment === "pickup" ? "Free" : (estimate ? formatPrice(deliveryFee) : "—")}
+                muted
+              />
               <div className="mt-2 flex justify-between border-t border-border pt-2 font-display text-lg font-semibold">
                 <dt>Total</dt>
                 <dd>{formatPrice(total)}</dd>
