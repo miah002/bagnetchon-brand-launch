@@ -124,26 +124,11 @@
 }
 
 /* Gold sheen sweep on primary buttons */
-@utility btn-sheen {
+.btn-sheen {
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
-@utility btn-sheen-after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    rgba(232, 163, 61, 0.55) 50%,
-    transparent 70%
-  );
-  transform: translateX(-120%);
-  transition: transform 0.9s ease;
-  pointer-events: none;
-}
-
 .btn-sheen::after {
   content: "";
   position: absolute;

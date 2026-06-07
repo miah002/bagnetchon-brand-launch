@@ -28,7 +28,7 @@ export function Photo({
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-muted",
+        "group relative overflow-hidden bg-muted",
         rounded,
         className,
       )}
@@ -41,7 +41,7 @@ export function Photo({
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           onError={() => setErrored(true)}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
         <div className="photo-fallback absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
