@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { ChevronDown, ChevronRight, Loader2, LogOut, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -438,9 +438,8 @@ function OrdersTab() {
             rows.map((r) => {
               const expanded = expandedId === r.id;
               return (
-                <>
+                <React.Fragment key={r.id}>
                   <tr
-                    key={r.id}
                     className="cursor-pointer border-t border-border hover:bg-muted/40"
                     onClick={() => setExpandedId(expanded ? null : r.id)}
                   >
@@ -531,7 +530,7 @@ function OrdersTab() {
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               );
             })
           )}
