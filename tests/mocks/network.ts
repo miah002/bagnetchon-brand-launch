@@ -40,6 +40,13 @@ export async function mockNotifyInquiry(page: Page) {
   });
 }
 
+export async function mockNotifyOrder(page: Page) {
+  await page.route("**/functions/v1/notify-order*", async (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    await route.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+  });
+}
+
 export async function mockDelivery(page: Page, miles = 8.2) {
   await page.route("**/api/public/delivery-distance*", async (route) => {
     if (route.request().method() !== "POST") return route.continue();

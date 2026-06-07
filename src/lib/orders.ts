@@ -71,5 +71,10 @@ export async function createOrder(
     throw new Error(error?.message ?? "Could not place order");
   }
 
+  // Fire-and-forget owner notification — never blocks success.
+  supabase.functions
+    .invoke("notify-order", { body: { ...payload } })
+    .catch(() => { /* swallow */ });
+
   return { ...order, ref, createdAt: row.created_at };
 }
