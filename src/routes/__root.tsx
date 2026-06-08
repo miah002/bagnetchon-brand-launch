@@ -23,9 +23,7 @@ function NotFoundComponent() {
     <div className="flex min-h-[70dvh] items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="font-display text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 font-display text-2xl text-foreground">
-          That dish isn't on the menu.
-        </h2>
+        <h2 className="mt-4 font-display text-2xl text-foreground">That dish isn't on the menu.</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -91,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Bagnet + Lechon. Crispy, crackling, criminally good Filipino food in Anaheim, CA. Order online or book catering.",
       },
-      { name: "theme-color", content: "#D7141A" },
+      { name: "theme-color", content: "#211910" },
       { property: "og:site_name", content: SITE.name },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -128,6 +126,10 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* No-JS fallback: reveal all scroll-reveal content when JS is unavailable */}
+        <noscript>
+          <style>{".reveal{opacity:1 !important;transform:none !important}"}</style>
+        </noscript>
       </head>
       <body>
         {children}

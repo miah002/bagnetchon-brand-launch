@@ -26,21 +26,15 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const BESTSELLER_IDS = [
-  "bagnet-1lb",
-  "belly-combo",
-  "kare-kare-bagnet",
-  "fiesta-platter",
-];
+const BESTSELLER_IDS = ["bagnet-1lb", "belly-combo", "kare-kare-bagnet", "fiesta-platter"];
 
 function Home() {
   const ref = useScrollReveal();
   const { add } = useCart();
   const [subbed, setSubbed] = useState(false);
+  const [subError, setSubError] = useState(false);
 
-  const bestsellers = BESTSELLER_IDS.map(
-    (id) => MENU.find((m) => m.id === id)!,
-  );
+  const bestsellers = BESTSELLER_IDS.map((id) => MENU.find((m) => m.id === id)!);
 
   return (
     <div ref={ref as React.RefObject<HTMLDivElement>}>
@@ -57,9 +51,11 @@ function Home() {
               From the hills of Ilocos to the heart of California
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
-              Crispy.<br />
-              Crackling.<br />
-              <span className="text-primary">Criminally Good.</span>
+              Crispy.
+              <br />
+              Crackling.
+              <br />
+              <span className="text-brand-red">Criminally Good.</span>
             </h1>
             <p
               aria-hidden="true"
@@ -68,9 +64,8 @@ function Home() {
               ᜊᜄ᜔ᜈᜒᜆ᜔ᜎᜒᜆ᜔ᜐᜓᜈ᜔
             </p>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-              Bagnet + Lechon. An Ilocano chef-formulator's healthier take —
-              long-marinated, slow-rendered, never deep-fried. Quality you can
-              crunch.
+              Bagnet + Lechon. An Ilocano chef-formulator's healthier take — long-marinated,
+              slow-rendered, never deep-fried. Quality you can crunch.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -140,12 +135,10 @@ function Home() {
               A healthier bagnet, reinvented in Anaheim, CA.
             </h2>
             <p className="mt-5 text-muted-foreground">
-              Our Ilocano chef-formulator threw out the deep fryer and rebuilt
-              bagnet from the ground up — an organic process, long marinations
-              with probiotic herbs &amp; spices, meticulous humidity and
-              temperature control. The result is shatter-crisp without the
-              guilt, and a flavor that travels straight from the hills of Ilocos
-              to your table.
+              Our Ilocano chef-formulator threw out the deep fryer and rebuilt bagnet from the
+              ground up — an organic process, long marinations with probiotic herbs &amp; spices,
+              meticulous humidity and temperature control. The result is shatter-crisp without the
+              guilt, and a flavor that travels straight from the hills of Ilocos to your table.
             </p>
             <p className="mt-4 font-display text-lg italic text-foreground">
               "Bagnet + Lechon — quality you can crunch."
@@ -161,10 +154,7 @@ function Home() {
       </section>
 
       {/* BESTSELLERS */}
-      <section
-        aria-labelledby="best-heading"
-        className="mx-auto max-w-7xl px-4 py-20 md:px-8"
-      >
+      <section aria-labelledby="best-heading" className="mx-auto max-w-7xl px-4 py-20 md:px-8">
         <div className="reveal flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
@@ -215,7 +205,7 @@ function Home() {
                   <button
                     type="button"
                     onClick={() => add(item.id)}
-                    className="btn-sheen rounded-full bg-foreground px-4 py-2 text-xs font-semibold uppercase tracking-wider text-background hover:bg-primary"
+                    className="btn-sheen rounded-full bg-foreground px-4 py-2 text-xs font-semibold uppercase tracking-wider text-background hover:bg-brand-red"
                   >
                     Add
                   </button>
@@ -236,19 +226,17 @@ function Home() {
             rounded="rounded-none"
           />
           <div className="flex flex-col justify-center p-8 md:p-12">
-            <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">
-              Catering
-            </p>
+            <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Catering</p>
             <h2 className="mt-3 font-display text-4xl md:text-5xl">
               Feed your fiesta — 10 to 500 guests.
             </h2>
             <p className="mt-4 text-background/80">
-              Birthdays, weddings, corporate, debuts. We bring the lechon, the
-              crackle, and the lola-approved dipping sauces.
+              Birthdays, weddings, corporate, debuts. We bring the lechon, the crackle, and the
+              lola-approved dipping sauces.
             </p>
             <Link
               to="/catering"
-              className="btn-sheen mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground"
+              className="btn-sheen mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-accent px-6 py-3 font-semibold text-accent-foreground"
             >
               Inquire Now <ArrowRight className="h-4 w-4" />
             </Link>
@@ -257,10 +245,7 @@ function Home() {
       </section>
 
       {/* GALLERY */}
-      <section
-        aria-labelledby="gallery-heading"
-        className="mx-auto max-w-7xl px-4 py-20 md:px-8"
-      >
+      <section aria-labelledby="gallery-heading" className="mx-auto max-w-7xl px-4 py-20 md:px-8">
         <div className="reveal">
           <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
             From our kitchen
@@ -270,10 +255,34 @@ function Home() {
           </h2>
         </div>
         <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Photo src={IMAGES.dishPlatter} alt="Bagnet pinakbet platter" aspect="3/4" rounded="rounded-tl-[2rem] rounded-br-[2rem]" className="reveal" />
-          <Photo src={IMAGES.teamBooth} alt="Bagnetchon pop-up booth" aspect="3/4" rounded="rounded-tr-[2rem] rounded-bl-[2rem] md:mt-10" className="reveal" />
-          <Photo src={IMAGES.tastingBowls} alt="Tasting bowls" aspect="3/4" rounded="rounded-tl-[2rem] rounded-br-[2rem]" className="reveal" />
-          <Photo src={IMAGES.teamAward} alt="Team holding award" aspect="3/4" rounded="rounded-tr-[2rem] rounded-bl-[2rem] md:mt-10" className="reveal" />
+          <Photo
+            src={IMAGES.dishPlatter}
+            alt="Bagnet pinakbet platter"
+            aspect="3/4"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            className="reveal"
+          />
+          <Photo
+            src={IMAGES.teamBooth}
+            alt="Bagnetchon pop-up booth"
+            aspect="3/4"
+            rounded="rounded-tr-[2rem] rounded-bl-[2rem] md:mt-10"
+            className="reveal"
+          />
+          <Photo
+            src={IMAGES.tastingBowls}
+            alt="Tasting bowls"
+            aspect="3/4"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            className="reveal"
+          />
+          <Photo
+            src={IMAGES.teamAward}
+            alt="Team holding award"
+            aspect="3/4"
+            rounded="rounded-tr-[2rem] rounded-bl-[2rem] md:mt-10"
+            className="reveal"
+          />
         </div>
       </section>
 
@@ -301,9 +310,7 @@ function Home() {
                   <Star key={i} className="h-4 w-4 fill-current" />
                 ))}
               </div>
-              <blockquote className="mt-4 font-display text-2xl leading-snug">
-                "{t.q}"
-              </blockquote>
+              <blockquote className="mt-4 font-display text-2xl leading-snug">"{t.q}"</blockquote>
               <figcaption className="mt-4 text-sm text-muted-foreground">
                 — {t.n}, {t.loc}
               </figcaption>
@@ -346,9 +353,7 @@ function Home() {
 
       {/* NEWSLETTER */}
       <section className="mx-auto max-w-3xl px-4 py-16 text-center md:px-8">
-        <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
-          Lechon Drops
-        </p>
+        <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Lechon Drops</p>
         <h2 className="mt-2 font-display text-3xl md:text-4xl">
           New batches, weekend menus, fiesta deals.
         </h2>
@@ -358,15 +363,18 @@ function Home() {
             e.preventDefault();
             const fd = new FormData(e.currentTarget);
             const email = String(fd.get("email") ?? "");
+            setSubError(false);
             try {
               await subscribeEmail(email, detectSource());
+              setSubbed(true);
             } catch {
-              /* swallow — still show success */
+              setSubError(true);
             }
-            setSubbed(true);
           }}
         >
-          <label htmlFor="newsletter" className="sr-only">Email</label>
+          <label htmlFor="newsletter" className="sr-only">
+            Email
+          </label>
           <input
             id="newsletter"
             type="email"
@@ -382,9 +390,10 @@ function Home() {
             Join
           </button>
         </form>
-        {subbed && (
-          <p className="mt-3 text-sm text-brand-green">
-            Salamat! You're on the list.
+        {subbed && <p className="mt-3 text-sm text-brand-green">Salamat! You're on the list.</p>}
+        {subError && (
+          <p role="alert" className="mt-3 text-sm text-destructive">
+            Something went wrong — please try again.
           </p>
         )}
       </section>

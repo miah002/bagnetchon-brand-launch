@@ -8,7 +8,7 @@ export function MobileCartBar() {
   return (
     <Link
       to="/checkout"
-      className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between gap-3 border-t border-border bg-primary px-4 py-3 text-primary-foreground shadow-2xl md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between gap-3 border-t border-border bg-primary px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] text-primary-foreground shadow-2xl md:hidden"
       aria-label={`View order, ${itemCount} items, subtotal ${formatPrice(subtotal)}`}
     >
       <span className="flex items-center gap-2 text-sm font-semibold">

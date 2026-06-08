@@ -13,6 +13,7 @@ const items = [
 
 export function SignatureCarousel() {
   const scroller = useRef<HTMLUListElement>(null);
+  const ticking = useRef(false);
   const [idx, setIdx] = useState(0);
 
   const scrollTo = (i: number) => {
@@ -22,6 +23,30 @@ export function SignatureCarousel() {
     if (!el) return;
     const card = el.children[next] as HTMLElement | undefined;
     card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  // Keep active index in sync when the user swipes the list directly.
+  const handleScroll = () => {
+    if (ticking.current) return;
+    ticking.current = true;
+    requestAnimationFrame(() => {
+      ticking.current = false;
+      const el = scroller.current;
+      if (!el) return;
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let nearest = 0;
+      let min = Infinity;
+      Array.from(el.children).forEach((c, i) => {
+        const child = c as HTMLElement;
+        const childCenter = child.offsetLeft + child.offsetWidth / 2;
+        const dist = Math.abs(childCenter - center);
+        if (dist < min) {
+          min = dist;
+          nearest = i;
+        }
+      });
+      setIdx(nearest);
+    });
   };
 
   return (
@@ -59,6 +84,7 @@ export function SignatureCarousel() {
 
       <ul
         ref={scroller}
+        onScroll={handleScroll}
         className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-6 md:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {items.map((it, i) => (
@@ -85,22 +111,23 @@ export function SignatureCarousel() {
       </ul>
 
       {/* Dot indicators */}
-      <div className="mt-4 flex justify-center gap-2" role="tablist" aria-label="Carousel position">
+      <div className="mt-2 flex justify-center gap-1" role="group" aria-label="Carousel position">
         {items.map((it, i) => (
           <button
             key={it.name}
             type="button"
-            role="tab"
-            aria-selected={idx === i}
             aria-label={`Go to ${it.name}`}
+            aria-current={idx === i}
             onClick={() => scrollTo(i)}
-            className={cn(
-              "h-2 rounded-full transition-all duration-300",
-              idx === i
-                ? "w-6 bg-primary"
-                : "w-2 bg-border hover:bg-muted-foreground",
-            )}
-          />
+            className="group flex h-11 w-7 items-center justify-center"
+          >
+            <span
+              className={cn(
+                "h-2 rounded-full transition-all duration-300",
+                idx === i ? "w-6 bg-primary" : "w-2 bg-border group-hover:bg-muted-foreground",
+              )}
+            />
+          </button>
         ))}
       </div>
     </section>

@@ -124,9 +124,7 @@ function CateringPage() {
       });
       setSuccess(true);
     } catch (err) {
-      setSubmitError(
-        err instanceof Error ? err.message : "Could not submit. Please try again.",
-      );
+      setSubmitError(err instanceof Error ? err.message : "Could not submit. Please try again.");
     }
     setSubmitting(false);
   };
@@ -135,18 +133,20 @@ function CateringPage() {
     <div className="relative" ref={ref as React.RefObject<HTMLDivElement>}>
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <BaybayinWatermark glyph="ᜃ" className="-right-10 top-10 text-foreground" size="text-[24rem]" />
+        <BaybayinWatermark
+          glyph="ᜃ"
+          className="-right-10 top-10 text-foreground"
+          size="text-[24rem]"
+        />
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div className="reveal">
-            <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
-              Catering
-            </p>
+            <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Catering</p>
             <h1 className="mt-3 font-display text-5xl md:text-7xl leading-tight">
               Feed Your Fiesta.
             </h1>
             <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-              From intimate dinners to 500-guest celebrations. We bring the
-              lechon, the crackle, and the lola-approved dipping sauces.
+              From intimate dinners to 500-guest celebrations. We bring the lechon, the crackle, and
+              the lola-approved dipping sauces.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a
@@ -163,9 +163,9 @@ function CateringPage() {
               </a>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
-              <strong className="text-foreground">Lead time:</strong> 48 hours
-              for standard packages, 7 days for whole lechon. All catering
-              includes traditional dipping sauces and serving utensils.
+              <strong className="text-foreground">Lead time:</strong> 48 hours for standard
+              packages, 7 days for whole lechon. All catering includes traditional dipping sauces
+              and serving utensils.
             </p>
           </div>
           <div className="reveal">
@@ -197,9 +197,7 @@ function CateringPage() {
               )}
               <h3 className="font-display text-2xl">{p.name}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{p.serves}</p>
-              <p className="mt-4 font-display text-2xl font-semibold text-primary">
-                {p.price}
-              </p>
+              <p className="mt-4 font-display text-2xl font-semibold text-primary">{p.price}</p>
               <ul className="mt-4 flex-1 space-y-2 text-sm">
                 {p.bullets.map((b) => (
                   <li key={b} className="flex items-start gap-2">
@@ -211,7 +209,7 @@ function CateringPage() {
               <button
                 type="button"
                 onClick={() => prefill(p.name)}
-                className="btn-sheen mt-5 rounded-lg bg-foreground px-4 py-2.5 text-sm font-semibold text-background hover:bg-primary"
+                className="btn-sheen mt-5 rounded-lg bg-foreground px-4 py-2.5 text-sm font-semibold text-background hover:bg-brand-red"
               >
                 Inquire
               </button>
@@ -223,10 +221,30 @@ function CateringPage() {
       {/* GALLERY */}
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Photo src={IMAGES.teamEvent} alt="Catering at a Filipino fiesta" aspect="1/1" rounded="rounded-tl-[2rem] rounded-br-[2rem]" />
-          <Photo src={IMAGES.teamBooth} alt="Pop-up booth" aspect="1/1" rounded="rounded-tr-[2rem] rounded-bl-[2rem]" />
-          <Photo src={IMAGES.fiestaSpread} alt="Full fiesta spread" aspect="1/1" rounded="rounded-tl-[2rem] rounded-br-[2rem]" />
-          <Photo src={IMAGES.dishPlatter} alt="Platter close-up" aspect="1/1" rounded="rounded-tr-[2rem] rounded-bl-[2rem]" />
+          <Photo
+            src={IMAGES.teamEvent}
+            alt="Catering at a Filipino fiesta"
+            aspect="1/1"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+          />
+          <Photo
+            src={IMAGES.teamBooth}
+            alt="Pop-up booth"
+            aspect="1/1"
+            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+          />
+          <Photo
+            src={IMAGES.fiestaSpread}
+            alt="Full fiesta spread"
+            aspect="1/1"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+          />
+          <Photo
+            src={IMAGES.dishPlatter}
+            alt="Platter close-up"
+            aspect="1/1"
+            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+          />
         </div>
       </section>
 
@@ -239,9 +257,7 @@ function CateringPage() {
         <h2 id="inquiry-heading" className="font-display text-3xl md:text-5xl">
           Tell us about your event.
         </h2>
-        <p className="mt-2 text-muted-foreground">
-          We respond within 24 hours, usually faster.
-        </p>
+        <p className="mt-2 text-muted-foreground">We respond within 24 hours, usually faster.</p>
 
         {success ? (
           <div className="mt-10 rounded-2xl bg-secondary p-8 text-center">
@@ -252,18 +268,70 @@ function CateringPage() {
             </p>
           </div>
         ) : (
-          <form onSubmit={handle} noValidate className="mt-8 grid gap-5 rounded-2xl border border-border bg-card p-6 shadow-ambient md:p-8">
+          <form
+            onSubmit={handle}
+            noValidate
+            className="mt-8 grid gap-5 rounded-2xl border border-border bg-card p-6 shadow-ambient md:p-8"
+          >
             <div className="grid gap-5 sm:grid-cols-2">
-              <CField label="Full Name" id="cname" value={f.name} onChange={(v) => setF({ ...f, name: v })} error={errors.name} required />
-              <CField label="Email" id="cemail" type="email" value={f.email} onChange={(v) => setF({ ...f, email: v })} error={errors.email} required />
-              <CField label="Phone" id="cphone" type="tel" value={f.phone} onChange={(v) => setF({ ...f, phone: v })} />
-              <CField label="Event Date" id="cdate" type="date" min={today} value={f.date} onChange={(v) => setF({ ...f, date: v })} error={errors.date} required />
-              <CField label="Guest Count" id="cguests" type="number" min="1" value={f.guests} onChange={(v) => setF({ ...f, guests: v })} error={errors.guests} required />
-              <CField label="Event Location / Venue" id="cloc" value={f.location} onChange={(v) => setF({ ...f, location: v })} error={errors.location} required />
+              <CField
+                label="Full Name"
+                id="cname"
+                value={f.name}
+                onChange={(v) => setF({ ...f, name: v })}
+                error={errors.name}
+                required
+              />
+              <CField
+                label="Email"
+                id="cemail"
+                type="email"
+                value={f.email}
+                onChange={(v) => setF({ ...f, email: v })}
+                error={errors.email}
+                required
+              />
+              <CField
+                label="Phone"
+                id="cphone"
+                type="tel"
+                value={f.phone}
+                onChange={(v) => setF({ ...f, phone: v })}
+              />
+              <CField
+                label="Event Date"
+                id="cdate"
+                type="date"
+                min={today}
+                value={f.date}
+                onChange={(v) => setF({ ...f, date: v })}
+                error={errors.date}
+                required
+              />
+              <CField
+                label="Guest Count"
+                id="cguests"
+                type="number"
+                min="1"
+                value={f.guests}
+                onChange={(v) => setF({ ...f, guests: v })}
+                error={errors.guests}
+                required
+              />
+              <CField
+                label="Event Location / Venue"
+                id="cloc"
+                value={f.location}
+                onChange={(v) => setF({ ...f, location: v })}
+                error={errors.location}
+                required
+              />
             </div>
 
             <div>
-              <label htmlFor="cpkg" className="text-sm font-medium">Package</label>
+              <label htmlFor="cpkg" className="text-sm font-medium">
+                Package
+              </label>
               <select
                 id="cpkg"
                 value={f.package}
@@ -272,7 +340,9 @@ function CateringPage() {
               >
                 <option value="">Select a package (optional)</option>
                 {PACKAGES.map((p) => (
-                  <option key={p.name} value={p.name}>{p.name}</option>
+                  <option key={p.name} value={p.name}>
+                    {p.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -300,7 +370,9 @@ function CateringPage() {
                 onChange={(e) => setF({ ...f, source: e.target.value })}
                 className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-2.5"
               >
-                {SOURCE_OPTIONS.map((s) => <option key={s}>{s}</option>)}
+                {SOURCE_OPTIONS.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
               </select>
             </div>
 
@@ -329,15 +401,29 @@ function CateringPage() {
 }
 
 function CField({
-  label, id, value, onChange, type = "text", required, error, min,
+  label,
+  id,
+  value,
+  onChange,
+  type = "text",
+  required,
+  error,
+  min,
 }: {
-  label: string; id: string; value: string; onChange: (v: string) => void;
-  type?: string; required?: boolean; error?: string; min?: string;
+  label: string;
+  id: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  required?: boolean;
+  error?: string;
+  min?: string;
 }) {
   return (
     <div>
       <label htmlFor={id} className="text-sm font-medium">
-        {label}{required && <span className="text-primary"> *</span>}
+        {label}
+        {required && <span className="text-primary"> *</span>}
       </label>
       <input
         id={id}
@@ -353,7 +439,9 @@ function CField({
         }`}
       />
       {error && (
-        <p id={`${id}-err`} className="mt-1 text-xs text-destructive">{error}</p>
+        <p id={`${id}-err`} className="mt-1 text-xs text-destructive">
+          {error}
+        </p>
       )}
     </div>
   );

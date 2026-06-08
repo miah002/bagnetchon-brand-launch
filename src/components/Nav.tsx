@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, ShoppingBag, X, Phone } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -17,6 +17,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [logoOk, setLogoOk] = useState(true);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const { itemCount } = useCart();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -33,7 +34,27 @@ export function Nav() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key === "Tab" && drawerRef.current) {
+        const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
@@ -64,7 +85,7 @@ export function Nav() {
             />
           ) : null}
           <span className="font-display text-2xl font-bold tracking-tight">
-            BAGNET<span className="text-primary">CHON</span>
+            BAGNET<span className="text-brand-red">CHON</span>
           </span>
         </Link>
 
@@ -73,8 +94,10 @@ export function Nav() {
             <Link
               key={l.to}
               to={l.to}
-              className="relative text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
-              activeProps={{ className: "text-primary" }}
+              className="relative text-sm font-medium text-foreground/80 transition-colors hover:text-brand-red"
+              activeProps={{
+                className: "text-brand-red underline underline-offset-8 decoration-2",
+              }}
               activeOptions={{ exact: l.to === "/" }}
             >
               {l.label}
@@ -93,7 +116,7 @@ export function Nav() {
           </a>
           <Link
             to="/checkout"
-            className="relative inline-flex items-center gap-2 rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background hover:bg-primary"
+            className="relative inline-flex items-center gap-2 rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background hover:bg-brand-red"
             aria-label={`Cart with ${itemCount} items`}
           >
             <ShoppingBag className="h-4 w-4" />
@@ -130,10 +153,13 @@ export function Nav() {
             className="absolute inset-0 bg-foreground/40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-0 h-full w-80 max-w-[88%] animate-in slide-in-from-right duration-200 bg-background p-6 shadow-2xl">
+          <div
+            ref={drawerRef}
+            className="absolute right-0 top-0 h-full w-80 max-w-[88%] animate-in slide-in-from-right duration-200 bg-background p-6 shadow-2xl"
+          >
             <div className="flex items-center justify-between">
               <span className="font-display text-xl font-bold">
-                BAGNET<span className="text-primary">CHON</span>
+                BAGNET<span className="text-brand-red">CHON</span>
               </span>
               <button
                 type="button"
@@ -151,7 +177,7 @@ export function Nav() {
                   key={l.to}
                   to={l.to}
                   className="rounded-lg px-3 py-3 text-base font-medium hover:bg-muted"
-                  activeProps={{ className: "bg-muted text-primary" }}
+                  activeProps={{ className: "bg-muted text-brand-red" }}
                   activeOptions={{ exact: l.to === "/" }}
                 >
                   {l.label}

@@ -1,12 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, Truck, Store } from "lucide-react";
 import { useCart, formatPrice } from "@/context/CartContext";
-import {
-  calcDeliveryFee,
-  estimateDistanceMiles,
-  type DeliveryEstimate,
-} from "@/config/delivery";
+import { calcDeliveryFee, estimateDistanceMiles, type DeliveryEstimate } from "@/config/delivery";
 import { createOrder } from "@/lib/orders";
 import { detectSource, SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
@@ -55,10 +51,7 @@ function Checkout() {
     setF((p) => ({ ...p, source: detectSource() }));
   }, []);
 
-  const addr = useMemo(
-    () => `${f.street}, ${f.city}, CA ${f.zip}`,
-    [f.street, f.city, f.zip],
-  );
+  const addr = useMemo(() => `${f.street}, ${f.city}, CA ${f.zip}`, [f.street, f.city, f.zip]);
   const addrReady =
     f.fulfillment === "delivery" &&
     f.street.length > 2 &&
@@ -92,17 +85,42 @@ function Checkout() {
   const deliveryFee = estimate?.fee ?? 0;
   const total = cart.total(deliveryFee);
 
-  const canSubmit =
-    cart.itemCount > 0 &&
-    f.name &&
-    f.phone &&
-    /\S+@\S+\.\S+/.test(f.email) &&
-    (f.fulfillment === "pickup" || (f.street && f.city && /^\d{5}$/.test(f.zip))) &&
-    !submitting;
+  const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
+
+  const errors = useMemo(() => {
+    const e: Partial<Record<keyof Fields, string>> = {};
+    if (!f.name.trim()) e.name = "Enter your name.";
+    if (!f.phone.trim()) e.phone = "Enter a phone number.";
+    if (!/\S+@\S+\.\S+/.test(f.email)) e.email = "Enter a valid email.";
+    if (f.fulfillment === "delivery") {
+      if (f.street.trim().length < 3) e.street = "Enter your street address.";
+      if (f.city.trim().length < 2) e.city = "Enter your city.";
+      if (!/^\d{5}$/.test(f.zip)) e.zip = "Enter a 5-digit ZIP.";
+    }
+    return e;
+  }, [f]);
+
+  const fieldProps = (id: keyof Fields) => ({
+    onBlur: () => setTouched((t) => ({ ...t, [id]: true })),
+    error: touched[id] ? errors[id] : undefined,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canSubmit) return;
+    if (submitting) return;
+    if (Object.keys(errors).length > 0) {
+      setTouched({
+        name: true,
+        phone: true,
+        email: true,
+        street: true,
+        city: true,
+        zip: true,
+      });
+      const firstInvalid = Object.keys(errors)[0];
+      if (firstInvalid) document.getElementById(firstInvalid)?.focus();
+      return;
+    }
     setSubmitting(true);
     setSubmitError(null);
     try {
@@ -127,7 +145,9 @@ function Checkout() {
       cart.clear();
       setSuccess({ ref: order.ref });
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Could not place order. Please try again.");
+      setSubmitError(
+        err instanceof Error ? err.message : "Could not place order. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -139,8 +159,8 @@ function Checkout() {
         <CheckCircle2 className="mx-auto h-14 w-14 text-brand-green" />
         <h1 className="mt-4 font-display text-4xl md:text-5xl">Salamat!</h1>
         <p className="mt-3 text-muted-foreground">
-          Your order is in. We'll be in touch at the contact info you provided
-          with pickup or delivery details.
+          Your order is in. We'll be in touch at the contact info you provided with pickup or
+          delivery details.
         </p>
         <p className="mt-6 inline-block rounded-full bg-secondary px-4 py-2 font-mono text-sm">
           Order ref: <strong>{success.ref}</strong>
@@ -188,7 +208,7 @@ function Checkout() {
               {(["delivery", "pickup"] as const).map((opt) => (
                 <label
                   key={opt}
-                  className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 px-4 py-3 font-medium capitalize transition ${
+                  className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 px-4 py-3 font-medium capitalize transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-offset-2 ${
                     f.fulfillment === opt
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border hover:border-primary/50"
@@ -202,7 +222,12 @@ function Checkout() {
                     onChange={() => setF({ ...f, fulfillment: opt })}
                     className="sr-only"
                   />
-                  {opt === "delivery" ? "🚗 Delivery" : "🏠 Pickup"}
+                  {opt === "delivery" ? (
+                    <Truck className="h-4 w-4" />
+                  ) : (
+                    <Store className="h-4 w-4" />
+                  )}
+                  {opt}
                 </label>
               ))}
             </div>
@@ -210,18 +235,73 @@ function Checkout() {
 
           <Section title="Your details">
             <Grid>
-              <Field label="Full name" id="name" value={f.name} onChange={(v) => setF({ ...f, name: v })} required />
-              <Field label="Phone" id="phone" type="tel" value={f.phone} onChange={(v) => setF({ ...f, phone: v })} required />
-              <Field label="Email" id="email" type="email" value={f.email} onChange={(v) => setF({ ...f, email: v })} required full />
+              <Field
+                label="Full name"
+                id="name"
+                value={f.name}
+                onChange={(v) => setF({ ...f, name: v })}
+                required
+                autoComplete="name"
+                {...fieldProps("name")}
+              />
+              <Field
+                label="Phone"
+                id="phone"
+                type="tel"
+                value={f.phone}
+                onChange={(v) => setF({ ...f, phone: v })}
+                required
+                autoComplete="tel"
+                inputMode="tel"
+                {...fieldProps("phone")}
+              />
+              <Field
+                label="Email"
+                id="email"
+                type="email"
+                value={f.email}
+                onChange={(v) => setF({ ...f, email: v })}
+                required
+                full
+                autoComplete="email"
+                inputMode="email"
+                {...fieldProps("email")}
+              />
             </Grid>
           </Section>
 
           {f.fulfillment === "delivery" ? (
             <Section title="Delivery">
               <Grid>
-                <Field label="Street address" id="street" value={f.street} onChange={(v) => setF({ ...f, street: v })} required full />
-                <Field label="City" id="city" value={f.city} onChange={(v) => setF({ ...f, city: v })} required />
-                <Field label="ZIP" id="zip" value={f.zip} onChange={(v) => setF({ ...f, zip: v.replace(/\D/g, "").slice(0, 5) })} required />
+                <Field
+                  label="Street address"
+                  id="street"
+                  value={f.street}
+                  onChange={(v) => setF({ ...f, street: v })}
+                  required
+                  full
+                  autoComplete="address-line1"
+                  {...fieldProps("street")}
+                />
+                <Field
+                  label="City"
+                  id="city"
+                  value={f.city}
+                  onChange={(v) => setF({ ...f, city: v })}
+                  required
+                  autoComplete="address-level2"
+                  {...fieldProps("city")}
+                />
+                <Field
+                  label="ZIP"
+                  id="zip"
+                  value={f.zip}
+                  onChange={(v) => setF({ ...f, zip: v.replace(/\D/g, "").slice(0, 5) })}
+                  required
+                  autoComplete="postal-code"
+                  inputMode="numeric"
+                  {...fieldProps("zip")}
+                />
               </Grid>
               <div className="mt-4 rounded-xl bg-secondary p-4 text-sm">
                 {!addrReady && (
@@ -259,13 +339,16 @@ function Checkout() {
           ) : (
             <Section title="Pickup">
               <p className="text-sm text-muted-foreground">
-                We'll confirm your pickup time and location via the contact info provided. Lead time: 24 hours.
+                We'll confirm your pickup time and location via the contact info provided. Lead
+                time: 24 hours.
               </p>
             </Section>
           )}
 
           <Section title="How did you hear about us?">
-            <label htmlFor="source" className="sr-only">Source</label>
+            <label htmlFor="source" className="sr-only">
+              Source
+            </label>
             <select
               id="source"
               value={f.source}
@@ -297,7 +380,9 @@ function Checkout() {
               <Row label="Tax (7.75%)" value={formatPrice(cart.tax)} muted />
               <Row
                 label={f.fulfillment === "delivery" ? "Delivery" : "Pickup"}
-                value={f.fulfillment === "pickup" ? "Free" : (estimate ? formatPrice(deliveryFee) : "—")}
+                value={
+                  f.fulfillment === "pickup" ? "Free" : estimate ? formatPrice(deliveryFee) : "—"
+                }
                 muted
               />
               <div className="mt-2 flex justify-between border-t border-border pt-2 font-display text-lg font-semibold">
@@ -307,7 +392,7 @@ function Checkout() {
             </dl>
             <button
               type="submit"
-              disabled={!canSubmit}
+              disabled={submitting}
               className="btn-sheen mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3.5 font-semibold text-primary-foreground disabled:opacity-50"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
@@ -317,7 +402,9 @@ function Checkout() {
               Payment integration coming soon — your order is reserved on submit.
             </p>
             {submitError && (
-              <p className="mt-2 text-center text-xs text-destructive">{submitError}</p>
+              <p role="alert" className="mt-2 text-center text-xs text-destructive">
+                {submitError}
+              </p>
             )}
           </div>
         </aside>
@@ -338,15 +425,35 @@ function Grid({ children }: { children: React.ReactNode }) {
   return <div className="grid gap-4 sm:grid-cols-2">{children}</div>;
 }
 function Field({
-  label, id, value, onChange, type = "text", required, full,
+  label,
+  id,
+  value,
+  onChange,
+  type = "text",
+  required,
+  full,
+  error,
+  autoComplete,
+  inputMode,
+  onBlur,
 }: {
-  label: string; id: string; value: string; onChange: (v: string) => void;
-  type?: string; required?: boolean; full?: boolean;
+  label: string;
+  id: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  required?: boolean;
+  full?: boolean;
+  error?: string;
+  autoComplete?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  onBlur?: () => void;
 }) {
   return (
     <div className={full ? "sm:col-span-2" : ""}>
       <label htmlFor={id} className="text-sm font-medium">
-        {label}{required && <span className="text-primary"> *</span>}
+        {label}
+        {required && <span className="text-primary"> *</span>}
       </label>
       <input
         id={id}
@@ -354,8 +461,20 @@ function Field({
         required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring"
+        onBlur={onBlur}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={`mt-1 w-full rounded-lg border bg-background px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-ring ${
+          error ? "border-destructive" : "border-input"
+        }`}
       />
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-xs text-destructive">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

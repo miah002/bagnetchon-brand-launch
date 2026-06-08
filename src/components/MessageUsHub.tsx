@@ -2,12 +2,37 @@ import { useState } from "react";
 import { MessageCircle, Phone, Mail, Facebook, Instagram, X } from "lucide-react";
 
 const channels = [
-  { label: "Call", href: "tel:+15625449882", Icon: Phone, color: "bg-primary text-primary-foreground" },
-  { label: "Email", href: "mailto:bagnetchon@gmail.com", Icon: Mail, color: "bg-accent text-accent-foreground" },
-  { label: "Facebook", href: "https://facebook.com/bagnetchon", Icon: Facebook, color: "bg-[#1877F2] text-white" },
-  { label: "Instagram", href: "https://instagram.com/bagnetchon", Icon: Instagram, color: "bg-[#E4405F] text-white" },
-  { label: "TikTok", href: "https://tiktok.com/@bagnetchon", Icon: TikTokIcon, color: "bg-foreground text-background" },
-  { label: "Messenger", href: "https://m.me/bagnetchon", Icon: MessageCircle, color: "bg-[#0084FF] text-white" },
+  { label: "Call", href: "tel:+15625449882", Icon: Phone, color: "bg-brand-red text-white" },
+  {
+    label: "Email",
+    href: "mailto:bagnetchon@gmail.com",
+    Icon: Mail,
+    color: "bg-accent text-accent-foreground",
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/bagnetchon",
+    Icon: Facebook,
+    color: "bg-[#1877F2] text-white",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/bagnetchon",
+    Icon: Instagram,
+    color: "bg-[#E4405F] text-white",
+  },
+  {
+    label: "TikTok",
+    href: "https://tiktok.com/@bagnetchon",
+    Icon: TikTokIcon,
+    color: "bg-foreground text-background",
+  },
+  {
+    label: "Messenger",
+    href: "https://m.me/bagnetchon",
+    Icon: MessageCircle,
+    color: "bg-[#0084FF] text-white",
+  },
 ] as const;
 
 function TikTokIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -38,7 +63,9 @@ export function FloatingMessageButton() {
                   rel="noreferrer"
                   className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm hover:bg-muted"
                 >
-                  <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${color}`}>
+                  <span
+                    className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${color}`}
+                  >
                     <Icon className="h-3.5 w-3.5" />
                   </span>
                   {label}
@@ -68,9 +95,7 @@ export function MessageUsHub() {
       className="relative overflow-hidden rounded-3xl bg-foreground px-6 py-14 text-background md:px-12 md:py-20"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">
-          Message Us
-        </p>
+        <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Message Us</p>
         <h2 id="message-us-heading" className="mt-3 font-display text-4xl md:text-5xl">
           However you message — we'll be right there.
         </h2>
@@ -86,7 +111,9 @@ export function MessageUsHub() {
                 rel="noreferrer"
                 className="flex flex-col items-center gap-2 rounded-2xl border border-background/15 p-4 hover:border-accent"
               >
-                <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full ${color}`}>
+                <span
+                  className={`inline-flex h-10 w-10 items-center justify-center rounded-full ${color}`}
+                >
                   <Icon className="h-5 w-5" />
                 </span>
                 <span className="text-sm font-medium">{label}</span>

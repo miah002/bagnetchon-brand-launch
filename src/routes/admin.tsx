@@ -73,7 +73,9 @@ interface Subscriber {
 }
 
 const ADMIN_EMAILS: string[] = ((import.meta.env.VITE_ADMIN_EMAIL as string | undefined) ?? "")
-  .split(",").map((e) => e.trim()).filter(Boolean);
+  .split(",")
+  .map((e) => e.trim())
+  .filter(Boolean);
 
 function Admin() {
   const [session, setSession] = useState<Session | null>(null);
@@ -122,7 +124,9 @@ function Admin() {
           This account does not have admin access.
         </p>
         <button
-          onClick={() => { setUnauthorized(false); }}
+          onClick={() => {
+            setUnauthorized(false);
+          }}
           className="mt-6 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
         >
           Back to sign in
@@ -155,9 +159,14 @@ function LoginCard() {
       <p className="mt-2 text-sm text-muted-foreground">
         Owner access only — public sign-ups are disabled.
       </p>
-      <form onSubmit={submit} className="mt-6 space-y-3 rounded-2xl border border-border bg-card p-6 shadow-ambient">
+      <form
+        onSubmit={submit}
+        className="mt-6 space-y-3 rounded-2xl border border-border bg-card p-6 shadow-ambient"
+      >
         <div>
-          <label htmlFor="email" className="text-sm font-medium">Email</label>
+          <label htmlFor="email" className="text-sm font-medium">
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -168,7 +177,9 @@ function LoginCard() {
           />
         </div>
         <div>
-          <label htmlFor="pw" className="text-sm font-medium">Password</label>
+          <label htmlFor="pw" className="text-sm font-medium">
+            Password
+          </label>
           <input
             id="pw"
             type="password"
@@ -191,10 +202,9 @@ function LoginCard() {
       <div className="mt-6 rounded-xl bg-secondary p-4 text-xs text-muted-foreground">
         <p className="font-semibold text-foreground">First time?</p>
         <p className="mt-1">
-          Create your admin account from the backend dashboard:
-          open <strong>Cloud → Users → Add user</strong>, set an email +
-          password, then sign in here. Public sign-up is intentionally off
-          so only the owner can reach this inbox.
+          Create your admin account from the backend dashboard: open{" "}
+          <strong>Cloud → Users → Add user</strong>, set an email + password, then sign in here.
+          Public sign-up is intentionally off so only the owner can reach this inbox.
         </p>
       </div>
     </div>
@@ -220,7 +230,10 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
         </button>
       </div>
 
-      <div role="tablist" className="mt-8 inline-flex gap-1 rounded-full border border-border bg-card p-1">
+      <div
+        role="tablist"
+        className="mt-8 inline-flex gap-1 rounded-full border border-border bg-card p-1"
+      >
         {(["inquiries", "orders", "subscribers"] as Tab[]).map((t) => (
           <button
             key={t}
@@ -268,11 +281,7 @@ function InquiriesTab() {
 
   const filtered = useMemo(
     () =>
-      rows.filter(
-        (r) =>
-          (src === "All" || r.source === src) &&
-          (st === "All" || r.status === st),
-      ),
+      rows.filter((r) => (src === "All" || r.source === src) && (st === "All" || r.status === st)),
     [rows, src, st],
   );
 
@@ -284,11 +293,21 @@ function InquiriesTab() {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-3">
-        <select value={src} onChange={(e) => setSrc(e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2 text-sm">
+        <select
+          value={src}
+          onChange={(e) => setSrc(e.target.value)}
+          className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        >
           <option>All</option>
-          {SOURCE_OPTIONS.map((s) => <option key={s}>{s}</option>)}
+          {SOURCE_OPTIONS.map((s) => (
+            <option key={s}>{s}</option>
+          ))}
         </select>
-        <select value={st} onChange={(e) => setSt(e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2 text-sm">
+        <select
+          value={st}
+          onChange={(e) => setSt(e.target.value)}
+          className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        >
           <option>All</option>
           <option value="new">New</option>
           <option value="contacted">Contacted</option>
@@ -320,15 +339,29 @@ function InquiriesTab() {
         <table className="w-full text-left text-sm">
           <thead className="bg-secondary text-xs uppercase tracking-wider">
             <tr>
-              <Th>Date</Th><Th>Source</Th><Th>Type</Th><Th>Name</Th>
-              <Th>Contact</Th><Th>Event</Th><Th>Message</Th><Th>Status</Th>
+              <Th>Date</Th>
+              <Th>Source</Th>
+              <Th>Type</Th>
+              <Th>Name</Th>
+              <Th>Contact</Th>
+              <Th>Event</Th>
+              <Th>Message</Th>
+              <Th>Status</Th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">Loading…</td></tr>
+              <tr>
+                <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
+                  Loading…
+                </td>
+              </tr>
             ) : filtered.length === 0 ? (
-              <tr><td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">No inquiries yet.</td></tr>
+              <tr>
+                <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
+                  No inquiries yet.
+                </td>
+              </tr>
             ) : (
               filtered.map((r) => (
                 <tr key={r.id} className="border-t border-border">
@@ -343,7 +376,9 @@ function InquiriesTab() {
                   <Td>
                     {r.event_date && <div>{r.event_date}</div>}
                     {r.guest_count != null && <div className="text-xs">{r.guest_count} guests</div>}
-                    {r.location && <div className="text-xs text-muted-foreground">{r.location}</div>}
+                    {r.location && (
+                      <div className="text-xs text-muted-foreground">{r.location}</div>
+                    )}
                     {r.package && <div className="text-xs text-primary">{r.package}</div>}
                   </Td>
                   <Td className="max-w-[24rem]">
@@ -402,22 +437,63 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
       onSubmit={submit}
       className="mt-4 grid gap-3 rounded-2xl border border-primary/30 bg-card p-4 shadow-ambient md:grid-cols-3"
     >
-      <select value={f.source} onChange={(e) => setF({ ...f, source: e.target.value })} className="rounded-lg border border-input bg-background px-3 py-2 text-sm">
-        {SOURCE_OPTIONS.map((s) => <option key={s}>{s}</option>)}
+      <select
+        value={f.source}
+        onChange={(e) => setF({ ...f, source: e.target.value })}
+        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+      >
+        {SOURCE_OPTIONS.map((s) => (
+          <option key={s}>{s}</option>
+        ))}
       </select>
-      <select value={f.type} onChange={(e) => setF({ ...f, type: e.target.value as "contact" | "catering" })} className="rounded-lg border border-input bg-background px-3 py-2 text-sm">
+      <select
+        value={f.type}
+        onChange={(e) => setF({ ...f, type: e.target.value as "contact" | "catering" })}
+        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+      >
         <option value="contact">Contact</option>
         <option value="catering">Catering</option>
       </select>
-      <input required placeholder="Name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className="rounded-lg border border-input bg-background px-3 py-2 text-sm" />
-      <input type="email" placeholder="Email (optional)" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} className="rounded-lg border border-input bg-background px-3 py-2 text-sm" />
-      <input placeholder="Phone (optional)" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} className="rounded-lg border border-input bg-background px-3 py-2 text-sm" />
-      <textarea placeholder="Message / details" value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} className="rounded-lg border border-input bg-background px-3 py-2 text-sm md:col-span-3" rows={3} />
+      <input
+        required
+        placeholder="Name"
+        value={f.name}
+        onChange={(e) => setF({ ...f, name: e.target.value })}
+        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+      />
+      <input
+        type="email"
+        placeholder="Email (optional)"
+        value={f.email}
+        onChange={(e) => setF({ ...f, email: e.target.value })}
+        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+      />
+      <input
+        placeholder="Phone (optional)"
+        value={f.phone}
+        onChange={(e) => setF({ ...f, phone: e.target.value })}
+        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+      />
+      <textarea
+        placeholder="Message / details"
+        value={f.message}
+        onChange={(e) => setF({ ...f, message: e.target.value })}
+        className="rounded-lg border border-input bg-background px-3 py-2 text-sm md:col-span-3"
+        rows={3}
+      />
       <div className="flex gap-2 md:col-span-3">
-        <button type="submit" disabled={busy} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50">
+        <button
+          type="submit"
+          disabled={busy}
+          className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+        >
           {busy ? "Saving…" : "Save inquiry"}
         </button>
-        <button type="button" onClick={onClose} className="rounded-lg border border-border px-4 py-2 text-sm">
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-lg border border-border px-4 py-2 text-sm"
+        >
           Cancel
         </button>
       </div>
@@ -462,15 +538,28 @@ function OrdersTab() {
       <table className="w-full text-left text-sm">
         <thead className="bg-secondary text-xs uppercase tracking-wider">
           <tr>
-            <Th></Th><Th>Date</Th><Th>Ref</Th><Th>Customer</Th><Th>Fulfillment</Th>
-            <Th>Total</Th><Th>Status</Th>
+            <Th></Th>
+            <Th>Date</Th>
+            <Th>Ref</Th>
+            <Th>Customer</Th>
+            <Th>Fulfillment</Th>
+            <Th>Total</Th>
+            <Th>Status</Th>
           </tr>
         </thead>
         <tbody>
           {loading ? (
-            <tr><td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">Loading…</td></tr>
+            <tr>
+              <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
+                Loading…
+              </td>
+            </tr>
           ) : rows.length === 0 ? (
-            <tr><td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">No orders yet.</td></tr>
+            <tr>
+              <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
+                No orders yet.
+              </td>
+            </tr>
           ) : (
             rows.map((r) => {
               const expanded = expandedId === r.id;
@@ -481,9 +570,11 @@ function OrdersTab() {
                     onClick={() => setExpandedId(expanded ? null : r.id)}
                   >
                     <Td>
-                      {expanded
-                        ? <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                        : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
+                      {expanded ? (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      )}
                     </Td>
                     <Td className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</Td>
                     <Td className="font-mono text-xs">{r.order_ref}</Td>
@@ -502,7 +593,9 @@ function OrdersTab() {
                         className={`rounded-full border-0 px-2 py-1 text-xs font-semibold capitalize focus:outline-none focus:ring-2 focus:ring-ring ${STATUS_COLORS[r.status] ?? "bg-gray-100 text-gray-800"}`}
                       >
                         {ORDER_STATUSES.map((s) => (
-                          <option key={s} value={s} className="bg-background text-foreground">{s}</option>
+                          <option key={s} value={s} className="bg-background text-foreground">
+                            {s}
+                          </option>
                         ))}
                       </select>
                     </Td>
@@ -513,15 +606,21 @@ function OrdersTab() {
                         <div className="grid gap-4 md:grid-cols-2">
                           {/* Items */}
                           <div>
-                            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Items ordered</p>
+                            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                              Items ordered
+                            </p>
                             {(r.items ?? []).length === 0 ? (
                               <p className="text-xs text-muted-foreground">No items recorded.</p>
                             ) : (
                               <ul className="space-y-1">
                                 {(r.items ?? []).map((line, i) => (
                                   <li key={i} className="flex justify-between text-sm">
-                                    <span>{line.qty} × {line.item?.name ?? "Item"}</span>
-                                    <span className="font-medium">{formatPrice(Number(line.lineTotal ?? 0))}</span>
+                                    <span>
+                                      {line.qty} × {line.item?.name ?? "Item"}
+                                    </span>
+                                    <span className="font-medium">
+                                      {formatPrice(Number(line.lineTotal ?? 0))}
+                                    </span>
                                   </li>
                                 ))}
                               </ul>
@@ -530,7 +629,9 @@ function OrdersTab() {
                           {/* Breakdown + address */}
                           <div className="space-y-3">
                             <div>
-                              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Price breakdown</p>
+                              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                                Price breakdown
+                              </p>
                               <dl className="space-y-0.5 text-sm">
                                 <div className="flex justify-between">
                                   <dt className="text-muted-foreground">Subtotal</dt>
@@ -544,7 +645,8 @@ function OrdersTab() {
                                   <div className="flex justify-between">
                                     <dt className="text-muted-foreground">
                                       Delivery fee
-                                      {r.delivery_miles != null && ` (${r.delivery_miles.toFixed(1)} mi)`}
+                                      {r.delivery_miles != null &&
+                                        ` (${r.delivery_miles.toFixed(1)} mi)`}
                                     </dt>
                                     <dd>{formatPrice(Number(r.delivery_fee))}</dd>
                                   </div>
@@ -557,9 +659,13 @@ function OrdersTab() {
                             </div>
                             {r.fulfillment === "delivery" && r.address_street && (
                               <div>
-                                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Delivery address</p>
+                                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                                  Delivery address
+                                </p>
                                 <p className="text-sm">{r.address_street}</p>
-                                <p className="text-sm">{r.address_city} {r.address_zip}</p>
+                                <p className="text-sm">
+                                  {r.address_city} {r.address_zip}
+                                </p>
                               </div>
                             )}
                           </div>
@@ -596,13 +702,25 @@ function SubscribersTab() {
     <div className="overflow-x-auto rounded-2xl border border-border bg-card">
       <table className="w-full text-left text-sm">
         <thead className="bg-secondary text-xs uppercase tracking-wider">
-          <tr><Th>Date</Th><Th>Email</Th><Th>Source</Th></tr>
+          <tr>
+            <Th>Date</Th>
+            <Th>Email</Th>
+            <Th>Source</Th>
+          </tr>
         </thead>
         <tbody>
           {loading ? (
-            <tr><td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">Loading…</td></tr>
+            <tr>
+              <td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">
+                Loading…
+              </td>
+            </tr>
           ) : rows.length === 0 ? (
-            <tr><td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">No subscribers yet.</td></tr>
+            <tr>
+              <td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">
+                No subscribers yet.
+              </td>
+            </tr>
           ) : (
             rows.map((r) => (
               <tr key={r.id} className="border-t border-border">
@@ -618,9 +736,21 @@ function SubscribersTab() {
   );
 }
 
-function Th({ children }: { children: React.ReactNode }) {
+function Th({ children }: { children?: React.ReactNode }) {
   return <th className="px-4 py-3">{children}</th>;
 }
-function Td({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void }) {
-  return <td className={`px-4 py-3 align-top ${className}`} onClick={onClick}>{children}</td>;
+function Td({
+  children,
+  className = "",
+  onClick,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: (e: React.MouseEvent) => void;
+}) {
+  return (
+    <td className={`px-4 py-3 align-top ${className}`} onClick={onClick}>
+      {children}
+    </td>
+  );
 }

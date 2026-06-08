@@ -27,10 +27,7 @@ function MenuPage() {
   const cart = useCart();
 
   const items = useMemo(
-    () =>
-      cat === "All"
-        ? MENU
-        : MENU.filter((m) => m.category === (cat as MenuCategory)),
+    () => (cat === "All" ? MENU : MENU.filter((m) => m.category === (cat as MenuCategory))),
     [cat],
   );
 
@@ -42,12 +39,8 @@ function MenuPage() {
         size="text-[22rem]"
       />
       <header className="reveal mx-auto max-w-7xl px-4 pt-12 md:px-8 md:pt-20">
-        <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
-          Order Online
-        </p>
-        <h1 className="mt-2 font-display text-4xl md:text-6xl">
-          The full crackle menu.
-        </h1>
+        <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Order Online</p>
+        <h1 className="mt-2 font-display text-4xl md:text-6xl">The full crackle menu.</h1>
         <p className="mt-3 max-w-xl text-muted-foreground">
           Add what you crave. We confirm pickup or delivery at checkout.
         </p>
@@ -56,26 +49,32 @@ function MenuPage() {
       <div className="mx-auto mt-10 grid max-w-7xl gap-10 px-4 md:grid-cols-[1fr_360px] md:px-8">
         {/* Items */}
         <div>
-          <div
-            role="tablist"
-            aria-label="Menu categories"
-            className="sticky top-[68px] z-30 -mx-4 flex gap-2 overflow-x-auto border-b border-border bg-background/90 px-4 py-3 backdrop-blur md:mx-0 md:rounded-full md:border md:border-border md:bg-card md:px-2 md:py-2"
-          >
-            {CATEGORIES.map((c) => (
-              <button
-                key={c}
-                role="tab"
-                aria-selected={cat === c}
-                onClick={() => setCat(c)}
-                className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
-                  cat === c
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground/70 hover:bg-muted"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
+          <div className="sticky top-16 z-30 -mx-4 md:top-[72px] md:mx-0">
+            <div
+              aria-label="Filter menu by category"
+              className="flex gap-2 overflow-x-auto border-b border-border bg-background/90 px-4 py-3 backdrop-blur md:rounded-full md:border md:border-border md:bg-card md:px-2 md:py-2"
+            >
+              {CATEGORIES.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  aria-pressed={cat === c}
+                  onClick={() => setCat(c)}
+                  className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
+                    cat === c
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground/70 hover:bg-muted"
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+            {/* Edge fade hints more categories scroll horizontally (mobile only) */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-background to-transparent md:hidden"
+            />
           </div>
 
           <ul className="mt-6 grid gap-5 sm:grid-cols-2">
@@ -106,13 +105,11 @@ function MenuPage() {
                     <h2 className="font-display text-xl">{item.name}</h2>
                     <span className="shrink-0 font-display text-lg font-semibold text-primary">
                       {item.price == null
-                        ? item.priceLabel ?? "Market Price"
+                        ? (item.priceLabel ?? "Market Price")
                         : formatPrice(item.price)}
                     </span>
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-xs uppercase tracking-widest text-muted-foreground">
                       {item.category}
@@ -165,30 +162,28 @@ function MenuPage() {
                         <p className="text-xs text-muted-foreground">
                           {formatPrice(l.item.price ?? 0)} · {formatPrice(l.lineTotal)}
                         </p>
-                        <div className="mt-1 inline-flex items-center gap-2 rounded-full border border-border">
+                        <div className="mt-1 inline-flex items-center rounded-full border border-border">
                           <button
-                            aria-label="Decrease"
+                            aria-label="Decrease quantity"
                             onClick={() => cart.setQty(l.id, l.qty - 1)}
-                            className="p-1.5 hover:text-primary"
+                            className="flex h-10 w-10 items-center justify-center hover:text-primary"
                           >
-                            <Minus className="h-3.5 w-3.5" />
+                            <Minus className="h-4 w-4" />
                           </button>
-                          <span className="min-w-4 text-center text-sm font-semibold">
-                            {l.qty}
-                          </span>
+                          <span className="min-w-6 text-center text-sm font-semibold">{l.qty}</span>
                           <button
-                            aria-label="Increase"
+                            aria-label="Increase quantity"
                             onClick={() => cart.setQty(l.id, l.qty + 1)}
-                            className="p-1.5 hover:text-primary"
+                            className="flex h-10 w-10 items-center justify-center hover:text-primary"
                           >
-                            <Plus className="h-3.5 w-3.5" />
+                            <Plus className="h-4 w-4" />
                           </button>
                         </div>
                       </div>
                       <button
                         aria-label={`Remove ${l.item.name}`}
                         onClick={() => cart.remove(l.id)}
-                        className="rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-destructive"
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-destructive"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

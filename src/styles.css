@@ -46,39 +46,39 @@
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --shadow-ambient: 0 20px 50px -10px rgb(28 27 27 / 0.08), 0 8px 16px -8px rgb(28 27 27 / 0.06);
-  --shadow-warm: 0 30px 60px -20px rgb(215 20 26 / 0.18);
+  --shadow-ambient: 0 16px 40px -16px rgb(26 20 14 / 0.1), 0 4px 12px -6px rgb(26 20 14 / 0.07);
+  --shadow-warm: 0 24px 50px -24px rgb(26 20 14 / 0.22), 0 6px 16px -10px rgb(26 20 14 / 0.1);
 }
 
 :root {
   --radius: 1rem;
 
-  /* Brand palette */
-  --brand-red: oklch(0.575 0.215 27.5);     /* #D7141A */
-  --brand-green: oklch(0.515 0.115 145);    /* #2F7A3A */
-  --brand-gold: oklch(0.745 0.135 70);      /* #E8A33D */
-  --brand-charcoal: oklch(0.185 0.005 30);  /* #1C1B1B */
-  --brand-cream: oklch(0.985 0.008 70);     /* #FCF9F8 */
+  /* Brand palette — warm SoCal premium: espresso ink · linen · burnished brass · ember */
+  --brand-red: oklch(0.49 0.165 30); /* deep ember chili (accent only) */
+  --brand-green: oklch(0.515 0.115 145); /* sage */
+  --brand-gold: oklch(0.7 0.105 75); /* burnished brass */
+  --brand-charcoal: oklch(0.175 0.014 50); /* warm espresso near-black */
+  --brand-cream: oklch(0.965 0.018 80); /* warm linen / bone */
 
-  /* Semantic mapping */
+  /* Semantic mapping — primary is INK; ember red is reserved as an accent */
   --background: var(--brand-cream);
   --foreground: var(--brand-charcoal);
-  --card: oklch(1 0 0);
+  --card: oklch(0.995 0.005 80);
   --card-foreground: var(--brand-charcoal);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.995 0.005 80);
   --popover-foreground: var(--brand-charcoal);
-  --primary: var(--brand-red);
-  --primary-foreground: oklch(0.985 0.008 70);
-  --secondary: oklch(0.95 0.012 70);
+  --primary: var(--brand-charcoal);
+  --primary-foreground: var(--brand-cream);
+  --secondary: oklch(0.93 0.02 80);
   --secondary-foreground: var(--brand-charcoal);
-  --muted: oklch(0.95 0.012 70);
-  --muted-foreground: oklch(0.45 0.01 30);
+  --muted: oklch(0.93 0.02 80);
+  --muted-foreground: oklch(0.45 0.022 55);
   --accent: var(--brand-gold);
   --accent-foreground: var(--brand-charcoal);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0.008 70);
-  --border: oklch(0.9 0.012 70);
-  --input: oklch(0.9 0.012 70);
+  --destructive-foreground: oklch(0.985 0.008 80);
+  --border: oklch(0.88 0.02 80);
+  --input: oklch(0.88 0.02 80);
   --ring: var(--brand-red);
 }
 
@@ -89,8 +89,8 @@
   --card-foreground: var(--brand-cream);
   --popover: oklch(0.24 0.005 30);
   --popover-foreground: var(--brand-cream);
-  --primary: var(--brand-red);
-  --primary-foreground: var(--brand-cream);
+  --primary: var(--brand-cream);
+  --primary-foreground: var(--brand-charcoal);
   --secondary: oklch(0.28 0.01 30);
   --secondary-foreground: var(--brand-cream);
   --muted: oklch(0.28 0.01 30);
@@ -111,12 +111,18 @@
   }
   body {
     background-color: var(--color-background);
+    /* Faint paper grain for tactile, premium warmth */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -136,7 +142,7 @@
   background: linear-gradient(
     100deg,
     transparent 30%,
-    rgba(232, 163, 61, 0.55) 50%,
+    rgba(198, 152, 74, 0.5) 50%,
     transparent 70%
   );
   transform: translateX(-120%);
@@ -147,11 +153,14 @@
   transform: translateX(120%);
 }
 
-/* Scroll reveal */
+/* Scroll reveal. Hidden by default; a <noscript> style (in __root) reveals all
+   when JS is off, so content is never stuck invisible (progressive enhancement). */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
 }
 .reveal.in {
   opacity: 1;
@@ -168,10 +177,25 @@
   line-height: 1;
 }
 
+/* Respect reduced-motion: neutralize scroll reveal, smooth scroll, and sheen */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn-sheen::after {
+    display: none;
+  }
+}
+
 /* Photo fallback gradient */
 .photo-fallback {
   background:
-    radial-gradient(circle at 30% 20%, rgba(215, 20, 26, 0.08), transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(47, 122, 58, 0.08), transparent 60%),
-    linear-gradient(135deg, #FCF9F8 0%, #f5e6c8 100%);
+    radial-gradient(circle at 30% 20%, rgba(168, 50, 31, 0.07), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(47, 122, 58, 0.07), transparent 60%),
+    linear-gradient(135deg, #f4ecdd 0%, #ebd9b8 100%);
 }
