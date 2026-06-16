@@ -92,14 +92,14 @@ export function MessageUsHub() {
   return (
     <section
       aria-labelledby="message-us-heading"
-      className="relative overflow-hidden rounded-3xl bg-foreground px-6 py-14 text-background md:px-12 md:py-20"
+      className="bronze-frame wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
     >
       <div className="mx-auto max-w-3xl text-center">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Message Us</p>
-        <h2 id="message-us-heading" className="mt-3 font-display text-4xl md:text-5xl">
+        <h2 id="message-us-heading" className="embossed mt-3 font-display text-4xl md:text-5xl">
           However you message — we'll be right there.
         </h2>
-        <p className="mt-4 text-background/80">
+        <p className="mt-4 text-brand-cream/80">
           Call, email, DM, or send a Messenger ping. Same crew. Same crackle.
         </p>
         <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">

@@ -72,7 +72,7 @@
   --card-foreground: var(--brand-charcoal);
   --popover: var(--brand-cream-2);
   --popover-foreground: var(--brand-charcoal);
-  --primary: var(--brand-red);
+  --primary: #a81c10; /* deep lechon — passes AA as small text on parchment + as button */
   --primary-foreground: #fff6ec;
   --secondary: #e2cfb2;
   --secondary-foreground: var(--brand-charcoal);
@@ -195,6 +195,13 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease;
+}
+.btn-sheen:active {
+  transform: translateY(1px) scale(0.99);
+  filter: brightness(0.97);
 }
 .btn-sheen::after {
   content: "";
@@ -251,6 +258,7 @@
   .btn-sheen::after {
     display: none;
   }
+  .btn-sheen,
   .pressable {
     transition: none;
   }

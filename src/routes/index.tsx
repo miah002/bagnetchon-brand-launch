@@ -91,7 +91,7 @@ function Home() {
               aspect="4/5"
               rounded="rounded-tl-[3rem] rounded-br-[3rem]"
               eager
-              className="shadow-warm"
+              className="bronze-frame shadow-warm"
             />
             <div className="absolute -bottom-6 -right-2 hidden rounded-2xl bg-card p-4 shadow-ambient md:block">
               <p className="font-display text-sm uppercase tracking-widest text-primary">
@@ -218,7 +218,7 @@ function Home() {
 
       {/* CATERING BANNER */}
       <section className="relative mx-auto max-w-7xl px-4 md:px-8">
-        <div className="reveal relative grid overflow-hidden rounded-3xl bg-foreground text-background md:grid-cols-2">
+        <div className="reveal bronze-frame wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
           <Photo
             src={IMAGES.teamEvent}
             alt="Bagnetchon catering at a Filipino fiesta"
@@ -227,10 +227,10 @@ function Home() {
           />
           <div className="flex flex-col justify-center p-8 md:p-12">
             <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Catering</p>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">
+            <h2 className="embossed mt-3 font-display text-4xl md:text-5xl">
               Feed your fiesta — 10 to 500 guests.
             </h2>
-            <p className="mt-4 text-background/80">
+            <p className="mt-4 text-brand-cream/80">
               Birthdays, weddings, corporate, debuts. We bring the lechon, the crackle, and the
               lola-approved dipping sauces.
             </p>
