@@ -4,8 +4,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Bagnetchon Design System
- * Editorial Minimalism + Tactile Warmth
+/* Bagnetchon Design System — v2
+ * Skeuomorphic Heritage: carved mahogany wood + parchment + lechon red + bronze
+ * Rule: textures live on CHROME (wood frames); text lives on solid PARCHMENT.
  */
 
 @theme inline {
@@ -42,63 +43,67 @@
   --color-brand-gold: var(--brand-gold);
   --color-brand-charcoal: var(--brand-charcoal);
   --color-brand-cream: var(--brand-cream);
+  --color-brand-wood: var(--brand-wood);
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --shadow-ambient: 0 16px 40px -16px rgb(26 20 14 / 0.1), 0 4px 12px -6px rgb(26 20 14 / 0.07);
-  --shadow-warm: 0 24px 50px -24px rgb(26 20 14 / 0.22), 0 6px 16px -10px rgb(26 20 14 / 0.1);
+  --shadow-ambient: 0 18px 40px -18px rgb(33 11 5 / 0.28), 0 4px 10px -4px rgb(33 11 5 / 0.18);
+  --shadow-warm: 0 26px 55px -22px rgb(33 11 5 / 0.45), 0 8px 18px -10px rgb(33 11 5 / 0.3);
 }
 
 :root {
   --radius: 1rem;
 
-  /* Brand palette — warm SoCal premium: espresso ink · linen · burnished brass · ember */
-  --brand-red: oklch(0.49 0.165 30); /* deep ember chili (accent only) */
-  --brand-green: oklch(0.515 0.115 145); /* sage */
-  --brand-gold: oklch(0.7 0.105 75); /* burnished brass */
-  --brand-charcoal: oklch(0.175 0.014 50); /* warm espresso near-black */
-  --brand-cream: oklch(0.965 0.018 80); /* warm linen / bone */
+  /* Brand palette — Bagnetchon heritage (Gemini source hexes) */
+  --brand-red: #c82316; /* Crispy Lechon Red */
+  --brand-green: #45a046; /* Leaf Green */
+  --brand-gold: #c59b73; /* Golden Bronze / Tan */
+  --brand-charcoal: #2b1410; /* dark mahogany ink (body text on parchment) */
+  --brand-cream: #ead9c5; /* Soft Cream / parchment */
+  --brand-wood: #210b05; /* Deep Mahogany Wood (chrome) */
+  --brand-wood-2: #3a1a0d; /* lighter plank tone for grain */
+  --brand-cream-2: #f4e8d4; /* lighter parchment for cards */
 
-  /* Semantic mapping — primary is INK; ember red is reserved as an accent */
+  /* Semantic mapping — parchment base, lechon-red primary, bronze accent */
   --background: var(--brand-cream);
   --foreground: var(--brand-charcoal);
-  --card: oklch(0.995 0.005 80);
+  --card: var(--brand-cream-2);
   --card-foreground: var(--brand-charcoal);
-  --popover: oklch(0.995 0.005 80);
+  --popover: var(--brand-cream-2);
   --popover-foreground: var(--brand-charcoal);
-  --primary: var(--brand-charcoal);
-  --primary-foreground: var(--brand-cream);
-  --secondary: oklch(0.93 0.02 80);
+  --primary: var(--brand-red);
+  --primary-foreground: #fff6ec;
+  --secondary: #e2cfb2;
   --secondary-foreground: var(--brand-charcoal);
-  --muted: oklch(0.93 0.02 80);
-  --muted-foreground: oklch(0.45 0.022 55);
+  --muted: #e2cfb2;
+  --muted-foreground: #6b4a33;
   --accent: var(--brand-gold);
-  --accent-foreground: var(--brand-charcoal);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0.008 80);
-  --border: oklch(0.88 0.02 80);
-  --input: oklch(0.88 0.02 80);
+  --accent-foreground: var(--brand-wood);
+  --destructive: #b01e12;
+  --destructive-foreground: #fff6ec;
+  --border: #cdb089;
+  --input: #cdb089;
   --ring: var(--brand-red);
 }
 
 .dark {
-  --background: var(--brand-charcoal);
+  --background: var(--brand-wood);
   --foreground: var(--brand-cream);
-  --card: oklch(0.24 0.005 30);
+  --card: #2a120a;
   --card-foreground: var(--brand-cream);
-  --popover: oklch(0.24 0.005 30);
+  --popover: #2a120a;
   --popover-foreground: var(--brand-cream);
-  --primary: var(--brand-cream);
-  --primary-foreground: var(--brand-charcoal);
-  --secondary: oklch(0.28 0.01 30);
+  --primary: var(--brand-red);
+  --primary-foreground: #fff6ec;
+  --secondary: #3a1a0d;
   --secondary-foreground: var(--brand-cream);
-  --muted: oklch(0.28 0.01 30);
-  --muted-foreground: oklch(0.7 0.01 30);
+  --muted: #3a1a0d;
+  --muted-foreground: #cbb08c;
   --accent: var(--brand-gold);
-  --accent-foreground: var(--brand-charcoal);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
+  --accent-foreground: var(--brand-wood);
+  --border: rgb(197 155 115 / 25%);
+  --input: rgb(197 155 115 / 28%);
   --ring: var(--brand-gold);
 }
 
@@ -111,8 +116,8 @@
   }
   body {
     background-color: var(--color-background);
-    /* Faint paper grain for tactile, premium warmth */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    /* Faint parchment grain */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -129,7 +134,63 @@
   }
 }
 
-/* Gold sheen sweep on primary buttons */
+/* ---------- Skeuomorphic heritage surfaces ---------- */
+
+/* Carved mahogany wood — nav, footer, feature panels. Text must be cream/bronze. */
+.wood-surface {
+  background-color: var(--brand-wood);
+  background-image:
+    repeating-linear-gradient(
+      92deg,
+      rgba(0, 0, 0, 0.18) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(255, 255, 255, 0.022) 3px,
+      rgba(0, 0, 0, 0) 6px
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.4)),
+    linear-gradient(135deg, #3a1a0d 0%, #210b05 58%, #170701 100%);
+  color: var(--brand-cream);
+}
+
+/* Parchment panel — cream content surface with soft inset + grain */
+.parchment {
+  background-color: var(--brand-cream-2);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.045'/%3E%3C/svg%3E");
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -3px 8px rgba(120, 80, 40, 0.12);
+}
+
+/* Carved bronze frame — double edge with inset highlight (ornament-ready) */
+.bronze-frame {
+  border: 2px solid var(--brand-gold);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 240, 220, 0.18),
+    inset 0 2px 8px rgba(0, 0, 0, 0.4),
+    var(--shadow-warm);
+}
+
+/* Engraved/embossed text — bronze or cream lettering on wood */
+.embossed {
+  text-shadow:
+    0 1px 0 rgba(255, 235, 205, 0.14),
+    0 -1px 1px rgba(0, 0, 0, 0.55);
+}
+
+/* Tactile press feedback (skeuomorphic) */
+.pressable {
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
+}
+.pressable:active {
+  transform: translateY(1px) scale(0.985);
+  filter: brightness(0.96);
+}
+
+/* Bronze sheen sweep on primary buttons */
 .btn-sheen {
   position: relative;
   overflow: hidden;
@@ -142,7 +203,7 @@
   background: linear-gradient(
     100deg,
     transparent 30%,
-    rgba(198, 152, 74, 0.5) 50%,
+    rgba(220, 180, 120, 0.6) 50%,
     transparent 70%
   );
   transform: translateX(-120%);
@@ -171,13 +232,13 @@
 .baybayin-watermark {
   font-family: "Noto Sans Tagalog", "Noto Sans", system-ui, sans-serif;
   color: var(--brand-charcoal);
-  opacity: 0.045;
+  opacity: 0.05;
   pointer-events: none;
   user-select: none;
   line-height: 1;
 }
 
-/* Respect reduced-motion: neutralize scroll reveal, smooth scroll, and sheen */
+/* Respect reduced-motion: neutralize scroll reveal, smooth scroll, sheen, press */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -190,12 +251,15 @@
   .btn-sheen::after {
     display: none;
   }
+  .pressable {
+    transition: none;
+  }
 }
 
 /* Photo fallback gradient */
 .photo-fallback {
   background:
-    radial-gradient(circle at 30% 20%, rgba(168, 50, 31, 0.07), transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(47, 122, 58, 0.07), transparent 60%),
-    linear-gradient(135deg, #f4ecdd 0%, #ebd9b8 100%);
+    radial-gradient(circle at 30% 20%, rgba(200, 35, 22, 0.1), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(69, 160, 70, 0.1), transparent 60%),
+    linear-gradient(135deg, #f4e8d4 0%, #d8c09a 100%);
 }

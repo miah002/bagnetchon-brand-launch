@@ -4,7 +4,7 @@ import { BaybayinWatermark } from "./BaybayinWatermark";
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-border bg-foreground text-background">
+    <footer className="wood-surface relative mt-24 overflow-hidden border-t-4 border-[var(--brand-gold)]/70 text-brand-cream">
       <BaybayinWatermark
         glyph="ᜃ"
         className="-right-12 -top-12 text-background"
@@ -12,7 +12,7 @@ export function Footer() {
       />
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-4 md:px-8">
         <div className="md:col-span-2">
-          <div className="font-display text-3xl font-bold">
+          <div className="embossed font-display text-3xl font-bold text-brand-cream">
             BAGNET<span className="text-brand-red">CHON</span>
           </div>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-background/80">

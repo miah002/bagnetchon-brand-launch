@@ -66,10 +66,8 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 transition-all",
-        scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border/60"
-          : "bg-background/0",
+        "wood-surface sticky top-0 z-50 border-b-2 border-[var(--brand-gold)]/70 transition-shadow",
+        scrolled ? "shadow-warm" : "",
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8 md:py-4">
@@ -84,7 +82,7 @@ export function Nav() {
               onError={() => setLogoOk(false)}
             />
           ) : null}
-          <span className="font-display text-2xl font-bold tracking-tight">
+          <span className="embossed font-display text-2xl font-bold tracking-tight text-brand-cream">
             BAGNET<span className="text-brand-red">CHON</span>
           </span>
         </Link>
@@ -94,9 +92,9 @@ export function Nav() {
             <Link
               key={l.to}
               to={l.to}
-              className="relative text-sm font-medium text-foreground/80 transition-colors hover:text-brand-red"
+              className="relative text-sm font-medium text-brand-cream/85 transition-colors hover:text-brand-gold"
               activeProps={{
-                className: "text-brand-red underline underline-offset-8 decoration-2",
+                className: "text-brand-gold underline underline-offset-8 decoration-2",
               }}
               activeOptions={{ exact: l.to === "/" }}
             >
@@ -108,7 +106,7 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <a
             href="tel:+15625449882"
-            className="hidden items-center gap-2 rounded-full border border-border px-3 py-2 text-sm font-medium hover:border-primary hover:text-primary md:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-[var(--brand-gold)]/60 px-3 py-2 text-sm font-medium text-brand-cream hover:border-[var(--brand-gold)] hover:text-brand-gold md:inline-flex"
             aria-label="Call Bagnetchon"
           >
             <Phone className="h-4 w-4" />
@@ -116,7 +114,7 @@ export function Nav() {
           </a>
           <Link
             to="/checkout"
-            className="relative inline-flex items-center gap-2 rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background hover:bg-brand-red"
+            className="pressable relative inline-flex items-center gap-2 rounded-full bg-primary px-3 py-2 text-sm font-medium text-primary-foreground ring-1 ring-[var(--brand-gold)]/40 hover:brightness-110"
             aria-label={`Cart with ${itemCount} items`}
           >
             <ShoppingBag className="h-4 w-4" />
@@ -130,7 +128,7 @@ export function Nav() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="rounded-full p-2 md:hidden"
+            className="rounded-full p-2 text-brand-cream md:hidden"
             aria-label="Open navigation menu"
             aria-expanded={open}
           >
