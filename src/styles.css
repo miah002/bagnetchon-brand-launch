@@ -44,6 +44,7 @@
   --color-brand-charcoal: var(--brand-charcoal);
   --color-brand-cream: var(--brand-cream);
   --color-brand-wood: var(--brand-wood);
+  --color-brand-terracotta: var(--brand-terracotta);
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
@@ -55,15 +56,16 @@
 :root {
   --radius: 1rem;
 
-  /* Brand palette — Bagnetchon heritage (Gemini source hexes) */
-  --brand-red: #c82316; /* Crispy Lechon Red */
-  --brand-green: #45a046; /* Leaf Green */
-  --brand-gold: #c59b73; /* Golden Bronze / Tan */
-  --brand-charcoal: #2b1410; /* dark mahogany ink (body text on parchment) */
-  --brand-cream: #ead9c5; /* Soft Cream / parchment */
-  --brand-wood: #210b05; /* Deep Mahogany Wood (chrome) */
-  --brand-wood-2: #3a1a0d; /* lighter plank tone for grain */
-  --brand-cream-2: #f4e8d4; /* lighter parchment for cards */
+  /* Brand palette — Bagnetchon heritage (Gemini detailed spec) */
+  --brand-red: #a62615; /* Chili Red — deep brick (AA-safe as text) */
+  --brand-green: #45a046; /* Leaf Green (logo) */
+  --brand-gold: #cca580; /* Muted Copper Gold — filigree/accents */
+  --brand-terracotta: #8c583a; /* Warm Terracotta — active/selected states */
+  --brand-charcoal: #26130b; /* Deep Espresso — text on parchment */
+  --brand-cream: #f5efe4; /* Vintage Alabaster — parchment container */
+  --brand-wood: #26130b; /* Deep Espresso wood — outer chrome */
+  --brand-wood-2: #402213; /* Roasted Walnut — panel headers/grain */
+  --brand-cream-2: #fffdf9; /* Warm Off-White — cards/rows */
 
   /* Semantic mapping — parchment base, lechon-red primary, bronze accent */
   --background: var(--brand-cream);
@@ -72,18 +74,18 @@
   --card-foreground: var(--brand-charcoal);
   --popover: var(--brand-cream-2);
   --popover-foreground: var(--brand-charcoal);
-  --primary: #a81c10; /* deep lechon — passes AA as small text on parchment + as button */
-  --primary-foreground: #fff6ec;
-  --secondary: #e2cfb2;
+  --primary: var(--brand-red); /* #A62615 — AA-safe as both button and small text */
+  --primary-foreground: #fffdf9;
+  --secondary: #e9dbc3;
   --secondary-foreground: var(--brand-charcoal);
-  --muted: #e2cfb2;
+  --muted: #e9dbc3;
   --muted-foreground: #6b4a33;
   --accent: var(--brand-gold);
   --accent-foreground: var(--brand-wood);
-  --destructive: #b01e12;
-  --destructive-foreground: #fff6ec;
-  --border: #cdb089;
-  --input: #cdb089;
+  --destructive: #a62615;
+  --destructive-foreground: #fffdf9;
+  --border: #d8c3a0;
+  --input: #d8c3a0;
   --ring: var(--brand-red);
 }
 
@@ -148,7 +150,7 @@
       rgba(0, 0, 0, 0) 6px
     ),
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.4)),
-    linear-gradient(135deg, #3a1a0d 0%, #210b05 58%, #170701 100%);
+    linear-gradient(135deg, #402213 0%, #26130b 58%, #1a0d06 100%);
   color: var(--brand-cream);
 }
 
