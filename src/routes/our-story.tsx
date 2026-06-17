@@ -10,9 +10,9 @@ export const Route = createFileRoute("/our-story")({
     pageMeta({
       title: "Our Story",
       description:
-        "From the hills of Ilocos to the heart of California. The story behind Bagnetchon — an Ilocano chef-formulator's healthier reinvention of bagnet and lechon.",
+        "The journey of Bagnetchon — founded in Buena Park, California by Chef-Formulator Chedie Narcelles and his wife Mel. A healthier, organic reinvention of bagnet and lechon, bridging the Pearl of the Orient and the West.",
       path: "/our-story",
-      image: IMAGES.chefKitchen,
+      image: IMAGES.founders,
     }),
   component: Story,
 });
@@ -21,50 +21,90 @@ function Story() {
   const ref = useScrollReveal();
   return (
     <div className="relative" ref={ref as React.RefObject<HTMLDivElement>}>
-      <BaybayinWatermark glyph="ᜈ" className="-left-10 top-20 text-foreground" size="text-[22rem]" />
+      <BaybayinWatermark
+        glyph="ᜈ"
+        className="-left-10 top-20 text-foreground"
+        size="text-[22rem]"
+      />
 
       <section className="reveal mx-auto max-w-3xl px-4 pt-16 md:px-8 md:pt-24">
-        <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
-          Our Story
-        </p>
+        <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Our Story</p>
         <h1 className="mt-3 font-display text-5xl md:text-6xl leading-[1.05]">
-          From the hills of Ilocos to the heart of California.
+          The Journey of Bagnetchon.
         </h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          A shared vision — from the Pearl of the Orient to the tables of California.
+        </p>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-12 md:px-8">
         <div className="reveal">
           <Photo
-            src={IMAGES.chefKitchen}
-            alt="Chef in the Bagnetchon kitchen"
+            src={IMAGES.chefKitchenReal}
+            alt="Chef Chedie and Mel Narcelles in the Bagnetchon kitchen"
             aspect="16/10"
             rounded="rounded-tl-[2.5rem] rounded-br-[2.5rem]"
             eager
+            className="bronze-frame"
           />
         </div>
-        <div className="reveal prose-bagnet mt-10 space-y-6 text-lg leading-relaxed text-foreground/90">
+        <div className="reveal mt-10 space-y-6 text-lg leading-relaxed text-foreground/90">
           <p>
-            Bagnetchon was born from an obsession. Our Ilocano chef-formulator
-            grew up on bagnet — the crackle, the marrow-soft fat, the Sunday
-            crowd around the table. But the deep fryer always felt at odds
-            with the freshness he wanted.
-          </p>
-          <p>
-            So he rebuilt it. An organic process, long marination with
-            probiotic herbs and spices, and meticulous humidity and
-            temperature control. No shortcuts. No deep frying. The skin still
-            shatters — but the meat stays light, and you can taste every herb.
+            Behind every crunch of Bagnetchon is a story of love, culture, and a shared lifelong
+            journey. Founded in Buena Park, California by Chef-Formulator{" "}
+            <strong className="text-foreground">Chedie Narcelles</strong> alongside his wife and
+            ultimate partner in purpose, <strong className="text-foreground">Mel Narcelles</strong>,
+            Bagnetchon was built on a promise: to bring the authentic joy of Filipino tradition
+            across the globe.
           </p>
           <p>
-            We're a family-run operation, proud of our Filipino diaspora
-            roots. Every batch is small. Every lechon is hand-finished. And
-            every fiesta we cater is a chance to share something we believe
-            in: that bagnet, done right, is one of the great pleasures of
-            Filipino food.
+            From the very beginning, Mel has been the cornerstone of the vision — believing in the
+            dream, guiding the strategy, and walking hand-in-hand through every step of this
+            culinary pilgrimage. Together they set out to bridge East and West, carrying the proud
+            identity of the Pearl of the Orient directly to the tables of California.
           </p>
-          <p className="font-display text-2xl italic text-primary">
-            "Bagnet + Lechon — quality you can crunch."
+
+          <h2 className="font-display text-3xl text-foreground">
+            Driven by community, crafting with purpose
+          </h2>
+          <p>
+            Chef Chedie doesn't claim to be a doctor of medicine — but he is, deeply, a doctor of
+            human connection. He listened to a generation that missed the comforting flavors of
+            home, yet needed a better, more mindful way to enjoy them.
           </p>
+          <p>
+            So he threw out the commercial deep fryers. He engineered an organic, slow-rendering
+            process driven by meticulous humidity and temperature control, infused with carefully
+            selected probiotic herbs and spices. The result is a masterful fusion of bagnet and
+            lechon — shatter-crisp, golden skin and rich flavor, without the heavy grease.
+            Innovation born not from a lab, but from a heart that cares for its people.
+          </p>
+        </div>
+
+        <div className="reveal mt-10 grid gap-5 sm:grid-cols-2">
+          <div className="bronze-frame parchment rounded-2xl p-6">
+            <h3 className="font-display text-xl text-primary">Our Mission</h3>
+            <p className="mt-2 text-foreground/90">
+              To bring the authentic joy of Filipino lechon to every table — freshly roasted,
+              locally sourced, and globally excellent. We celebrate heritage through world-class
+              flavor, master craftsmanship, and the irreplaceable spirit of <em>Bida ang saya</em>.
+            </p>
+          </div>
+          <div className="bronze-frame parchment rounded-2xl p-6">
+            <h3 className="font-display text-xl text-primary">Our Vision</h3>
+            <p className="mt-2 text-foreground/90">
+              To stand as the global symbol of pride for Filipino innovation — a brand that unites
+              diverse communities through taste, culture, and unparalleled excellence.
+            </p>
+          </div>
+        </div>
+
+        <div className="reveal mt-10 space-y-6 text-lg leading-relaxed text-foreground/90">
+          <p>
+            From our family to yours, we invite you to sit down, hear the crackle, and celebrate the
+            beautiful history we share.
+          </p>
+          <p className="font-display text-2xl italic text-primary">"Bida ang saya."</p>
         </div>
 
         <div className="reveal mt-10 flex flex-wrap gap-3">
@@ -85,10 +125,30 @@ function Story() {
 
       <section className="mx-auto max-w-7xl px-4 pb-20 md:px-8">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Photo src={IMAGES.teamEvent} alt="Team at an event" aspect="1/1" rounded="rounded-tl-[2rem] rounded-br-[2rem]" />
-          <Photo src={IMAGES.teamBooth} alt="Pop-up booth" aspect="1/1" rounded="rounded-tr-[2rem] rounded-bl-[2rem]" />
-          <Photo src={IMAGES.teamAward} alt="Team with award" aspect="1/1" rounded="rounded-tl-[2rem] rounded-br-[2rem]" />
-          <Photo src={IMAGES.lechonDisplay} alt="Lechon display" aspect="1/1" rounded="rounded-tr-[2rem] rounded-bl-[2rem]" />
+          <Photo
+            src={IMAGES.founders}
+            alt="Chef Chedie and Mel Narcelles with family"
+            aspect="1/1"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+          />
+          <Photo
+            src={IMAGES.chefPortrait}
+            alt="Chef Chedie Narcelles"
+            aspect="1/1"
+            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+          />
+          <Photo
+            src={IMAGES.foundersCouple}
+            alt="Chedie and Mel Narcelles"
+            aspect="1/1"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+          />
+          <Photo
+            src={IMAGES.foundersLechon}
+            alt="Chedie and Mel with a whole lechon"
+            aspect="1/1"
+            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+          />
         </div>
       </section>
     </div>

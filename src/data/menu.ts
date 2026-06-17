@@ -1,6 +1,6 @@
 import { IMAGES } from "./images";
 
-export type MenuCategory = "Small" | "Medium" | "Large" | "For Events";
+export type MenuCategory = "Trays & Packs" | "Whole Roasts";
 
 export interface MenuItem {
   id: string;
@@ -14,112 +14,141 @@ export interface MenuItem {
   requestQuote?: boolean;
 }
 
+// Real Bagnetchon lineup. Tray flavors with set prices are orderable;
+// market-price items (dinakdakan, sisig, whole roasts) route to a catering quote.
 export const MENU: MenuItem[] = [
+  // ---- Roasted Lechon — Classic (free Chef's sarsa) ----
   {
-    id: "original-bagnet",
-    name: "Original Bagnet",
-    price: 18.5,
-    category: "Small",
-    image: IMAGES.bagnetCloseup,
+    id: "lechon-classic-pack",
+    name: "Roasted Lechon (Classic) — Pack",
+    price: 25,
+    category: "Trays & Packs",
+    image: IMAGES.lechonDisplay,
+    badge: "Bestseller",
     description:
-      "Classic Ilocano-style pork belly, cured and double-fried until shatteringly crisp.",
+      "Slow-roasted Ilocano-style lechon, shatter-crisp skin. 38 oz pack with free 16 oz Chef's bagnet sarsa.",
   },
   {
-    id: "belly-combo",
-    name: "Belly Combo",
-    price: 18.5,
-    category: "Small",
-    image: IMAGES.tastingBowls,
-    description: "Quarter-pound lechon belly with garlic rice and achara.",
+    id: "lechon-classic-half",
+    name: "Roasted Lechon (Classic) — Half Tray",
+    price: 200,
+    category: "Trays & Packs",
+    image: IMAGES.lechonDisplay,
+    description: "Half tray, serves ~12. Free 8 oz Chef's bagnet sarsa.",
   },
   {
-    id: "sisig-bagnet",
-    name: "Sisig Bagnet",
-    price: 19.95,
-    category: "Small",
-    image: IMAGES.sisigBagnet,
+    id: "lechon-classic-full",
+    name: "Roasted Lechon (Classic) — Full Tray",
+    price: 400,
+    category: "Trays & Packs",
+    image: IMAGES.lechonDisplay,
+    description: "Full tray, serves ~25. Free 16 oz Chef's bagnet sarsa.",
+  },
+  // ---- Roasted Lechon — Spicy ----
+  {
+    id: "lechon-spicy-pack",
+    name: "Roasted Lechon (Spicy) — Pack",
+    price: 25,
+    category: "Trays & Packs",
+    image: IMAGES.lechonCloseup,
     badge: "Spicy",
     description:
-      "Chopped bagnet tossed in a savory, tangy sauce with calamansi and chili.",
+      "Our slow-roasted lechon with house spicy sarsa. 38 oz pack with free 16 oz sarsa.",
   },
   {
-    id: "dinakdakan",
-    name: "Dinakdakan",
-    price: 19.95,
-    category: "Small",
-    image: IMAGES.dinakdakan,
-    description: "Grilled pork belly & mask, creamy-tangy with onion and chili.",
-  },
-  {
-    id: "bagnet-pinakbet",
-    name: "Bagnet Pinakbet",
-    price: 22.0,
-    category: "Medium",
-    image: IMAGES.dishPlatter,
-    description:
-      "Vegetable medley sautéed in shrimp paste, crowned with crunchy bagnet.",
-  },
-  {
-    id: "kare-kare-bagnet",
-    name: "Kare-Kare Bagnet",
-    price: 22.0,
-    category: "Medium",
-    image: IMAGES.kareKare,
-    badge: "HOT",
-    description: "Peanut stew with crispy bagnet and shrimp paste.",
-  },
-  {
-    id: "bagnet-1lb",
-    name: "Bagnet (1 lb)",
-    price: 28.0,
-    category: "Medium",
+    id: "lechon-spicy-half",
+    name: "Roasted Lechon (Spicy) — Half Tray",
+    price: 200,
+    category: "Trays & Packs",
     image: IMAGES.lechonCloseup,
-    description: "Chopped and served with spicy sukang Iloko.",
+    badge: "Spicy",
+    description: "Half tray, serves ~12. Free 8 oz house spicy sarsa.",
   },
   {
-    id: "lechon-belly",
-    name: "Lechon Belly",
-    price: 32.0,
-    category: "Large",
-    image: IMAGES.lechonDisplay,
-    description:
-      "Slow-roasted pork belly with lemongrass and garlic; glass-crackling skin.",
+    id: "lechon-spicy-full",
+    name: "Roasted Lechon (Spicy) — Full Tray",
+    price: 400,
+    category: "Trays & Packs",
+    image: IMAGES.lechonCloseup,
+    badge: "Spicy",
+    description: "Full tray, serves ~25. Free 16 oz house spicy sarsa.",
   },
+  // ---- Specialties (market price) ----
   {
-    id: "fiesta-platter",
-    name: "Fiesta Platter",
-    price: 65.0,
-    category: "For Events",
-    image: IMAGES.fiestaSpread,
-    description: "Bagnet, sisig, and grilled liempo for 4.",
-  },
-  {
-    id: "bagnet-kare-kare-fiesta",
-    name: "Bagnet Kare-Kare Fiesta",
-    price: 65.0,
-    category: "For Events",
-    image: IMAGES.kareKare,
-    badge: "EVENT FAVORITE",
-    description:
-      "Bagnet with creamy peanut stew and house-made bagoong; party size.",
-  },
-  {
-    id: "whole-lechon",
-    name: "Whole Lechon",
+    id: "dinakdakan-de-manila",
+    name: "Dinakdakan De Manila",
     price: null,
     priceLabel: "Market Price",
-    category: "For Events",
-    image: IMAGES.hero,
+    category: "Trays & Packs",
+    image: IMAGES.dinakdakan,
     requestQuote: true,
     description:
-      "Traditional whole roasted pig, specialty liver sauce, professional carving. 7-day lead time.",
+      "Grilled pork belly & mask, creamy-tangy with red onion and chili. Pack · Half · Full tray.",
+  },
+  {
+    id: "sisig-maharlika",
+    name: "Sisig Maharlika",
+    price: null,
+    priceLabel: "Market Price",
+    category: "Trays & Packs",
+    image: IMAGES.sisigBagnet,
+    badge: "Spicy",
+    requestQuote: true,
+    description: "Sizzling chopped bagnet sisig, calamansi and chili. Pack · Half · Full tray.",
+  },
+  // ---- Whole Roasts (by weight — market price) ----
+  {
+    id: "whole-pig-lechon",
+    name: "Whole Pig Lechon",
+    price: null,
+    priceLabel: "Market Price",
+    category: "Whole Roasts",
+    image: IMAGES.hero,
+    badge: "Centerpiece",
+    requestQuote: true,
+    description:
+      "Traditional whole roasted pig, 50–80 lbs (medium to large). Specialty liver sauce, professional on-site carving. 7-day lead time.",
+  },
+  {
+    id: "lechon-belly-full",
+    name: "Lechon Belly Roll — Full",
+    price: null,
+    priceLabel: "Market Price",
+    category: "Whole Roasts",
+    image: IMAGES.lechonDisplay,
+    requestQuote: true,
+    description: "Slow-roasted lechon belly roll, 14–25 lbs. Glass-crackling skin.",
+  },
+  {
+    id: "lechon-belly-half",
+    name: "Lechon Belly Roll — Half",
+    price: null,
+    priceLabel: "Market Price",
+    category: "Whole Roasts",
+    image: IMAGES.bagnetCloseup,
+    requestQuote: true,
+    description: "Lechon belly roll, 8–13 lbs. Perfect for smaller gatherings.",
+  },
+  {
+    id: "lechon-de-leche",
+    name: "Lechon de Leche",
+    price: null,
+    priceLabel: "Market Price",
+    category: "Whole Roasts",
+    image: IMAGES.lechonCloseup,
+    requestQuote: true,
+    description: "Suckling lechon de leche, 30–39 lbs raw weight. Tender, milky-young.",
+  },
+  {
+    id: "cochinillo",
+    name: "Cochinillo",
+    price: null,
+    priceLabel: "Market Price",
+    category: "Whole Roasts",
+    image: IMAGES.dishPlatter,
+    requestQuote: true,
+    description: "Spanish-style roasted cochinillo, 12–18 lbs. Delicate, paper-crisp.",
   },
 ];
 
-export const CATEGORIES: ("All" | MenuCategory)[] = [
-  "All",
-  "Small",
-  "Medium",
-  "Large",
-  "For Events",
-];
+export const CATEGORIES: ("All" | MenuCategory)[] = ["All", "Trays & Packs", "Whole Roasts"];

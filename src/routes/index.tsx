@@ -26,7 +26,12 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const BESTSELLER_IDS = ["bagnet-1lb", "belly-combo", "kare-kare-bagnet", "fiesta-platter"];
+const BESTSELLER_IDS = [
+  "lechon-classic-full",
+  "lechon-classic-pack",
+  "lechon-spicy-full",
+  "lechon-spicy-half",
+];
 
 function Home() {
   const ref = useScrollReveal();
@@ -121,8 +126,8 @@ function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 md:grid-cols-2 md:px-8">
           <div className="reveal">
             <Photo
-              src={IMAGES.chefKitchen}
-              alt="Our Ilocano chef-formulator in the kitchen"
+              src={IMAGES.chefKitchenReal}
+              alt="Chef Chedie and Mel Narcelles in the Bagnetchon kitchen"
               aspect="4/5"
               rounded="rounded-tr-[2.5rem] rounded-bl-[2.5rem]"
             />

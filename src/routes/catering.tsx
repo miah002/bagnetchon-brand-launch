@@ -17,7 +17,7 @@ export const Route = createFileRoute("/catering")({
       description:
         "Bagnetchon catering across Southern California — 10 to 500 guests. Whole lechon, fiesta platters, full-service packages. Inquire today.",
       path: "/catering",
-      image: IMAGES.teamEvent,
+      image: IMAGES.cateringLechon,
     }),
   component: CateringPage,
 });
@@ -170,12 +170,40 @@ function CateringPage() {
           </div>
           <div className="reveal">
             <Photo
-              src={IMAGES.fiestaSpread}
-              alt="Bagnetchon fiesta spread"
+              src={IMAGES.cateringLechon}
+              alt="Chef Chedie with a whole roasted lechon at a catered event"
               aspect="4/5"
               rounded="rounded-tl-[3rem] rounded-br-[3rem]"
               eager
+              className="bronze-frame"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* EXPERIENCE */}
+      <section className="mx-auto max-w-5xl px-4 md:px-8">
+        <div className="reveal grid items-center gap-6 md:grid-cols-2">
+          <Photo
+            src={IMAGES.cateringCarving}
+            alt="Live lechon carving station at a wedding reception"
+            aspect="4/3"
+            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            className="bronze-frame"
+          />
+          <div className="bronze-frame parchment rounded-2xl p-6 md:p-8">
+            <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
+              The Experience
+            </p>
+            <h2 className="mt-2 font-display text-3xl md:text-4xl">A Gourmet Heritage Feast.</h2>
+            <p className="mt-4 leading-relaxed text-foreground/90">
+              We don't just deliver food — we bring a premium culinary attraction to your event. Our
+              signature concept features a{" "}
+              <strong className="text-foreground">Rustic Live Carving Station</strong>, where guests
+              experience the mesmerizing crackle of our slow-roasted Ilocano-style lechon belly
+              rolls, carved fresh on-site. Paired with our artisanal regular and spicy{" "}
+              <em>sarsa</em>, we turn every gathering into an authentic, upscale Filipino fiesta.
+            </p>
           </div>
         </div>
       </section>
@@ -222,14 +250,14 @@ function CateringPage() {
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <Photo
-            src={IMAGES.teamEvent}
-            alt="Catering at a Filipino fiesta"
+            src={IMAGES.cateringCarving}
+            alt="Live lechon carving at a wedding"
             aspect="1/1"
             rounded="rounded-tl-[2rem] rounded-br-[2rem]"
           />
           <Photo
-            src={IMAGES.teamBooth}
-            alt="Pop-up booth"
+            src={IMAGES.cateringLechon}
+            alt="Whole roasted lechon centerpiece"
             aspect="1/1"
             rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
           />
@@ -240,8 +268,8 @@ function CateringPage() {
             rounded="rounded-tl-[2rem] rounded-br-[2rem]"
           />
           <Photo
-            src={IMAGES.dishPlatter}
-            alt="Platter close-up"
+            src={IMAGES.foundersLechon}
+            alt="Chedie and Mel with a whole lechon"
             aspect="1/1"
             rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
           />

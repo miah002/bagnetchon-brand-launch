@@ -14,6 +14,14 @@ export const IMAGES = {
   teamBooth: "/images/team-booth.jpg",
   teamAward: "/images/team-award.jpg",
   logo: "/images/logo-bagnetchon.jpg",
+  // Authentic brand photos (founders, kitchen, live carving)
+  chefKitchenReal: "/images/chef-kitchen-real.jpg",
+  chefPortrait: "/images/chef-portrait.jpg",
+  founders: "/images/founders.jpg",
+  foundersCouple: "/images/founders-couple.jpg",
+  foundersLechon: "/images/founders-lechon.jpg",
+  cateringLechon: "/images/catering-lechon.jpg",
+  cateringCarving: "/images/catering-carving.jpg",
 } as const;
 
 export type ImageKey = keyof typeof IMAGES;
