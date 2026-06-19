@@ -76,15 +76,14 @@ export function Nav() {
             <img
               src={IMAGES.logo}
               alt="Bagnetchon"
-              width={44}
-              height={44}
-              className="h-10 w-10 rounded-full object-cover ring-1 ring-border"
+              className="h-11 w-auto md:h-12"
               onError={() => setLogoOk(false)}
             />
-          ) : null}
-          <span className="embossed font-display text-2xl font-bold tracking-tight text-brand-cream">
-            BAGNET<span className="text-brand-red">CHON</span>
-          </span>
+          ) : (
+            <span className="embossed font-display text-2xl font-bold tracking-tight text-brand-cream">
+              BAGNET<span className="text-brand-red">CHON</span>
+            </span>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">

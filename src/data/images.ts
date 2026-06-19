@@ -13,7 +13,7 @@ export const IMAGES = {
   teamEvent: "/images/team-event.jpg",
   teamBooth: "/images/team-booth.jpg",
   teamAward: "/images/team-award.jpg",
-  logo: "/images/logo-bagnetchon.jpg",
+  logo: "/images/logo-bagnetchon.png",
   // Authentic brand photos (founders, kitchen, live carving)
   chefKitchenReal: "/images/chef-kitchen-real.jpg",
   chefPortrait: "/images/chef-portrait.jpg",
@@ -22,6 +22,14 @@ export const IMAGES = {
   foundersLechon: "/images/founders-lechon.jpg",
   cateringLechon: "/images/catering-lechon.jpg",
   cateringCarving: "/images/catering-carving.jpg",
+  // Real dish photos (cropped from product sheets)
+  menuLechonClassic: "/images/menu-lechon-classic.jpg",
+  menuLechonSpicy: "/images/menu-lechon-spicy.jpg",
+  menuDinakdakan: "/images/menu-dinakdakan.jpg",
+  menuSisig: "/images/menu-sisig.jpg",
+  menuWholePig: "/images/menu-whole-pig.jpg",
+  menuDeLeche: "/images/menu-de-leche.jpg",
+  menuCochinillo: "/images/menu-cochinillo.jpg",
 } as const;
 
 export type ImageKey = keyof typeof IMAGES;

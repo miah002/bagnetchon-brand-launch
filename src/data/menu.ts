@@ -14,8 +14,8 @@ export interface MenuItem {
   requestQuote?: boolean;
 }
 
-// Real Bagnetchon lineup. Tray flavors with set prices are orderable;
-// market-price items (dinakdakan, sisig, whole roasts) route to a catering quote.
+// Real Bagnetchon lineup. Priced trays are orderable; market-price items
+// (dinakdakan, whole roasts) route to a catering quote.
 export const MENU: MenuItem[] = [
   // ---- Roasted Lechon — Classic (free Chef's sarsa) ----
   {
@@ -23,7 +23,7 @@ export const MENU: MenuItem[] = [
     name: "Roasted Lechon (Classic) — Pack",
     price: 25,
     category: "Trays & Packs",
-    image: IMAGES.lechonDisplay,
+    image: IMAGES.menuLechonClassic,
     badge: "Bestseller",
     description:
       "Slow-roasted Ilocano-style lechon, shatter-crisp skin. 38 oz pack with free 16 oz Chef's bagnet sarsa.",
@@ -33,7 +33,7 @@ export const MENU: MenuItem[] = [
     name: "Roasted Lechon (Classic) — Half Tray",
     price: 200,
     category: "Trays & Packs",
-    image: IMAGES.lechonDisplay,
+    image: IMAGES.menuLechonClassic,
     description: "Half tray, serves ~12. Free 8 oz Chef's bagnet sarsa.",
   },
   {
@@ -41,7 +41,7 @@ export const MENU: MenuItem[] = [
     name: "Roasted Lechon (Classic) — Full Tray",
     price: 400,
     category: "Trays & Packs",
-    image: IMAGES.lechonDisplay,
+    image: IMAGES.menuLechonClassic,
     description: "Full tray, serves ~25. Free 16 oz Chef's bagnet sarsa.",
   },
   // ---- Roasted Lechon — Spicy ----
@@ -50,7 +50,7 @@ export const MENU: MenuItem[] = [
     name: "Roasted Lechon (Spicy) — Pack",
     price: 25,
     category: "Trays & Packs",
-    image: IMAGES.lechonCloseup,
+    image: IMAGES.menuLechonSpicy,
     badge: "Spicy",
     description:
       "Our slow-roasted lechon with house spicy sarsa. 38 oz pack with free 16 oz sarsa.",
@@ -60,7 +60,7 @@ export const MENU: MenuItem[] = [
     name: "Roasted Lechon (Spicy) — Half Tray",
     price: 200,
     category: "Trays & Packs",
-    image: IMAGES.lechonCloseup,
+    image: IMAGES.menuLechonSpicy,
     badge: "Spicy",
     description: "Half tray, serves ~12. Free 8 oz house spicy sarsa.",
   },
@@ -69,32 +69,49 @@ export const MENU: MenuItem[] = [
     name: "Roasted Lechon (Spicy) — Full Tray",
     price: 400,
     category: "Trays & Packs",
-    image: IMAGES.lechonCloseup,
+    image: IMAGES.menuLechonSpicy,
     badge: "Spicy",
     description: "Full tray, serves ~25. Free 16 oz house spicy sarsa.",
   },
-  // ---- Specialties (market price) ----
+  // ---- Sisig Maharlika (priced) ----
+  {
+    id: "sisig-pack",
+    name: "Sisig Maharlika — Pack",
+    price: 25,
+    category: "Trays & Packs",
+    image: IMAGES.menuSisig,
+    badge: "Spicy",
+    description: "Sizzling chopped bagnet sisig, calamansi and chili. 38 oz pack.",
+  },
+  {
+    id: "sisig-half",
+    name: "Sisig Maharlika — Half Tray",
+    price: 150,
+    category: "Trays & Packs",
+    image: IMAGES.menuSisig,
+    badge: "Spicy",
+    description: "Half tray, serves ~12. Sizzling bagnet sisig with chili.",
+  },
+  {
+    id: "sisig-full",
+    name: "Sisig Maharlika — Full Tray",
+    price: 300,
+    category: "Trays & Packs",
+    image: IMAGES.menuSisig,
+    badge: "Spicy",
+    description: "Full tray, serves ~25. Sizzling bagnet sisig with chili.",
+  },
+  // ---- Specialty (market price) ----
   {
     id: "dinakdakan-de-manila",
     name: "Dinakdakan De Manila",
     price: null,
     priceLabel: "Market Price",
     category: "Trays & Packs",
-    image: IMAGES.dinakdakan,
+    image: IMAGES.menuDinakdakan,
     requestQuote: true,
     description:
       "Grilled pork belly & mask, creamy-tangy with red onion and chili. Pack · Half · Full tray.",
-  },
-  {
-    id: "sisig-maharlika",
-    name: "Sisig Maharlika",
-    price: null,
-    priceLabel: "Market Price",
-    category: "Trays & Packs",
-    image: IMAGES.sisigBagnet,
-    badge: "Spicy",
-    requestQuote: true,
-    description: "Sizzling chopped bagnet sisig, calamansi and chili. Pack · Half · Full tray.",
   },
   // ---- Whole Roasts (by weight — market price) ----
   {
@@ -103,7 +120,7 @@ export const MENU: MenuItem[] = [
     price: null,
     priceLabel: "Market Price",
     category: "Whole Roasts",
-    image: IMAGES.hero,
+    image: IMAGES.menuWholePig,
     badge: "Centerpiece",
     requestQuote: true,
     description:
@@ -135,7 +152,7 @@ export const MENU: MenuItem[] = [
     price: null,
     priceLabel: "Market Price",
     category: "Whole Roasts",
-    image: IMAGES.lechonCloseup,
+    image: IMAGES.menuDeLeche,
     requestQuote: true,
     description: "Suckling lechon de leche, 30–39 lbs raw weight. Tender, milky-young.",
   },
@@ -145,7 +162,7 @@ export const MENU: MenuItem[] = [
     price: null,
     priceLabel: "Market Price",
     category: "Whole Roasts",
-    image: IMAGES.dishPlatter,
+    image: IMAGES.menuCochinillo,
     requestQuote: true,
     description: "Spanish-style roasted cochinillo, 12–18 lbs. Delicate, paper-crisp.",
   },
