@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Loader2, Truck, Store } from "lucide-react";
 import { useCart, formatPrice } from "@/context/CartContext";
-import { calcDeliveryFee, estimateDistanceMiles, type DeliveryEstimate } from "@/config/delivery";
 import { createOrder } from "@/lib/orders";
 import { detectSource, SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
@@ -40,9 +39,6 @@ function Checkout() {
     source: "Website",
     fulfillment: "delivery",
   });
-  const [estimate, setEstimate] = useState<DeliveryEstimate | null>(null);
-  const [estimating, setEstimating] = useState(false);
-  const [estimateMsg, setEstimateMsg] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [success, setSuccess] = useState<{ ref: string } | null>(null);
@@ -51,39 +47,7 @@ function Checkout() {
     setF((p) => ({ ...p, source: detectSource() }));
   }, []);
 
-  const addr = useMemo(() => `${f.street}, ${f.city}, CA ${f.zip}`, [f.street, f.city, f.zip]);
-  const addrReady =
-    f.fulfillment === "delivery" &&
-    f.street.length > 2 &&
-    f.city.length > 1 &&
-    /^\d{5}$/.test(f.zip);
-
-  useEffect(() => {
-    let cancelled = false;
-    if (!addrReady) {
-      setEstimate(null);
-      setEstimateMsg(null);
-      return;
-    }
-    setEstimating(true);
-    setEstimateMsg(null);
-    estimateDistanceMiles(addr).then((miles) => {
-      if (cancelled) return;
-      setEstimating(false);
-      if (miles == null) {
-        setEstimate(null);
-        setEstimateMsg("We'll confirm your delivery cost after you order.");
-      } else {
-        setEstimate(calcDeliveryFee(miles));
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [addr, addrReady]);
-
-  const deliveryFee = estimate?.fee ?? 0;
-  const total = cart.total(deliveryFee);
+  const total = cart.total(0);
 
   const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
 
@@ -138,8 +102,9 @@ function Checkout() {
         lines: cart.resolved,
         subtotal: cart.subtotal,
         tax: cart.tax,
-        deliveryFee: f.fulfillment === "pickup" ? 0 : deliveryFee,
-        total: f.fulfillment === "pickup" ? cart.total(0) : total,
+        deliveryFee: 0,
+        deliveryMiles: null,
+        total,
         source: f.source,
       });
       cart.clear();
@@ -157,7 +122,7 @@ function Checkout() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-24 text-center md:px-8">
         <CheckCircle2 className="mx-auto h-14 w-14 text-brand-green" />
-        <h1 className="mt-4 font-display text-4xl md:text-5xl">Salamat!</h1>
+        <h1 className="mt-4 font-display text-4xl md:text-5xl">Thank you!</h1>
         <p className="mt-3 text-muted-foreground">
           Your order is in. We'll be in touch at the contact info you provided with pickup or
           delivery details.
@@ -303,37 +268,8 @@ function Checkout() {
                   {...fieldProps("zip")}
                 />
               </Grid>
-              <div className="mt-4 rounded-xl bg-secondary p-4 text-sm">
-                {!addrReady && (
-                  <p className="text-muted-foreground">
-                    Enter your address to see your delivery fee.
-                  </p>
-                )}
-                {estimating && (
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <Loader2 className="h-4 w-4 animate-spin" /> Calculating distance…
-                  </p>
-                )}
-                {estimate && (
-                  <>
-                    <div className="flex justify-between">
-                      <span>Distance</span>
-                      <span className="font-semibold">{estimate.miles.toFixed(1)} mi</span>
-                    </div>
-                    <div className="mt-1 flex justify-between">
-                      <span>Delivery fee</span>
-                      <span className="font-semibold text-primary">
-                        {formatPrice(estimate.fee)}
-                      </span>
-                    </div>
-                    {estimate.needsQuote && (
-                      <p className="mt-2 text-xs text-muted-foreground">
-                        Over 30 miles — we'll contact you to confirm this quote.
-                      </p>
-                    )}
-                  </>
-                )}
-                {estimateMsg && <p className="text-muted-foreground">{estimateMsg}</p>}
+              <div className="mt-4 rounded-xl bg-secondary p-4 text-sm text-muted-foreground">
+                Delivery fee is confirmed by our team after you order.
               </div>
             </Section>
           ) : (
@@ -380,9 +316,7 @@ function Checkout() {
               <Row label="Tax (7.75%)" value={formatPrice(cart.tax)} muted />
               <Row
                 label={f.fulfillment === "delivery" ? "Delivery" : "Pickup"}
-                value={
-                  f.fulfillment === "pickup" ? "Free" : estimate ? formatPrice(deliveryFee) : "—"
-                }
+                value={f.fulfillment === "pickup" ? "Free" : "Confirmed after order"}
                 muted
               />
               <div className="mt-2 flex justify-between border-t border-border pt-2 font-display text-lg font-semibold">

@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
 import { formatPrice } from "@/context/CartContext";
+import { DELIVERY_TIERS } from "@/config/delivery";
 
 export const Route = createFileRoute("/admin")({
   head: () =>
@@ -533,6 +534,19 @@ function OrdersTab() {
     await supabase.from("orders").update({ status }).eq("id", id);
   };
 
+  const saveDeliveryFee = async (r: Order, fee: number) => {
+    const newTotal = Number(r.subtotal) + Number(r.tax) + fee;
+    setRows((p) =>
+      p.map((row) =>
+        row.id === r.id ? { ...row, delivery_fee: fee, total: newTotal } : row,
+      ),
+    );
+    await supabase
+      .from("orders")
+      .update({ delivery_fee: fee, total: newTotal })
+      .eq("id", r.id);
+  };
+
   return (
     <div className="overflow-x-auto rounded-2xl border border-border bg-card">
       <table className="w-full text-left text-sm">
@@ -641,14 +655,31 @@ function OrdersTab() {
                                   <dt className="text-muted-foreground">Tax (7.75%)</dt>
                                   <dd>{formatPrice(Number(r.tax))}</dd>
                                 </div>
-                                {Number(r.delivery_fee) > 0 && (
-                                  <div className="flex justify-between">
-                                    <dt className="text-muted-foreground">
-                                      Delivery fee
-                                      {r.delivery_miles != null &&
-                                        ` (${r.delivery_miles.toFixed(1)} mi)`}
-                                    </dt>
-                                    <dd>{formatPrice(Number(r.delivery_fee))}</dd>
+                                {r.fulfillment === "delivery" && (
+                                  <div className="flex items-start justify-between gap-2">
+                                    <dt className="text-muted-foreground pt-1 shrink-0">Delivery fee</dt>
+                                    <dd className="flex flex-col items-end gap-1">
+                                      <div className="flex items-center gap-1">
+                                        <span className="text-muted-foreground">$</span>
+                                        <input
+                                          type="number"
+                                          min="0"
+                                          step="0.01"
+                                          defaultValue={Number(r.delivery_fee)}
+                                          onBlur={(e) =>
+                                            saveDeliveryFee(r, Number(e.target.value))
+                                          }
+                                          onClick={(e) => e.stopPropagation()}
+                                          className="w-20 rounded border border-input bg-background px-2 py-0.5 text-right text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                                        />
+                                      </div>
+                                      <div className="text-xs text-muted-foreground">
+                                        Tiers:{" "}
+                                        {DELIVERY_TIERS.map(
+                                          (t) => `≤${t.maxMiles}mi $${t.fee}`,
+                                        ).join(" · ")}
+                                      </div>
+                                    </dd>
                                   </div>
                                 )}
                                 <div className="flex justify-between border-t border-border pt-1 font-semibold">

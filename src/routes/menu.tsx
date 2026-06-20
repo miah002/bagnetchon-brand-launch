@@ -3,7 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Photo } from "@/components/Photo";
-import { DeliveryWidget } from "@/components/DeliveryWidget";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { MENU, CATEGORIES, type MenuCategory } from "@/data/menu";
 import { useCart, formatPrice } from "@/context/CartContext";
@@ -137,7 +136,7 @@ function MenuPage() {
           </ul>
         </div>
 
-        {/* Sidebar: cart + widget */}
+        {/* Sidebar: cart */}
         <aside className="space-y-6 md:sticky md:top-24 md:self-start">
           <div className="rounded-2xl border border-border bg-card p-6 shadow-ambient">
             <h2 className="font-display text-2xl">Your Order</h2>
@@ -213,7 +212,6 @@ function MenuPage() {
               </>
             )}
           </div>
-          <DeliveryWidget />
         </aside>
       </div>
     </div>

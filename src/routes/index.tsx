@@ -3,7 +3,6 @@ import { ArrowRight, Star } from "lucide-react";
 import { Photo } from "@/components/Photo";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { SignatureCarousel } from "@/components/SignatureCarousel";
-import { DeliveryWidget } from "@/components/DeliveryWidget";
 import { MessageUsHub } from "@/components/MessageUsHub";
 import { ChiliDivider, CornerBracket } from "@/components/Ornaments";
 import { IMAGES } from "@/data/images";
@@ -229,15 +228,15 @@ function Home() {
         <div className="reveal bronze-frame wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
           <CornerBracket corner="tl" className="h-14 w-14 md:h-16 md:w-16" />
           <CornerBracket corner="tr" className="h-14 w-14 md:h-16 md:w-16" />
-          <CornerBracket corner="bl" className="h-14 w-14 md:h-16 md:w-16" />
-          <CornerBracket corner="br" className="h-14 w-14 md:h-16 md:w-16" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-left" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-right" />
           <Photo
             src={IMAGES.teamEvent}
             alt="Bagnetchon catering at a Filipino fiesta"
             aspect="4/3"
             rounded="rounded-none"
           />
-          <div className="flex flex-col justify-center p-8 md:p-12">
+          <div className="relative z-10 flex flex-col justify-center p-8 md:p-12">
             <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Catering</p>
             <h2 className="embossed mt-3 font-display text-4xl md:text-5xl">
               Feed your fiesta — 10 to 500 guests.
@@ -331,35 +330,30 @@ function Home() {
         </div>
       </section>
 
-      {/* WHERE WE CRACKLE + DELIVERY WIDGET */}
+      {/* WHERE WE CRACKLE */}
       <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
-        <div className="grid gap-10 md:grid-cols-2">
-          <div className="reveal">
-            <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
-              Where we crackle
-            </p>
-            <h2 className="mt-2 font-display text-3xl md:text-5xl">
-              Southern California, end to end.
-            </h2>
-            <ul className="mt-6 space-y-4">
-              {[
-                ["Orange County", "Anaheim · Irvine · Garden Grove"],
-                ["Los Angeles", "LA · Cerritos · West Covina"],
-                ["Inland Empire", "Pomona · Fullerton · Catering"],
-              ].map(([area, info]) => (
-                <li
-                  key={area}
-                  className="flex items-center justify-between rounded-xl border border-border bg-card px-5 py-4"
-                >
-                  <span className="font-display text-lg font-semibold">{area}</span>
-                  <span className="text-sm text-muted-foreground">{info}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="reveal">
-            <DeliveryWidget />
-          </div>
+        <div className="reveal">
+          <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
+            Where we crackle
+          </p>
+          <h2 className="mt-2 font-display text-3xl md:text-5xl">
+            Southern California, end to end.
+          </h2>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+            {[
+              ["Orange County", "Anaheim · Irvine · Garden Grove"],
+              ["Los Angeles", "LA · Cerritos · West Covina"],
+              ["Inland Empire", "Pomona · Fullerton · Catering"],
+            ].map(([area, info]) => (
+              <li
+                key={area}
+                className="flex items-center justify-between rounded-xl border border-border bg-card px-5 py-4"
+              >
+                <span className="font-display text-lg font-semibold">{area}</span>
+                <span className="text-sm text-muted-foreground">{info}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -402,7 +396,7 @@ function Home() {
             Join
           </button>
         </form>
-        {subbed && <p className="mt-3 text-sm text-brand-green">Salamat! You're on the list.</p>}
+        {subbed && <p className="mt-3 text-sm text-brand-green">Thank you! You're on the list.</p>}
         {subError && (
           <p role="alert" className="mt-3 text-sm text-destructive">
             Something went wrong — please try again.
