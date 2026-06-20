@@ -7,6 +7,7 @@ import { SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
 import { formatPrice } from "@/context/CartContext";
 import { DELIVERY_TIERS } from "@/config/delivery";
+import { IMAGES } from "@/data/images";
 
 export const Route = createFileRoute("/admin")({
   head: () =>
@@ -218,7 +219,18 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
+      {/* Brand tagline ribbon */}
+      <div className="mb-5 inline-block -rotate-1 rounded-md border border-[var(--brand-gold)]/50 bg-[var(--brand-cream-2)] px-4 py-1.5 shadow-ambient">
+        <span className="font-display text-sm font-semibold tracking-wide text-[var(--brand-charcoal)]">
+          Premium Filipino-Asian roasted lechon
+        </span>
+      </div>
       <div className="bronze-frame parchment relative overflow-hidden rounded-3xl p-5 md:p-8">
+        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tl" />
+        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tr" />
+        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-bl" />
+        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-br" />
+        <div className="relative z-10">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="font-display text-4xl text-[var(--brand-charcoal)]">Inbox</h1>
@@ -258,6 +270,7 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
           {tab === "inquiries" && <InquiriesTab />}
           {tab === "orders" && <OrdersTab />}
           {tab === "subscribers" && <SubscribersTab />}
+        </div>
         </div>
       </div>
     </div>
