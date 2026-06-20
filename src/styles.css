@@ -316,21 +316,26 @@
 }
 
 /* Bronze corner ornament — photoreal art at corners of framed wood panels.
-   mix-blend-mode:screen dissolves near-black fringe into the wood; gold/red art survives.
-   Content wrapper must be `relative z-10`. Panel must have `overflow-hidden`. */
+   lighten blend: dark ornament areas show bg instead of stacking dark-on-dark.
+   Radial mask fades from full at the corner edge to transparent inward — mask
+   flips automatically with each corner's scaleX/scaleY transform, so one
+   declaration covers all four orientations. Content wrapper must be
+   `relative z-10`. Panel must have `overflow-hidden`. */
 .corner-art {
   position: absolute;
-  width: 140px;
+  width: 160px;
   height: auto;
   pointer-events: none;
   z-index: 0;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 6px rgba(204, 165, 128, 0.5));
-  opacity: 0.92;
+  mix-blend-mode: lighten;
+  filter: brightness(1.12) drop-shadow(0 0 8px rgba(204, 165, 128, 0.55));
+  opacity: 0.9;
+  mask-image: radial-gradient(ellipse 90% 90% at 0% 100%, black 35%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 0% 100%, black 35%, transparent 70%);
 }
 @media (min-width: 768px) {
   .corner-art {
-    width: 176px;
+    width: 200px;
   }
 }
 /* Asset is a bottom-left L-piece; flip to face each corner inward. */
