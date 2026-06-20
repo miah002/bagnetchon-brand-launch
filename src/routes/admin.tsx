@@ -219,18 +219,20 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
-      {/* Brand tagline ribbon */}
-      <div className="mb-5 inline-block -rotate-1 rounded-md border border-[var(--brand-gold)]/50 bg-[var(--brand-cream-2)] px-4 py-1.5 shadow-ambient">
-        <span className="font-display text-sm font-semibold tracking-wide text-[var(--brand-charcoal)]">
-          Premium Filipino-Asian roasted lechon
-        </span>
-      </div>
-      <div className="bronze-frame parchment relative overflow-hidden rounded-3xl p-5 md:p-8">
-        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tl" />
-        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tr" />
-        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-bl" />
-        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-br" />
-        <div className="relative z-10">
+      <div className="relative">
+        {/* Brand tagline plaque — straddles the frame's top edge so it reads as
+            a nameplate fixed to the panel, not a floating pill. */}
+        <div className="absolute -top-3.5 left-5 z-20 -rotate-1 rounded-md border border-[var(--brand-gold)]/60 bg-[var(--brand-cream-2)] px-4 py-1.5 shadow-[0_7px_16px_-7px_rgba(38,19,11,0.55)] md:left-8">
+          <span className="font-display text-xs font-semibold tracking-wide text-[var(--brand-charcoal)] md:text-sm">
+            Premium Filipino-Asian roasted lechon
+          </span>
+        </div>
+        <div className="bronze-frame parchment relative overflow-hidden rounded-3xl p-5 pt-8 md:p-8 md:pt-10">
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-tl" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-tr" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-bl" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-br" />
+          <div className="relative z-10">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="font-display text-4xl text-[var(--brand-charcoal)]">Inbox</h1>
@@ -272,6 +274,7 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
           {tab === "subscribers" && <SubscribersTab />}
         </div>
         </div>
+      </div>
       </div>
     </div>
   );
