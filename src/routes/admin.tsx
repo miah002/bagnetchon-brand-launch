@@ -218,7 +218,7 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
-      <div className="bronze-frame parchment corner-socket relative overflow-hidden rounded-3xl p-5 md:p-8">
+      <div className="bronze-frame parchment relative overflow-hidden rounded-3xl p-5 md:p-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="font-display text-4xl text-[var(--brand-charcoal)]">Inbox</h1>
