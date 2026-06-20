@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Mail, Phone } from "lucide-react";
 import { BaybayinWatermark } from "./BaybayinWatermark";
+import { IMAGES } from "@/data/images";
 
 export function Footer() {
   return (
@@ -12,9 +13,7 @@ export function Footer() {
       />
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-4 md:px-8">
         <div className="md:col-span-2">
-          <div className="embossed font-display text-3xl font-bold text-brand-cream">
-            BAGNET<span className="text-brand-red">CHON</span>
-          </div>
+          <img src={IMAGES.logo} alt="Bagnetchon" className="h-12 w-auto md:h-14" />
           <p className="mt-4 max-w-md text-sm leading-relaxed text-background/80">
             Bagnet + Lechon — organic process, probiotic herbs &amp; spices, meticulous humidity
             &amp; temperature control. Quality you can crunch.

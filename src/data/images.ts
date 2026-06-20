@@ -30,6 +30,12 @@ export const IMAGES = {
   menuWholePig: "/images/menu-whole-pig.jpg",
   menuDeLeche: "/images/menu-de-leche.jpg",
   menuCochinillo: "/images/menu-cochinillo.jpg",
+  menuBelly: "/images/menu-belly.jpg",
+  menuBellyHalf: "/images/menu-belly-half.jpg",
+  // Ornaments (transparent PNG art)
+  ornamentCorner: "/images/ornament-corner.png",
+  ornamentCornerChili: "/images/ornament-corner-chili.png",
+  ornamentChili: "/images/ornament-chili.png",
 } as const;
 
 export type ImageKey = keyof typeof IMAGES;
