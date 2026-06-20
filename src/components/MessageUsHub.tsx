@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MessageCircle, Phone, Mail, Facebook, Instagram, X } from "lucide-react";
-import { CornerBracket } from "./Ornaments";
 import { IMAGES } from "@/data/images";
 
 const channels = [
@@ -96,10 +95,10 @@ export function MessageUsHub() {
       aria-labelledby="message-us-heading"
       className="bronze-frame wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
     >
-      <CornerBracket corner="tl" className="h-14 w-14 md:h-16 md:w-16" />
-      <CornerBracket corner="tr" className="h-14 w-14 md:h-16 md:w-16" />
-      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-left" />
-      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-right" />
+      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tl" />
+      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tr" />
+      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-bl" />
+      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-br" />
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Message Us</p>
         <h2 id="message-us-heading" className="embossed mt-3 font-display text-4xl md:text-5xl">

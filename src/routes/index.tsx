@@ -4,7 +4,7 @@ import { Photo } from "@/components/Photo";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { SignatureCarousel } from "@/components/SignatureCarousel";
 import { MessageUsHub } from "@/components/MessageUsHub";
-import { ChiliDivider, CornerBracket } from "@/components/Ornaments";
+import { ChiliDivider } from "@/components/Ornaments";
 import { IMAGES } from "@/data/images";
 import { MENU } from "@/data/menu";
 import { useCart, formatPrice } from "@/context/CartContext";
@@ -226,10 +226,10 @@ function Home() {
       {/* CATERING BANNER */}
       <section className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="reveal bronze-frame wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
-          <CornerBracket corner="tl" className="h-14 w-14 md:h-16 md:w-16" />
-          <CornerBracket corner="tr" className="h-14 w-14 md:h-16 md:w-16" />
-          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-left" />
-          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-right" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tl" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tr" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-bl" />
+          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-br" />
           <Photo
             src={IMAGES.teamEvent}
             alt="Bagnetchon catering at a Filipino fiesta"

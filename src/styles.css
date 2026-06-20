@@ -319,8 +319,7 @@
    Content wrapper must be `relative z-10`. Panel must have `overflow-hidden`. */
 .corner-art {
   position: absolute;
-  bottom: 0;
-  width: 160px;
+  width: 150px;
   height: auto;
   pointer-events: none;
   z-index: 0;
@@ -328,15 +327,28 @@
 }
 @media (min-width: 768px) {
   .corner-art {
-    width: 200px;
+    width: 190px;
   }
 }
-.corner-art-left {
+/* Asset is a bottom-left L-piece; flip to face each corner inward. */
+.corner-art-bl {
+  bottom: 0;
   left: 0;
 }
-.corner-art-right {
+.corner-art-br {
+  bottom: 0;
   right: 0;
   transform: scaleX(-1);
+}
+.corner-art-tl {
+  top: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+.corner-art-tr {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1) scaleY(-1);
 }
 
 /* Photo fallback gradient */
