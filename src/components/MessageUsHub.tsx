@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MessageCircle, Phone, Mail, Facebook, Instagram, X } from "lucide-react";
-import { CornerFlourish } from "./Ornaments";
+import { CornerBracket } from "./Ornaments";
 
 const channels = [
   { label: "Call", href: "tel:+15625449882", Icon: Phone, color: "bg-brand-red text-white" },
@@ -95,10 +95,10 @@ export function MessageUsHub() {
       aria-labelledby="message-us-heading"
       className="bronze-frame wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
     >
-      <CornerFlourish corner="tl" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
-      <CornerFlourish corner="tr" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
-      <CornerFlourish corner="bl" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
-      <CornerFlourish corner="br" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
+      <CornerBracket corner="tl" className="h-14 w-14 md:h-16 md:w-16" />
+      <CornerBracket corner="tr" className="h-14 w-14 md:h-16 md:w-16" />
+      <CornerBracket corner="bl" className="h-14 w-14 md:h-16 md:w-16" />
+      <CornerBracket corner="br" className="h-14 w-14 md:h-16 md:w-16" />
       <div className="relative mx-auto max-w-3xl text-center">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Message Us</p>
         <h2 id="message-us-heading" className="embossed mt-3 font-display text-4xl md:text-5xl">
