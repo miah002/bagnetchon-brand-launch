@@ -95,7 +95,11 @@ export function MessageUsHub() {
       aria-labelledby="message-us-heading"
       className="bronze-frame wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
     >
-      <div className="mx-auto max-w-3xl text-center">
+      <CornerFlourish corner="tl" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
+      <CornerFlourish corner="tr" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
+      <CornerFlourish corner="bl" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
+      <CornerFlourish corner="br" className="h-20 w-20 opacity-80 md:h-28 md:w-28" />
+      <div className="relative mx-auto max-w-3xl text-center">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Message Us</p>
         <h2 id="message-us-heading" className="embossed mt-3 font-display text-4xl md:text-5xl">
           However you message — we'll be right there.

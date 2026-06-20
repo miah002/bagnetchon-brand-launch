@@ -227,8 +227,10 @@ function Home() {
       {/* CATERING BANNER */}
       <section className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="reveal bronze-frame wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
-          <CornerFlourish className="pointer-events-none absolute left-3 top-3 z-10 h-16 w-16 md:h-24 md:w-24 opacity-70" />
-          <CornerFlourish className="pointer-events-none absolute bottom-3 right-3 z-10 h-16 w-16 md:h-24 md:w-24 rotate-180 opacity-70" />
+          <CornerFlourish corner="tl" className="h-16 w-16 opacity-80 md:h-24 md:w-24" />
+          <CornerFlourish corner="tr" className="h-16 w-16 opacity-80 md:h-24 md:w-24" />
+          <CornerFlourish corner="bl" className="h-16 w-16 opacity-80 md:h-24 md:w-24" />
+          <CornerFlourish corner="br" className="h-16 w-16 opacity-80 md:h-24 md:w-24" />
           <Photo
             src={IMAGES.teamEvent}
             alt="Bagnetchon catering at a Filipino fiesta"
