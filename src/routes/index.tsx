@@ -226,7 +226,7 @@ function Home() {
 
       {/* CATERING BANNER */}
       <section className="relative mx-auto max-w-7xl px-4 md:px-8">
-        <div className="reveal bronze-frame wood-rail wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
+        <div className="reveal bronze-frame wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
           <CornerFlourish className="pointer-events-none absolute left-3 top-3 z-10 h-16 w-16 md:h-24 md:w-24 opacity-70" />
           <CornerFlourish className="pointer-events-none absolute bottom-3 right-3 z-10 h-16 w-16 md:h-24 md:w-24 rotate-180 opacity-70" />
           <Photo
