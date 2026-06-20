@@ -225,7 +225,7 @@ function Home() {
 
       {/* CATERING BANNER */}
       <section className="relative mx-auto max-w-7xl px-4 md:px-8">
-        <div className="reveal bronze-frame wood-surface relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
+        <div className="reveal bronze-frame wood-surface corner-socket relative grid overflow-hidden rounded-3xl text-brand-cream md:grid-cols-2">
           <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tl" />
           <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tr" />
           <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-bl" />

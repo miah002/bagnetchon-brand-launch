@@ -93,7 +93,7 @@ export function MessageUsHub() {
   return (
     <section
       aria-labelledby="message-us-heading"
-      className="bronze-frame wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
+      className="bronze-frame wood-surface corner-socket relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
     >
       <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tl" />
       <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-tr" />

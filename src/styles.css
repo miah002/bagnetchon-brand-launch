@@ -315,23 +315,50 @@
     inset 0 -2px 6px rgba(0, 0, 0, 0.45);
 }
 
+/* Corner shadow socket — darkens each corner of a framed wood panel so the
+   ornament nestles into a pocket of shadow (carved relief) instead of sitting
+   on lit damask. Paints below the ornament (z-0) and below content (z-10).
+   Add `corner-socket` to the panel; panel must be `relative overflow-hidden`. */
+.corner-socket::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(160px 160px at 0% 0%, rgba(0, 0, 0, 0.62), transparent 72%),
+    radial-gradient(160px 160px at 100% 0%, rgba(0, 0, 0, 0.62), transparent 72%),
+    radial-gradient(180px 180px at 0% 100%, rgba(0, 0, 0, 0.62), transparent 72%),
+    radial-gradient(180px 180px at 100% 100%, rgba(0, 0, 0, 0.62), transparent 72%);
+}
+@media (min-width: 768px) {
+  .corner-socket::before {
+    background:
+      radial-gradient(210px 210px at 0% 0%, rgba(0, 0, 0, 0.62), transparent 72%),
+      radial-gradient(210px 210px at 100% 0%, rgba(0, 0, 0, 0.62), transparent 72%),
+      radial-gradient(230px 230px at 0% 100%, rgba(0, 0, 0, 0.62), transparent 72%),
+      radial-gradient(230px 230px at 100% 100%, rgba(0, 0, 0, 0.62), transparent 72%);
+  }
+}
+
 /* Bronze corner ornament — photoreal art at corners of framed wood panels.
-   lighten blend: dark ornament areas show bg instead of stacking dark-on-dark.
-   Radial mask fades from full at the corner edge to transparent inward — mask
+   No blend mode: the ornament keeps its own bronze highlights AND shadows so it
+   reads as raised carved relief. A soft contact drop-shadow grounds it onto the
+   wood; the corner-socket vignette gives it a shadow pocket to sit in. The
+   radial mask dissolves the inner tips so there's no hard silhouette — the mask
    flips automatically with each corner's scaleX/scaleY transform, so one
    declaration covers all four orientations. Content wrapper must be
-   `relative z-10`. Panel must have `overflow-hidden`. */
+   `relative z-10`. Panel must have `overflow-hidden` and `corner-socket`. */
 .corner-art {
   position: absolute;
   width: 160px;
   height: auto;
   pointer-events: none;
-  z-index: 0;
-  mix-blend-mode: lighten;
-  filter: brightness(1.12) drop-shadow(0 0 8px rgba(204, 165, 128, 0.55));
-  opacity: 0.9;
-  mask-image: radial-gradient(ellipse 90% 90% at 0% 100%, black 35%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 0% 100%, black 35%, transparent 70%);
+  z-index: 1;
+  opacity: 0.96;
+  filter: brightness(1.04) drop-shadow(0 2px 9px rgba(0, 0, 0, 0.6));
+  mask-image: radial-gradient(ellipse 96% 96% at 0% 100%, black 28%, transparent 84%);
+  -webkit-mask-image: radial-gradient(ellipse 96% 96% at 0% 100%, black 28%, transparent 84%);
 }
 @media (min-width: 768px) {
   .corner-art {
