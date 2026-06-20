@@ -114,7 +114,7 @@ export function MessageUsHub() {
                 href={href}
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="flex flex-col items-center gap-2 rounded-2xl border border-background/15 p-4 hover:border-accent"
+                className="flex flex-col items-center gap-2 rounded-2xl border border-[rgba(204,165,128,0.25)] bg-[rgba(255,255,255,0.04)] p-4 transition-colors hover:border-accent hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span
                   className={`inline-flex h-10 w-10 items-center justify-center rounded-full ${color}`}

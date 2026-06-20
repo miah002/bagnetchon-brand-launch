@@ -144,7 +144,7 @@
 .wood-surface {
   background-color: var(--brand-wood);
   background-image:
-    linear-gradient(180deg, rgba(26, 13, 7, 0.52) 0%, rgba(14, 7, 3, 0.66) 100%),
+    linear-gradient(180deg, rgba(26, 13, 7, 0.30) 0%, rgba(14, 7, 3, 0.44) 100%),
     url("/images/texture-wood.jpg");
   background-repeat: no-repeat, repeat;
   background-size:
@@ -315,19 +315,22 @@
     inset 0 -2px 6px rgba(0, 0, 0, 0.45);
 }
 
-/* Bronze corner ornament — photoreal art at bottom corners of framed wood panels.
+/* Bronze corner ornament — photoreal art at corners of framed wood panels.
+   mix-blend-mode:screen dissolves near-black fringe into the wood; gold/red art survives.
    Content wrapper must be `relative z-10`. Panel must have `overflow-hidden`. */
 .corner-art {
   position: absolute;
-  width: 150px;
+  width: 140px;
   height: auto;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 8px rgba(204, 165, 128, 0.35));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 6px rgba(204, 165, 128, 0.5));
+  opacity: 0.92;
 }
 @media (min-width: 768px) {
   .corner-art {
-    width: 190px;
+    width: 176px;
   }
 }
 /* Asset is a bottom-left L-piece; flip to face each corner inward. */
