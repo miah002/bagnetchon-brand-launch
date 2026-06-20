@@ -13,7 +13,7 @@ export function Footer() {
       />
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 md:grid-cols-4 md:px-8">
         <div className="md:col-span-2">
-          <img src={IMAGES.logo} alt="Bagnetchon" className="h-12 w-auto md:h-14" />
+          <img src={IMAGES.logo} alt="Bagnetchon" className="h-12 w-auto rounded-md drop-shadow-md md:h-14" />
           <p className="mt-4 max-w-md text-sm leading-relaxed text-background/80">
             Bagnet + Lechon — organic process, probiotic herbs &amp; spices, meticulous humidity
             &amp; temperature control. Quality you can crunch.
@@ -22,13 +22,6 @@ export function Footer() {
             <a href="tel:+15625449882" className="inline-flex items-center gap-2 hover:text-accent">
               <Phone className="h-4 w-4" />
               (562) 544-9882
-            </a>
-            <a
-              href="mailto:bagnetchon@gmail.com"
-              className="inline-flex items-center gap-2 hover:text-accent"
-            >
-              <Mail className="h-4 w-4" />
-              bagnetchon@gmail.com
             </a>
             <a
               href="mailto:bagnetchon@gmail.com"

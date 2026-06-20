@@ -76,7 +76,7 @@ export function Nav() {
             <img
               src={IMAGES.logo}
               alt="Bagnetchon"
-              className="h-11 w-auto md:h-12"
+              className="h-11 w-auto rounded-md drop-shadow-md md:h-12"
               onError={() => setLogoOk(false)}
             />
           ) : (
