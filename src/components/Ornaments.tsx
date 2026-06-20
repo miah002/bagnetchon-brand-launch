@@ -9,30 +9,35 @@ export function ChiliMark({ className }: { className?: string }) {
       className={cn("select-none", className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Stem */}
+      {/* Stem — short curved peduncle */}
       <path
-        d="M20 6 C20 6 22 2 26 1 C24 4 22 6 20 8"
-        fill="var(--brand-green)"
+        d="M19 14 C18 9 17 5 14 3 C15 6 15 9 16 12"
+        fill="none"
         stroke="var(--brand-green)"
-        strokeWidth="1"
+        strokeWidth="2.4"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {/* Leaf */}
+      {/* Calyx cap — sits on the shoulders */}
       <path
-        d="M20 7 C17 4 12 3 12 3 C14 6 17 8 20 8"
+        d="M13 15 C16 11 24 11 27 15 C24 18 16 18 13 15 Z"
         fill="var(--brand-green)"
-        opacity="0.85"
       />
-      {/* Chili body */}
+      {/* Chili body — plump shoulders curving to a hooked point (labuyo) */}
       <path
-        d="M17 8 C15 14 14 26 15 40 C16 54 18 64 20 70 C22 64 24 54 25 40 C26 26 25 14 23 8 Z"
+        d="M14 15
+           C10 23 10 37 13 48
+           C15 57 19 66 23 72
+           C25 64 28 53 28 41
+           C28 30 25 20 21 15
+           C19 17 16 17 14 15 Z"
         fill="var(--brand-red)"
       />
-      {/* Highlight streak */}
+      {/* Glossy highlight following the curve */}
       <path
-        d="M18.5 12 C17.5 20 17 32 17.5 44"
-        stroke="rgba(255,200,180,0.35)"
-        strokeWidth="2.5"
+        d="M16 20 C13 29 14 41 17 51"
+        stroke="rgba(255,205,185,0.45)"
+        strokeWidth="2.4"
         strokeLinecap="round"
         fill="none"
       />
