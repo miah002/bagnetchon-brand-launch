@@ -36,6 +36,7 @@ export const IMAGES = {
   ornamentCorner: "/images/ornament-corner.png",
   ornamentCornerChili: "/images/ornament-corner-chili.png",
   ornamentChili: "/images/ornament-chili.png",
+  ornamentCornerV2: "/images/ornament-corner-v2.png",
   frameRail: "/images/frame-rail.png",
   // Seamless skeuomorphic textures (carved wood damask + woven parchment)
   textureWood: "/images/texture-wood.jpg",

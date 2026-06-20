@@ -9,6 +9,7 @@ interface PhotoProps {
   label?: string;
   rounded?: string;
   eager?: boolean;
+  objectPosition?: string;
 }
 
 /**
@@ -22,6 +23,7 @@ export function Photo({
   label,
   rounded = "rounded-2xl",
   eager = false,
+  objectPosition = "center",
 }: PhotoProps) {
   const [errored, setErrored] = useState(false);
 
@@ -41,6 +43,7 @@ export function Photo({
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           onError={() => setErrored(true)}
+          style={{ objectPosition }}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (

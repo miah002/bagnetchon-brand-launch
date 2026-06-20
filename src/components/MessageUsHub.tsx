@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MessageCircle, Phone, Mail, Facebook, Instagram, X } from "lucide-react";
 import { CornerBracket } from "./Ornaments";
+import { IMAGES } from "@/data/images";
 
 const channels = [
   { label: "Call", href: "tel:+15625449882", Icon: Phone, color: "bg-brand-red text-white" },
@@ -97,9 +98,9 @@ export function MessageUsHub() {
     >
       <CornerBracket corner="tl" className="h-14 w-14 md:h-16 md:w-16" />
       <CornerBracket corner="tr" className="h-14 w-14 md:h-16 md:w-16" />
-      <CornerBracket corner="bl" className="h-14 w-14 md:h-16 md:w-16" />
-      <CornerBracket corner="br" className="h-14 w-14 md:h-16 md:w-16" />
-      <div className="relative mx-auto max-w-3xl text-center">
+      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-left" />
+      <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-right" />
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Message Us</p>
         <h2 id="message-us-heading" className="embossed mt-3 font-display text-4xl md:text-5xl">
           However you message — we'll be right there.

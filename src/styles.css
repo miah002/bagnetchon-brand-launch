@@ -315,6 +315,30 @@
     inset 0 -2px 6px rgba(0, 0, 0, 0.45);
 }
 
+/* Bronze corner ornament — photoreal art at bottom corners of framed wood panels.
+   Content wrapper must be `relative z-10`. Panel must have `overflow-hidden`. */
+.corner-art {
+  position: absolute;
+  bottom: 0;
+  width: 160px;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 8px rgba(204, 165, 128, 0.35));
+}
+@media (min-width: 768px) {
+  .corner-art {
+    width: 200px;
+  }
+}
+.corner-art-left {
+  left: 0;
+}
+.corner-art-right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
 /* Photo fallback gradient */
 .photo-fallback {
   background:

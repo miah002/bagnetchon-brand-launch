@@ -1,15 +1,42 @@
 import { cn } from "@/lib/utils";
-import { IMAGES } from "@/data/images";
 
-/** Red chili accent mark (real art). */
+/** Inline SVG chili pepper accent mark — crisp at any size. */
 export function ChiliMark({ className }: { className?: string }) {
   return (
-    <img
-      src={IMAGES.ornamentChili}
-      alt=""
+    <svg
+      viewBox="0 0 40 80"
       aria-hidden="true"
-      className={cn("select-none object-contain", className)}
-    />
+      className={cn("select-none", className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Stem */}
+      <path
+        d="M20 6 C20 6 22 2 26 1 C24 4 22 6 20 8"
+        fill="var(--brand-green)"
+        stroke="var(--brand-green)"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+      {/* Leaf */}
+      <path
+        d="M20 7 C17 4 12 3 12 3 C14 6 17 8 20 8"
+        fill="var(--brand-green)"
+        opacity="0.85"
+      />
+      {/* Chili body */}
+      <path
+        d="M17 8 C15 14 14 26 15 40 C16 54 18 64 20 70 C22 64 24 54 25 40 C26 26 25 14 23 8 Z"
+        fill="var(--brand-red)"
+      />
+      {/* Highlight streak */}
+      <path
+        d="M18.5 12 C17.5 20 17 32 17.5 44"
+        stroke="rgba(255,200,180,0.35)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
   );
 }
 
