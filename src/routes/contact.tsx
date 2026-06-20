@@ -95,7 +95,7 @@ function Contact() {
           {success ? (
             <div className="mt-8 text-center">
               <CheckCircle2 className="mx-auto h-10 w-10 text-brand-green" />
-              <p className="mt-3 font-display text-xl">Salamat!</p>
+              <p className="mt-3 font-display text-xl">Thank you!</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 We'll get back to you within 24 hours.
               </p>
