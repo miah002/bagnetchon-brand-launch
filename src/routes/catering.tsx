@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, Flame, Utensils, Star } from "lucide-react";
 import { Photo } from "@/components/Photo";
+import { PolaroidPhoto } from "@/components/PolaroidPhoto";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { MessageUsHub } from "@/components/MessageUsHub";
 import { IMAGES } from "@/data/images";
@@ -208,6 +209,38 @@ function CateringPage() {
         </div>
       </section>
 
+      {/* SIGNATURE BEATS */}
+      <section className="mx-auto max-w-5xl px-4 py-10 md:px-8">
+        <div className="grid gap-5 sm:grid-cols-3">
+          {[
+            {
+              Icon: Flame,
+              title: "Rustic Live Carving Station",
+              desc: "Guests watch our lechon carved fresh on-site — the crackling skin and theater are part of the feast.",
+            },
+            {
+              Icon: Utensils,
+              title: "Artisanal Regular & Spicy Sarsa",
+              desc: "House-made liver sauce in classic and spicy varieties — the authentic pairing that makes Ilocano lechon complete.",
+            },
+            {
+              Icon: Star,
+              title: "Upscale Filipino Fiesta",
+              desc: "Every detail is styled to impress — from the carved centerpiece to the plated sides, this is a celebration.",
+            },
+          ].map(({ Icon, title, desc }) => (
+            <div
+              key={title}
+              className="reveal bronze-frame parchment rounded-2xl p-6"
+            >
+              <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+              <h3 className="mt-3 font-display text-xl text-foreground">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/80">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* PACKAGES */}
       <section id="packages" className="mx-auto max-w-7xl px-4 py-16 md:px-8">
         <h2 className="font-display text-3xl md:text-5xl">Packages</h2>
@@ -248,30 +281,31 @@ function CateringPage() {
 
       {/* GALLERY */}
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Photo
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <PolaroidPhoto
             src={IMAGES.cateringCarving}
             alt="Live lechon carving at a wedding"
-            aspect="1/1"
-            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            caption="Live carving station"
+            tilt="left"
           />
-          <Photo
+          <PolaroidPhoto
             src={IMAGES.cateringLechon}
             alt="Whole roasted lechon centerpiece"
-            aspect="1/1"
-            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+            caption="Centerpiece lechon"
+            tilt="right"
           />
-          <Photo
+          <PolaroidPhoto
             src={IMAGES.fiestaSpread}
             alt="Full fiesta spread"
-            aspect="1/1"
-            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            caption="Fiesta spread"
+            tilt="left"
           />
-          <Photo
+          <PolaroidPhoto
             src={IMAGES.foundersLechon}
             alt="Chedie and Mel with a whole lechon"
-            aspect="1/1"
-            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+            caption="On location"
+            tilt="right"
+            objectPosition="left center"
           />
         </div>
       </section>
@@ -290,7 +324,7 @@ function CateringPage() {
         {success ? (
           <div className="mt-10 rounded-2xl bg-secondary p-8 text-center">
             <CheckCircle2 className="mx-auto h-12 w-12 text-brand-green" />
-            <h3 className="mt-3 font-display text-2xl">Salamat!</h3>
+            <h3 className="mt-3 font-display text-2xl">Thank you!</h3>
             <p className="mt-2 text-muted-foreground">
               Our catering concierge will reach out within 24 hours.
             </p>

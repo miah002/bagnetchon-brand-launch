@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Photo } from "@/components/Photo";
+import { PolaroidPhoto } from "@/components/PolaroidPhoto";
 import { ChiliDivider } from "@/components/Ornaments";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
@@ -218,32 +219,33 @@ function Story() {
         </div>
       </section>
 
-      {/* ─── H. Family album (4-up grid) ───────────────────────────────── */}
+      {/* ─── H. Family album (scrapbook polaroids) ─────────────────────── */}
       <section className="reveal mx-auto max-w-7xl px-4 mt-16 pb-20 md:px-8">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Photo
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <PolaroidPhoto
             src={IMAGES.founders}
             alt="Chef Chedie and Mel Narcelles with the whole Bagnetchon family"
-            aspect="1/1"
-            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            caption="Buena Park, day one"
+            tilt="left"
           />
-          <Photo
+          <PolaroidPhoto
             src={IMAGES.foundersCouple}
             alt="Chedie and Mel Narcelles — founders of Bagnetchon"
-            aspect="1/1"
-            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+            caption="Partners in purpose"
+            tilt="right"
           />
-          <Photo
+          <PolaroidPhoto
             src={IMAGES.foundersLechon}
             alt="Chedie and Mel Narcelles with a whole lechon at a Bagnetchon event"
-            aspect="1/1"
-            rounded="rounded-tl-[2rem] rounded-br-[2rem]"
+            caption="First whole lechon"
+            tilt="left"
+            objectPosition="left center"
           />
-          <Photo
+          <PolaroidPhoto
             src={IMAGES.cateringCarving}
             alt="Live lechon carving at a Bagnetchon catering event"
-            aspect="1/1"
-            rounded="rounded-tr-[2rem] rounded-bl-[2rem]"
+            caption="On the line"
+            tilt="right"
           />
         </div>
       </section>
