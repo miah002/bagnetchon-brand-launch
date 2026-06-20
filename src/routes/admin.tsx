@@ -119,19 +119,21 @@ function Admin() {
   }
   if (unauthorized) {
     return (
-      <div className="mx-auto max-w-md px-4 py-20 text-center md:px-8">
-        <h1 className="font-display text-3xl">Unauthorized</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          This account does not have admin access.
-        </p>
-        <button
-          onClick={() => {
-            setUnauthorized(false);
-          }}
-          className="mt-6 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
-        >
-          Back to sign in
-        </button>
+      <div className="mx-auto max-w-md px-4 py-20 md:px-8">
+        <div className="bronze-frame parchment rounded-3xl p-8 text-center">
+          <h1 className="font-display text-3xl text-[var(--brand-charcoal)]">Unauthorized</h1>
+          <p className="mt-3 text-sm text-muted-foreground">
+            This account does not have admin access.
+          </p>
+          <button
+            onClick={() => {
+              setUnauthorized(false);
+            }}
+            className="btn-sheen pressable mt-6 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
+          >
+            Back to sign in
+          </button>
+        </div>
       </div>
     );
   }
@@ -156,14 +158,12 @@ function LoginCard() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-20 md:px-8">
-      <h1 className="font-display text-4xl">Admin sign in</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
-        Owner access only — public sign-ups are disabled.
-      </p>
-      <form
-        onSubmit={submit}
-        className="mt-6 space-y-3 rounded-2xl border border-border bg-card p-6 shadow-ambient"
-      >
+      <div className="bronze-frame parchment rounded-3xl p-6 md:p-8">
+        <h1 className="font-display text-4xl text-[var(--brand-charcoal)]">Admin sign in</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Owner access only — public sign-ups are disabled.
+        </p>
+        <form onSubmit={submit} className="mt-6 space-y-3">
         <div>
           <label htmlFor="email" className="text-sm font-medium">
             Email
@@ -174,7 +174,7 @@ function LoginCard() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-2.5"
+            className="mt-1 w-full rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[var(--brand-terracotta)]/50"
           />
         </div>
         <div>
@@ -187,7 +187,7 @@ function LoginCard() {
             required
             value={pw}
             onChange={(e) => setPw(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-input bg-background px-4 py-2.5"
+            className="mt-1 w-full rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[var(--brand-terracotta)]/50"
           />
         </div>
         {err && <p className="text-sm text-destructive">{err}</p>}
@@ -199,14 +199,15 @@ function LoginCard() {
           {busy && <Loader2 className="h-4 w-4 animate-spin" />}
           Sign in
         </button>
-      </form>
-      <div className="mt-6 rounded-xl bg-secondary p-4 text-xs text-muted-foreground">
-        <p className="font-semibold text-foreground">First time?</p>
-        <p className="mt-1">
-          Create your admin account from the backend dashboard: open{" "}
-          <strong>Cloud → Users → Add user</strong>, set an email + password, then sign in here.
-          Public sign-up is intentionally off so only the owner can reach this inbox.
-        </p>
+        </form>
+        <div className="mt-6 rounded-xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream)] p-4 text-xs text-muted-foreground">
+          <p className="font-semibold text-foreground">First time?</p>
+          <p className="mt-1">
+            Create your admin account from the backend dashboard: open{" "}
+            <strong>Cloud → Users → Add user</strong>, set an email + password, then sign in here.
+            Public sign-up is intentionally off so only the owner can reach this inbox.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -217,43 +218,47 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="font-display text-4xl">Inbox</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Signed in as {email}</p>
-        </div>
-        <button
-          onClick={onSignOut}
-          className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm hover:bg-muted"
-        >
-          <LogOut className="h-4 w-4" />
-          Sign out
-        </button>
-      </div>
-
-      <div
-        role="tablist"
-        className="mt-8 inline-flex gap-1 rounded-full border border-border bg-card p-1"
-      >
-        {(["inquiries", "orders", "subscribers"] as Tab[]).map((t) => (
+      <div className="bronze-frame parchment corner-socket relative overflow-hidden rounded-3xl p-5 md:p-8">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h1 className="font-display text-4xl text-[var(--brand-charcoal)]">Inbox</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Signed in as {email}</p>
+          </div>
           <button
-            key={t}
-            role="tab"
-            aria-selected={tab === t}
-            onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-2 text-sm font-medium capitalize ${
-              tab === t ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-            }`}
+            onClick={onSignOut}
+            className="wood-surface pressable inline-flex items-center gap-2 rounded-full border border-[var(--brand-gold)]/50 px-4 py-2 text-sm font-medium text-brand-cream"
           >
-            {t}
+            <LogOut className="h-4 w-4 text-[var(--brand-gold)]" />
+            Sign out
           </button>
-        ))}
-      </div>
+        </div>
 
-      <div className="mt-6">
-        {tab === "inquiries" && <InquiriesTab />}
-        {tab === "orders" && <OrdersTab />}
-        {tab === "subscribers" && <SubscribersTab />}
+        <div
+          role="tablist"
+          className="mt-8 inline-flex gap-1 rounded-full border border-[var(--brand-gold)]/40 bg-[var(--brand-cream)] p-1 shadow-[inset_0_1px_3px_rgba(120,80,40,0.18)]"
+        >
+          {(["inquiries", "orders", "subscribers"] as Tab[]).map((t) => (
+            <button
+              key={t}
+              role="tab"
+              aria-selected={tab === t}
+              onClick={() => setTab(t)}
+              className={`rounded-full px-4 py-2 text-sm font-medium capitalize transition-colors ${
+                tab === t
+                  ? "bg-[var(--brand-terracotta)] text-brand-cream shadow-[0_1px_4px_rgba(38,19,11,0.35)]"
+                  : "text-[var(--brand-charcoal)]/70 hover:bg-[var(--brand-gold)]/15"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6">
+          {tab === "inquiries" && <InquiriesTab />}
+          {tab === "orders" && <OrdersTab />}
+          {tab === "subscribers" && <SubscribersTab />}
+        </div>
       </div>
     </div>
   );
@@ -297,7 +302,7 @@ function InquiriesTab() {
         <select
           value={src}
           onChange={(e) => setSrc(e.target.value)}
-          className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+          className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
         >
           <option>All</option>
           {SOURCE_OPTIONS.map((s) => (
@@ -307,7 +312,7 @@ function InquiriesTab() {
         <select
           value={st}
           onChange={(e) => setSt(e.target.value)}
-          className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+          className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
         >
           <option>All</option>
           <option value="new">New</option>
@@ -336,9 +341,9 @@ function InquiriesTab() {
         />
       )}
 
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
+      <div className="mt-4 overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
         <table className="w-full text-left text-sm">
-          <thead className="bg-secondary text-xs uppercase tracking-wider">
+          <thead className="wood-surface text-xs uppercase tracking-wider text-brand-cream">
             <tr>
               <Th>Date</Th>
               <Th>Source</Th>
@@ -365,7 +370,7 @@ function InquiriesTab() {
               </tr>
             ) : (
               filtered.map((r) => (
-                <tr key={r.id} className="border-t border-border">
+                <tr key={r.id} className="border-t border-[var(--brand-gold)]/15 odd:bg-[var(--brand-cream)]/40">
                   <Td>{new Date(r.created_at).toLocaleString()}</Td>
                   <Td>{r.source}</Td>
                   <Td className="capitalize">{r.type}</Td>
@@ -390,7 +395,7 @@ function InquiriesTab() {
                       aria-label="Status"
                       value={r.status}
                       onChange={(e) => setStatus(r.id, e.target.value as Status)}
-                      className="rounded-full border border-border bg-background px-2 py-1 text-xs"
+                      className="rounded-full border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-2 py-1 text-xs"
                     >
                       <option value="new">New</option>
                       <option value="contacted">Contacted</option>
@@ -436,12 +441,12 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
   return (
     <form
       onSubmit={submit}
-      className="mt-4 grid gap-3 rounded-2xl border border-primary/30 bg-card p-4 shadow-ambient md:grid-cols-3"
+      className="mt-4 grid gap-3 rounded-2xl border border-[var(--brand-gold)]/40 bg-[var(--brand-cream)] p-4 shadow-ambient md:grid-cols-3"
     >
       <select
         value={f.source}
         onChange={(e) => setF({ ...f, source: e.target.value })}
-        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
       >
         {SOURCE_OPTIONS.map((s) => (
           <option key={s}>{s}</option>
@@ -450,7 +455,7 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
       <select
         value={f.type}
         onChange={(e) => setF({ ...f, type: e.target.value as "contact" | "catering" })}
-        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
       >
         <option value="contact">Contact</option>
         <option value="catering">Catering</option>
@@ -460,26 +465,26 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
         placeholder="Name"
         value={f.name}
         onChange={(e) => setF({ ...f, name: e.target.value })}
-        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
       />
       <input
         type="email"
         placeholder="Email (optional)"
         value={f.email}
         onChange={(e) => setF({ ...f, email: e.target.value })}
-        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
       />
       <input
         placeholder="Phone (optional)"
         value={f.phone}
         onChange={(e) => setF({ ...f, phone: e.target.value })}
-        className="rounded-lg border border-input bg-background px-3 py-2 text-sm"
+        className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm"
       />
       <textarea
         placeholder="Message / details"
         value={f.message}
         onChange={(e) => setF({ ...f, message: e.target.value })}
-        className="rounded-lg border border-input bg-background px-3 py-2 text-sm md:col-span-3"
+        className="rounded-lg border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-3 py-2 text-sm md:col-span-3"
         rows={3}
       />
       <div className="flex gap-2 md:col-span-3">
@@ -548,9 +553,9 @@ function OrdersTab() {
   };
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+    <div className="overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
       <table className="w-full text-left text-sm">
-        <thead className="bg-secondary text-xs uppercase tracking-wider">
+        <thead className="wood-surface text-xs uppercase tracking-wider text-brand-cream">
           <tr>
             <Th></Th>
             <Th>Date</Th>
@@ -580,15 +585,17 @@ function OrdersTab() {
               return (
                 <React.Fragment key={r.id}>
                   <tr
-                    className="cursor-pointer border-t border-border hover:bg-muted/40"
+                    className="cursor-pointer border-t border-[var(--brand-gold)]/15 odd:bg-[var(--brand-cream)]/40 hover:bg-[var(--brand-gold)]/10"
                     onClick={() => setExpandedId(expanded ? null : r.id)}
                   >
                     <Td>
-                      {expanded ? (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                      )}
+                      <span className="wood-surface inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--brand-gold)]/40">
+                        {expanded ? (
+                          <ChevronDown className="h-4 w-4 text-[var(--brand-gold)]" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4 text-[var(--brand-gold)]" />
+                        )}
+                      </span>
                     </Td>
                     <Td className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</Td>
                     <Td className="font-mono text-xs">{r.order_ref}</Td>
@@ -615,7 +622,7 @@ function OrdersTab() {
                     </Td>
                   </tr>
                   {expanded && (
-                    <tr key={`${r.id}-detail`} className="border-t border-border bg-secondary/40">
+                    <tr key={`${r.id}-detail`} className="border-t border-[var(--brand-gold)]/15 bg-[var(--brand-gold)]/8">
                       <td colSpan={7} className="px-6 py-4">
                         <div className="grid gap-4 md:grid-cols-2">
                           {/* Items */}
@@ -670,7 +677,7 @@ function OrdersTab() {
                                             saveDeliveryFee(r, Number(e.target.value))
                                           }
                                           onClick={(e) => e.stopPropagation()}
-                                          className="w-20 rounded border border-input bg-background px-2 py-0.5 text-right text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                                          className="w-20 rounded border border-[var(--brand-gold)]/40 bg-[var(--brand-cream-2)] px-2 py-0.5 text-right text-sm focus:outline-none focus:ring-1 focus:ring-[var(--brand-terracotta)]/50"
                                         />
                                       </div>
                                       <div className="text-xs text-muted-foreground">
@@ -682,7 +689,7 @@ function OrdersTab() {
                                     </dd>
                                   </div>
                                 )}
-                                <div className="flex justify-between border-t border-border pt-1 font-semibold">
+                                <div className="flex justify-between border-t border-[var(--brand-gold)]/15 pt-1 font-semibold">
                                   <dt>Total</dt>
                                   <dd>{formatPrice(Number(r.total))}</dd>
                                 </div>
@@ -730,9 +737,9 @@ function SubscribersTab() {
   }, []);
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+    <div className="overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
       <table className="w-full text-left text-sm">
-        <thead className="bg-secondary text-xs uppercase tracking-wider">
+        <thead className="wood-surface text-xs uppercase tracking-wider text-brand-cream">
           <tr>
             <Th>Date</Th>
             <Th>Email</Th>
@@ -754,7 +761,7 @@ function SubscribersTab() {
             </tr>
           ) : (
             rows.map((r) => (
-              <tr key={r.id} className="border-t border-border">
+              <tr key={r.id} className="border-t border-[var(--brand-gold)]/15">
                 <Td>{new Date(r.created_at).toLocaleString()}</Td>
                 <Td>{r.email}</Td>
                 <Td>{r.source}</Td>
