@@ -81,7 +81,7 @@ export function FloatingMessageButton() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close contact menu" : "Open contact menu"}
         aria-expanded={open}
-        className="btn-sheen group inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-warm transition-transform hover:scale-105"
+        className="btn-sheen medallion pressable group inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </button>
@@ -93,7 +93,7 @@ export function MessageUsHub() {
   return (
     <section
       aria-labelledby="message-us-heading"
-      className="bronze-frame wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
+      className="bronze-frame wood-rail wood-surface relative overflow-hidden rounded-3xl px-6 py-14 text-brand-cream md:px-12 md:py-20"
     >
       <CornerFlourish className="pointer-events-none absolute left-3 top-3 h-16 w-16 md:h-24 md:w-24 opacity-70" />
       <CornerFlourish className="pointer-events-none absolute bottom-3 right-3 h-16 w-16 md:h-24 md:w-24 rotate-180 opacity-70" />

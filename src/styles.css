@@ -273,6 +273,48 @@
   }
 }
 
+/* Bronze filigree rail — ornamental strip at top/bottom of framed wood panels.
+   isolation:isolate creates a stacking context so z-index:-1 sits above the
+   element's own bg but below all in-flow children and ornaments. */
+.wood-rail {
+  position: relative;
+  isolation: isolate;
+}
+.wood-rail::before,
+.wood-rail::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-image: url("/images/frame-rail.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.85;
+}
+.wood-rail::before {
+  top: 0;
+}
+.wood-rail::after {
+  bottom: 0;
+  transform: scaleY(-1);
+}
+
+/* Bronze medallion — concentric ring coin for floating FAB buttons */
+.medallion {
+  border: 2px solid var(--brand-gold);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 0 0 4px rgba(204, 165, 128, 0.22),
+    0 0 0 5px rgba(0, 0, 0, 0.38),
+    0 6px 28px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 240, 200, 0.22),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.45);
+}
+
 /* Photo fallback gradient */
 .photo-fallback {
   background:
