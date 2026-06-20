@@ -138,38 +138,45 @@
 
 /* ---------- Skeuomorphic heritage surfaces ---------- */
 
-/* Carved mahogany wood — nav, footer, feature panels. Text must be cream/bronze. */
+/* Carved mahogany wood — nav, footer, feature panels. Text must be cream/bronze.
+   Real photoreal damask texture under a darkening gradient so cream/gold text
+   keeps AA contrast over the carved relief. */
 .wood-surface {
   background-color: var(--brand-wood);
   background-image:
-    repeating-linear-gradient(
-      92deg,
-      rgba(0, 0, 0, 0.18) 0px,
-      rgba(0, 0, 0, 0) 2px,
-      rgba(255, 255, 255, 0.022) 3px,
-      rgba(0, 0, 0, 0) 6px
-    ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.4)),
-    linear-gradient(135deg, #402213 0%, #26130b 58%, #1a0d06 100%);
+    linear-gradient(180deg, rgba(26, 13, 7, 0.52) 0%, rgba(14, 7, 3, 0.66) 100%),
+    url("/images/texture-wood.jpg");
+  background-repeat: no-repeat, repeat;
+  background-size:
+    cover,
+    440px 440px;
   color: var(--brand-cream);
 }
 
-/* Parchment panel — cream content surface with soft inset + grain */
+/* Parchment panel — real woven canvas weave with soft inset + warm depth */
 .parchment {
   background-color: var(--brand-cream-2);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.045'/%3E%3C/svg%3E");
+  background-image:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.5), rgba(214, 192, 154, 0.14)),
+    url("/images/texture-parchment.jpg");
+  background-repeat: no-repeat, repeat;
+  background-size:
+    cover,
+    520px 520px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -3px 8px rgba(120, 80, 40, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -3px 10px rgba(120, 80, 40, 0.14);
 }
 
-/* Carved bronze frame — double edge with inset highlight (ornament-ready) */
+/* Carved bronze frame — thick metallic bevel with inset relief (ornament-ready) */
 .bronze-frame {
-  border: 2px solid var(--brand-gold);
+  border: 3px solid var(--brand-gold);
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(255, 240, 220, 0.18),
-    inset 0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 240, 220, 0.28),
+    inset 0 0 0 4px rgba(0, 0, 0, 0.32),
+    inset 0 3px 12px rgba(0, 0, 0, 0.5),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.4),
     var(--shadow-warm);
 }
 
