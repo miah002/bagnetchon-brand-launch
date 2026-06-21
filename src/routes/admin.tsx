@@ -219,37 +219,32 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-16">
-      <div className="relative">
-        {/* Brand tagline plaque — straddles the frame's top edge so it reads as
-            a nameplate fixed to the panel, not a floating pill. */}
-        <div className="absolute -top-3.5 left-5 z-20 -rotate-1 rounded-md border border-[var(--brand-gold)]/60 bg-[var(--brand-cream-2)] px-4 py-1.5 shadow-[0_7px_16px_-7px_rgba(38,19,11,0.55)] md:left-8">
-          <span className="font-display text-xs font-semibold tracking-wide text-[var(--brand-charcoal)] md:text-sm">
-            Premium Filipino-Asian roasted lechon
-          </span>
-        </div>
-        <div className="bronze-frame parchment relative overflow-hidden rounded-3xl p-5 pt-8 md:p-8 md:pt-10">
-          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-tl" />
-          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-tr" />
-          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-bl" />
-          <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-br" />
-          <div className="relative z-10">
-        <div className="flex flex-wrap items-end justify-between gap-3">
+      <div className="bronze-frame parchment relative overflow-hidden rounded-3xl p-6 md:p-9">
+        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-tl" />
+        <img src={IMAGES.ornamentCornerV2} alt="" aria-hidden="true" className="corner-art corner-art-soft corner-art-tr" />
+        <div className="relative z-10">
+        <header className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="font-display text-4xl text-[var(--brand-charcoal)]">Inbox</h1>
-            <p className="mt-1 text-sm text-muted-foreground">Signed in as {email}</p>
+            <p className="font-display text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[var(--brand-terracotta)]">
+              Premium Filipino-Asian Roasted Lechon
+            </p>
+            <h1 className="mt-1.5 font-display text-3xl leading-none text-[var(--brand-charcoal)] md:text-4xl">
+              Inbox
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">Signed in as {email}</p>
           </div>
           <button
             onClick={onSignOut}
-            className="wood-surface pressable inline-flex items-center gap-2 rounded-full border border-[var(--brand-gold)]/50 px-4 py-2 text-sm font-medium text-brand-cream"
+            className="wood-surface pressable mt-1 inline-flex items-center gap-2 rounded-full border border-[var(--brand-gold)]/50 px-4 py-2 text-sm font-medium text-brand-cream"
           >
             <LogOut className="h-4 w-4 text-[var(--brand-gold)]" />
             Sign out
           </button>
-        </div>
+        </header>
 
         <div
           role="tablist"
-          className="mt-8 inline-flex gap-1 rounded-full border border-[var(--brand-gold)]/40 bg-[var(--brand-cream)] p-1 shadow-[inset_0_1px_3px_rgba(120,80,40,0.18)]"
+          className="mt-7 inline-flex gap-1 rounded-full border border-[var(--brand-gold)]/40 bg-[var(--brand-cream)] p-1 shadow-[inset_0_1px_3px_rgba(120,80,40,0.18)]"
         >
           {(["inquiries", "orders", "subscribers"] as Tab[]).map((t) => (
             <button
@@ -274,7 +269,6 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
           {tab === "subscribers" && <SubscribersTab />}
         </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -359,7 +353,7 @@ function InquiriesTab() {
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
         <table className="w-full text-left text-sm">
-          <thead className="wood-surface text-xs uppercase tracking-wider text-brand-cream">
+          <thead className="ledger-head text-xs uppercase tracking-wider">
             <tr>
               <Th>Date</Th>
               <Th>Source</Th>
@@ -525,13 +519,15 @@ function ManualInquiryForm({ onClose, onSaved }: { onClose: () => void; onSaved:
 
 const ORDER_STATUSES: OrderStatus[] = ["pending", "confirmed", "ready", "completed", "cancelled"];
 
+// Heritage-toned status pills — warm, muted, distinct (text labels keep meaning
+// without relying on color alone).
 const STATUS_COLORS: Record<string, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  confirmed: "bg-blue-100 text-blue-800",
-  ready: "bg-purple-100 text-purple-800",
-  completed: "bg-green-100 text-green-800",
-  paid: "bg-green-100 text-green-800",
-  cancelled: "bg-red-100 text-red-800",
+  pending: "bg-[#f3e2c0] text-[#7a5418]", // amber
+  confirmed: "bg-[#e7d2bf] text-[#8c4a2a]", // clay
+  ready: "bg-[#ecdcc0] text-[#8a6a1f]", // muted gold
+  completed: "bg-[#dbe4cf] text-[#4a5c2a]", // sage
+  paid: "bg-[#dbe4cf] text-[#4a5c2a]", // sage
+  cancelled: "bg-[#eccfc9] text-[#8f2e22]", // brick
 };
 
 function OrdersTab() {
@@ -571,14 +567,14 @@ function OrdersTab() {
   return (
     <div className="overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
       <table className="w-full text-left text-sm">
-        <thead className="wood-surface text-xs uppercase tracking-wider text-brand-cream">
+        <thead className="ledger-head text-xs uppercase tracking-wider">
           <tr>
             <Th></Th>
             <Th>Date</Th>
             <Th>Ref</Th>
             <Th>Customer</Th>
             <Th>Fulfillment</Th>
-            <Th>Total</Th>
+            <Th className="text-right">Total</Th>
             <Th>Status</Th>
           </tr>
         </thead>
@@ -621,7 +617,7 @@ function OrdersTab() {
                       <div className="text-xs text-muted-foreground">{r.customer_phone}</div>
                     </Td>
                     <Td className="capitalize">{r.fulfillment ?? "delivery"}</Td>
-                    <Td className="font-semibold">{formatPrice(Number(r.total))}</Td>
+                    <Td className="text-right font-semibold tabular-nums">{formatPrice(Number(r.total))}</Td>
                     <Td onClick={(e) => e.stopPropagation()}>
                       <select
                         aria-label="Order status"
@@ -755,7 +751,7 @@ function SubscribersTab() {
   return (
     <div className="overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
       <table className="w-full text-left text-sm">
-        <thead className="wood-surface text-xs uppercase tracking-wider text-brand-cream">
+        <thead className="ledger-head text-xs uppercase tracking-wider">
           <tr>
             <Th>Date</Th>
             <Th>Email</Th>
@@ -790,8 +786,8 @@ function SubscribersTab() {
   );
 }
 
-function Th({ children }: { children?: React.ReactNode }) {
-  return <th className="px-4 py-3">{children}</th>;
+function Th({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
+  return <th className={`px-4 py-3 ${className}`}>{children}</th>;
 }
 function Td({
   children,
