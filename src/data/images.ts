@@ -33,7 +33,7 @@ export const IMAGES = {
   menuLechonClassic: "/images/menu-lechon-classic.jpg",
   menuLechonSpicy: "/images/menu-lechon-spicy.jpg",
   menuDinakdakan: "/images/menu-dinakdakan.jpg",
-  menuSisig: "/images/menu-sisig.jpg",
+  menuSisig: "/images/sisig-bagnet.jpg",
   menuWholePig: "/images/menu-whole-pig.jpg",
   menuDeLeche: "/images/menu-de-leche.jpg",
   menuCochinillo: "/images/menu-cochinillo.jpg",

@@ -1,6 +1,6 @@
 import React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Minus, Plus, Trash2, Check } from "lucide-react";
 import { Photo } from "@/components/Photo";
 import { ChiliMark } from "@/components/Ornaments";
@@ -46,6 +46,23 @@ function MenuPage() {
       })),
     [cat],
   );
+
+  // The scroll-reveal observer only scans at mount, so cards rendered after a
+  // filter change start at opacity:0 and never get observed. On filter change,
+  // reveal them immediately (skip the first run so the initial load still
+  // animates on scroll).
+  const firstRun = useRef(true);
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    const root = ref.current;
+    if (!root) return;
+    root
+      .querySelectorAll<HTMLElement>(".reveal:not(.in)")
+      .forEach((el) => el.classList.add("in"));
+  }, [cat, ref]);
 
   return (
     <div className="relative" ref={ref as React.RefObject<HTMLDivElement>}>
