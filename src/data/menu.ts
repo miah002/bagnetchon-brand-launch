@@ -5,31 +5,46 @@ export type MenuCategory = "Trays & Packs" | "Whole Roasts";
 export interface MenuItem {
   id: string;
   name: string;
-  price: number | null; // null = market price
+  price: number | null; // null = market/quote price
   priceLabel?: string;
   category: MenuCategory;
   image: string;
   description: string;
   badge?: string;
   requestQuote?: boolean;
+  // Grouping — variants of the same product share a `group`. `size` is the
+  // per-variant label shown as a pill; `serves` is an optional guest guide.
+  group: string;
+  groupName: string;
+  size: string;
+  serves?: string;
 }
 
-// Real Bagnetchon lineup. Priced trays are orderable; market-price items
-// (dinakdakan, whole roasts) route to a catering quote.
+// Real Bagnetchon lineup. Priced trays are orderable; weight-based roasts
+// show a price range and route to a catering quote. Each entry stays a flat
+// orderable unit (the cart resolves line ids against this list); the UI groups
+// them by `group` into one card per product with size pills.
 export const MENU: MenuItem[] = [
   // ---- Roasted Lechon — Classic (free Chef's sarsa) ----
   {
     id: "lechon-classic-pack",
+    group: "lechon-classic",
+    groupName: "Roasted Lechon — Classic",
+    size: "Pack",
     name: "Roasted Lechon (Classic) — Pack",
     price: 25,
     category: "Trays & Packs",
     image: IMAGES.menuLechonClassic,
     badge: "Bestseller",
     description:
-      "Slow-roasted Ilocano-style lechon, shatter-crisp skin. 38 oz pack with free 16 oz Chef's bagnet sarsa.",
+      "Slow-roasted Ilocano-style lechon, shatter-crisp skin. Free Chef's bagnet sarsa.",
   },
   {
     id: "lechon-classic-half",
+    group: "lechon-classic",
+    groupName: "Roasted Lechon — Classic",
+    size: "Half Tray",
+    serves: "Serves ~12",
     name: "Roasted Lechon (Classic) — Half Tray",
     price: 200,
     category: "Trays & Packs",
@@ -38,6 +53,10 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "lechon-classic-full",
+    group: "lechon-classic",
+    groupName: "Roasted Lechon — Classic",
+    size: "Full Tray",
+    serves: "Serves ~25",
     name: "Roasted Lechon (Classic) — Full Tray",
     price: 400,
     category: "Trays & Packs",
@@ -47,16 +66,22 @@ export const MENU: MenuItem[] = [
   // ---- Roasted Lechon — Spicy ----
   {
     id: "lechon-spicy-pack",
+    group: "lechon-spicy",
+    groupName: "Roasted Lechon — Spicy",
+    size: "Pack",
     name: "Roasted Lechon (Spicy) — Pack",
     price: 25,
     category: "Trays & Packs",
     image: IMAGES.menuLechonSpicy,
     badge: "Spicy",
-    description:
-      "Our slow-roasted lechon with house spicy sarsa. 38 oz pack with free 16 oz sarsa.",
+    description: "Our slow-roasted lechon with house spicy sarsa. Free sarsa.",
   },
   {
     id: "lechon-spicy-half",
+    group: "lechon-spicy",
+    groupName: "Roasted Lechon — Spicy",
+    size: "Half Tray",
+    serves: "Serves ~12",
     name: "Roasted Lechon (Spicy) — Half Tray",
     price: 200,
     category: "Trays & Packs",
@@ -66,6 +91,10 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "lechon-spicy-full",
+    group: "lechon-spicy",
+    groupName: "Roasted Lechon — Spicy",
+    size: "Full Tray",
+    serves: "Serves ~25",
     name: "Roasted Lechon (Spicy) — Full Tray",
     price: 400,
     category: "Trays & Packs",
@@ -73,18 +102,25 @@ export const MENU: MenuItem[] = [
     badge: "Spicy",
     description: "Full tray, serves ~25. Free 16 oz house spicy sarsa.",
   },
-  // ---- Sisig Maharlika (priced) ----
+  // ---- Sisig Maharlika ----
   {
     id: "sisig-pack",
+    group: "sisig",
+    groupName: "Sisig Maharlika",
+    size: "Pack",
     name: "Sisig Maharlika — Pack",
     price: 25,
     category: "Trays & Packs",
     image: IMAGES.menuSisig,
     badge: "Spicy",
-    description: "Sizzling chopped bagnet sisig, calamansi and chili. 38 oz pack.",
+    description: "Sizzling chopped bagnet sisig, calamansi and chili.",
   },
   {
     id: "sisig-half",
+    group: "sisig",
+    groupName: "Sisig Maharlika",
+    size: "Half Tray",
+    serves: "Serves ~12",
     name: "Sisig Maharlika — Half Tray",
     price: 150,
     category: "Trays & Packs",
@@ -94,6 +130,10 @@ export const MENU: MenuItem[] = [
   },
   {
     id: "sisig-full",
+    group: "sisig",
+    groupName: "Sisig Maharlika",
+    size: "Full Tray",
+    serves: "Serves ~25",
     name: "Sisig Maharlika — Full Tray",
     price: 300,
     category: "Trays & Packs",
@@ -101,9 +141,12 @@ export const MENU: MenuItem[] = [
     badge: "Spicy",
     description: "Full tray, serves ~25. Sizzling bagnet sisig with chili.",
   },
-  // ---- Specialty (market price) ----
+  // ---- Dinakdakan (market price) ----
   {
     id: "dinakdakan-de-manila",
+    group: "dinakdakan",
+    groupName: "Dinakdakan De Manila",
+    size: "Market Price",
     name: "Dinakdakan De Manila",
     price: null,
     priceLabel: "Market Price",
@@ -116,6 +159,10 @@ export const MENU: MenuItem[] = [
   // ---- Roasted Lechon Belly (by raw weight — price range, quote) ----
   {
     id: "belly-half",
+    group: "lechon-belly",
+    groupName: "Roasted Lechon Belly",
+    size: "Half",
+    serves: "8–12 lbs",
     name: "Roasted Lechon Belly — Half",
     price: null,
     priceLabel: "$120–170",
@@ -124,10 +171,14 @@ export const MENU: MenuItem[] = [
     badge: "Bestseller",
     requestQuote: true,
     description:
-      "Half belly, 8–12 lbs raw weight. Slow-roasted Ilocano-style, glass-crackling skin. Free Chef's bagnet sarsa.",
+      "Slow-roasted Ilocano-style belly roll, glass-crackling skin. Free Chef's bagnet sarsa. Priced by raw weight.",
   },
   {
     id: "belly-full",
+    group: "lechon-belly",
+    groupName: "Roasted Lechon Belly",
+    size: "Full",
+    serves: "13–22 lbs",
     name: "Roasted Lechon Belly — Full",
     price: null,
     priceLabel: "$190–320",
@@ -135,10 +186,14 @@ export const MENU: MenuItem[] = [
     image: IMAGES.menuBelly,
     requestQuote: true,
     description:
-      "Full belly, 13–22 lbs raw weight. Our signature roast, shatter-crisp crackling. Free Chef's bagnet sarsa.",
+      "Slow-roasted Ilocano-style belly roll, glass-crackling skin. Free Chef's bagnet sarsa. Priced by raw weight.",
   },
   {
     id: "belly-half-truffle",
+    group: "lechon-belly",
+    groupName: "Roasted Lechon Belly",
+    size: "Half + Truffles",
+    serves: "8–12 lbs",
     name: "Lechon Belly Truffles — Half",
     price: null,
     priceLabel: "$160–220",
@@ -147,10 +202,14 @@ export const MENU: MenuItem[] = [
     badge: "Truffle",
     requestQuote: true,
     description:
-      "Half belly, 8–12 lbs raw weight, finished with black truffle. Earthy, luxe upgrade on the classic.",
+      "Half belly finished with black truffle — an earthy, luxe upgrade on the classic. Priced by raw weight.",
   },
   {
     id: "belly-full-truffle",
+    group: "lechon-belly",
+    groupName: "Roasted Lechon Belly",
+    size: "Full + Truffles",
+    serves: "13–22 lbs",
     name: "Lechon Belly Truffles — Full",
     price: null,
     priceLabel: "$260–440",
@@ -159,11 +218,15 @@ export const MENU: MenuItem[] = [
     badge: "Truffle",
     requestQuote: true,
     description:
-      "Full belly, 13–22 lbs raw weight, finished with black truffle. The centerpiece for a premium feast.",
+      "Full belly finished with black truffle — the centerpiece for a premium feast. Priced by raw weight.",
   },
   // ---- Roasted Whole Lechon (by size — price range, guest count, quote) ----
   {
     id: "cochinillo",
+    group: "cochinillo",
+    groupName: "Roasted Cochinillo",
+    size: "15–21 lbs",
+    serves: "Serves 10–15",
     name: "Roasted Cochinillo",
     price: null,
     priceLabel: "$450",
@@ -171,10 +234,14 @@ export const MENU: MenuItem[] = [
     image: IMAGES.menuCochinillo,
     requestQuote: true,
     description:
-      "Spanish-style suckling cochinillo, 15–21 lbs. Delicate, paper-crisp skin. Serves 10–15 guests.",
+      "Spanish-style suckling cochinillo, paper-crisp skin. A delicate, elegant centerpiece.",
   },
   {
     id: "lechon-de-leche",
+    group: "lechon-de-leche",
+    groupName: "Lechon De Leche",
+    size: "30–40 lbs",
+    serves: "Serves 20–25",
     name: "Lechon De Leche",
     price: null,
     priceLabel: "$450–480",
@@ -182,10 +249,14 @@ export const MENU: MenuItem[] = [
     image: IMAGES.menuDeLeche,
     requestQuote: true,
     description:
-      "Milky-young suckling lechon, 30–40 lbs raw weight. Tender and rich. Serves 20–25 guests.",
+      "Milky-young suckling lechon, tender and rich. The traditional fiesta showpiece.",
   },
   {
     id: "whole-lechon-medium",
+    group: "whole-lechon",
+    groupName: "Whole Roasted Lechon",
+    size: "Medium",
+    serves: "50–60 guests",
     name: "Whole Lechon — Medium",
     price: null,
     priceLabel: "$500–550",
@@ -194,10 +265,14 @@ export const MENU: MenuItem[] = [
     badge: "Centerpiece",
     requestQuote: true,
     description:
-      "Traditional whole roasted pig, 51–59 lbs raw weight. On-site carving available. Serves 50–60 guests.",
+      "Traditional whole roasted pig, 51–59 lbs raw weight. On-site carving available.",
   },
   {
     id: "whole-lechon-large",
+    group: "whole-lechon",
+    groupName: "Whole Roasted Lechon",
+    size: "Large",
+    serves: "60–75 guests",
     name: "Whole Lechon — Large",
     price: null,
     priceLabel: "$550–600",
@@ -205,10 +280,14 @@ export const MENU: MenuItem[] = [
     image: IMAGES.menuLechonXL,
     requestQuote: true,
     description:
-      "Whole roasted pig, 60–74 lbs raw weight. On-site carving available. Serves 60–75 guests.",
+      "Whole roasted pig, 60–74 lbs raw weight. On-site carving available.",
   },
   {
     id: "whole-lechon-xl",
+    group: "whole-lechon",
+    groupName: "Whole Roasted Lechon",
+    size: "Extra Large",
+    serves: "75–95 guests",
     name: "Whole Lechon — Extra Large",
     price: null,
     priceLabel: "$600–650",
@@ -216,8 +295,46 @@ export const MENU: MenuItem[] = [
     image: IMAGES.menuLechonXL,
     requestQuote: true,
     description:
-      "Whole roasted pig, 75–85 lbs raw weight. The grand centerpiece. Serves 75–95 guests. 7-day lead time.",
+      "Whole roasted pig, 75–85 lbs raw weight. The grand centerpiece. 7-day lead time.",
   },
 ];
 
 export const CATEGORIES: ("All" | MenuCategory)[] = ["All", "Trays & Packs", "Whole Roasts"];
+
+// ---- Derived grouping: one card per product, variants as size options ----
+export interface MenuGroup {
+  group: string;
+  groupName: string;
+  category: MenuCategory;
+  image: string;
+  badge?: string;
+  description: string;
+  requestQuote: boolean;
+  variants: MenuItem[];
+}
+
+export function buildMenuGroups(items: MenuItem[] = MENU): MenuGroup[] {
+  const order: string[] = [];
+  const map = new Map<string, MenuGroup>();
+  for (const item of items) {
+    let g = map.get(item.group);
+    if (!g) {
+      g = {
+        group: item.group,
+        groupName: item.groupName,
+        category: item.category,
+        image: item.image,
+        badge: item.badge,
+        description: item.description,
+        requestQuote: !!item.requestQuote,
+        variants: [],
+      };
+      map.set(item.group, g);
+      order.push(item.group);
+    }
+    g.variants.push(item);
+  }
+  return order.map((k) => map.get(k)!);
+}
+
+export const MENU_GROUPS: MenuGroup[] = buildMenuGroups();

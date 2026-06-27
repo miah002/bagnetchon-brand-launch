@@ -1,32 +1,49 @@
 import React from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2, Check } from "lucide-react";
 import { Photo } from "@/components/Photo";
+import { ChiliMark } from "@/components/Ornaments";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
-import { MENU, CATEGORIES, type MenuCategory } from "@/data/menu";
+import {
+  MENU_GROUPS,
+  CATEGORIES,
+  type MenuCategory,
+  type MenuGroup,
+} from "@/data/menu";
 import { useCart, formatPrice } from "@/context/CartContext";
 import { pageMeta } from "@/lib/seo";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/menu")({
   head: () =>
     pageMeta({
       title: "Menu",
       description:
-        "Order Bagnetchon online — Original Bagnet, Lechon Belly, Sisig Bagnet, Kare-Kare, Fiesta Platters and more. Delivery across Southern California.",
+        "Order Bagnetchon online — Roasted Lechon Belly, whole lechon, cochinillo, sisig and more. Delivery and catering across Southern California.",
       path: "/menu",
     }),
   component: MenuPage,
 });
+
+const SECTION_ORDER: MenuCategory[] = ["Trays & Packs", "Whole Roasts"];
+const SECTION_BLURB: Record<MenuCategory, string> = {
+  "Trays & Packs": "Order online for pickup or delivery — packs and trays for any table.",
+  "Whole Roasts": "Our showpiece roasts, priced by weight. Tap a size, then request a quote.",
+};
 
 function MenuPage() {
   const ref = useScrollReveal();
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("All");
   const cart = useCart();
 
-  const items = useMemo(
-    () => (cat === "All" ? MENU : MENU.filter((m) => m.category === (cat as MenuCategory))),
+  const sections = useMemo(
+    () =>
+      SECTION_ORDER.filter((c) => cat === "All" || cat === c).map((c) => ({
+        category: c,
+        groups: MENU_GROUPS.filter((g) => g.category === c),
+      })),
     [cat],
   );
 
@@ -59,81 +76,59 @@ function MenuPage() {
                   type="button"
                   aria-pressed={cat === c}
                   onClick={() => setCat(c)}
-                  className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
+                  className={cn(
+                    "shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200",
                     cat === c
                       ? "bg-brand-terracotta text-brand-cream"
-                      : "text-foreground/70 hover:bg-muted"
-                  }`}
+                      : "text-foreground/70 hover:bg-muted",
+                  )}
                 >
                   {c}
                 </button>
               ))}
             </div>
-            {/* Edge fade hints more categories scroll horizontally (mobile only) */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-background to-transparent md:hidden"
             />
           </div>
 
-          <ul className="mt-6 grid gap-5 sm:grid-cols-2">
-            {items.map((item, i) => (
-              <li
-                key={item.id}
-                className="flex flex-col overflow-hidden rounded-2xl bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1 hover:shadow-warm"
-              >
-                <div className="relative">
-                  <Photo
-                    src={item.image}
-                    alt={item.name}
-                    aspect="4/3"
-                    rounded={
-                      i % 2 === 0
-                        ? "rounded-none rounded-tl-[2rem] rounded-br-[2rem]"
-                        : "rounded-none rounded-tr-[2rem] rounded-bl-[2rem]"
-                    }
-                  />
-                  {item.badge && (
-                    <span className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground">
-                      {item.badge}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <h2 className="font-display text-xl">{item.name}</h2>
-                    <span className="shrink-0 font-display text-lg font-semibold text-primary">
-                      {item.price == null
-                        ? (item.priceLabel ?? "Market Price")
-                        : formatPrice(item.price)}
-                    </span>
+          <div className="mt-8 space-y-14">
+            {sections.map(({ category, groups }) => (
+              <section key={category} aria-labelledby={`sec-${category}`}>
+                {/* Editorial section header */}
+                <div className="reveal flex items-end justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 text-primary">
+                      <ChiliMark className="h-5 w-auto" />
+                      <span className="font-display text-xs uppercase tracking-[0.3em]">
+                        {groups.length} {groups.length === 1 ? "selection" : "selections"}
+                      </span>
+                    </div>
+                    <h2
+                      id={`sec-${category}`}
+                      className="mt-1.5 font-display text-2xl md:text-3xl"
+                    >
+                      {category}
+                    </h2>
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                      {item.category}
-                    </span>
-                    {item.requestQuote ? (
-                      <Link
-                        to="/catering"
-                        className="rounded-full border-2 border-foreground px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-foreground hover:text-background"
-                      >
-                        Request Quote
-                      </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => cart.add(item.id)}
-                        className="btn-sheen rounded-full bg-primary px-4 py-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground"
-                      >
-                        Add to cart
-                      </button>
-                    )}
-                  </div>
+                  <p className="hidden max-w-xs text-right text-sm text-muted-foreground sm:block">
+                    {SECTION_BLURB[category]}
+                  </p>
                 </div>
-              </li>
+                <div
+                  aria-hidden="true"
+                  className="reveal mt-4 h-px w-full bg-gradient-to-r from-[var(--brand-gold)]/50 via-[var(--brand-gold)]/20 to-transparent"
+                />
+
+                <ul className="mt-6 grid gap-5 sm:grid-cols-2">
+                  {groups.map((group, i) => (
+                    <MenuCard key={group.group} group={group} index={i} onAdd={cart.add} />
+                  ))}
+                </ul>
+              </section>
             ))}
-          </ul>
+          </div>
         </div>
 
         {/* Sidebar: cart */}
@@ -192,15 +187,15 @@ function MenuPage() {
                 <dl className="mt-4 space-y-1 border-t border-border pt-4 text-sm">
                   <div className="flex justify-between">
                     <dt>Subtotal</dt>
-                    <dd>{formatPrice(cart.subtotal)}</dd>
+                    <dd className="tabular-nums">{formatPrice(cart.subtotal)}</dd>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
                     <dt>Tax (7.75%)</dt>
-                    <dd>{formatPrice(cart.tax)}</dd>
+                    <dd className="tabular-nums">{formatPrice(cart.tax)}</dd>
                   </div>
                   <div className="flex justify-between font-display text-lg font-semibold">
                     <dt>Total</dt>
-                    <dd>{formatPrice(cart.total(0))}</dd>
+                    <dd className="tabular-nums">{formatPrice(cart.total(0))}</dd>
                   </div>
                 </dl>
                 <Link
@@ -215,5 +210,124 @@ function MenuPage() {
         </aside>
       </div>
     </div>
+  );
+}
+
+/** One premium card per product. Size variants select the underlying orderable
+ *  unit; price + serves update with the selection. */
+function MenuCard({
+  group,
+  index,
+  onAdd,
+}: {
+  group: MenuGroup;
+  index: number;
+  onAdd: (id: string, qty?: number) => void;
+}) {
+  const [sel, setSel] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
+  const v = group.variants[sel];
+  const multi = group.variants.length > 1;
+  const priceText = v.price == null ? (v.priceLabel ?? "Market Price") : formatPrice(v.price);
+
+  const handleAdd = () => {
+    onAdd(v.id);
+    setJustAdded(true);
+    window.setTimeout(() => setJustAdded(false), 1200);
+  };
+
+  return (
+    <li
+      className="reveal group/card flex flex-col overflow-hidden rounded-2xl border border-[var(--brand-gold)]/20 bg-card shadow-ambient transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--brand-gold)]/45 hover:shadow-warm"
+      style={{ transitionDelay: `${index * 70}ms` }}
+    >
+      <div className="relative">
+        <Photo
+          src={v.image}
+          alt={group.groupName}
+          aspect="4/3"
+          rounded={
+            index % 2 === 0
+              ? "rounded-none rounded-tl-[2rem] rounded-br-[2rem]"
+              : "rounded-none rounded-tr-[2rem] rounded-bl-[2rem]"
+          }
+        />
+        {group.badge && (
+          <span className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-sm">
+            {group.badge}
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col p-5 md:p-6">
+        <h3 className="font-display text-xl leading-tight">
+          <span className="relative inline-block">
+            {group.groupName}
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-[var(--brand-gold)] transition-transform duration-300 group-hover/card:scale-x-100"
+            />
+          </span>
+        </h3>
+        <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{group.description}</p>
+
+        {multi && (
+          <div className="mt-4 flex flex-wrap gap-1.5" role="group" aria-label="Choose a size">
+            {group.variants.map((vr, i) => (
+              <button
+                key={vr.id}
+                type="button"
+                aria-pressed={i === sel}
+                onClick={() => setSel(i)}
+                className={cn(
+                  "rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-200",
+                  i === sel
+                    ? "border-transparent bg-[var(--brand-terracotta)] text-brand-cream"
+                    : "border-[var(--brand-gold)]/30 text-foreground/70 hover:border-[var(--brand-gold)]/60 hover:text-foreground",
+                )}
+              >
+                {vr.size}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-auto flex items-end justify-between gap-3 border-t border-[var(--brand-gold)]/15 pt-5">
+          <div>
+            <span className="font-display text-2xl font-semibold tabular-nums text-primary">
+              {priceText}
+            </span>
+            {v.serves && (
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">{v.serves}</p>
+            )}
+          </div>
+          {group.requestQuote ? (
+            <Link
+              to="/catering"
+              className="rounded-full border-2 border-foreground px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors duration-200 hover:bg-foreground hover:text-background"
+            >
+              Request Quote
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAdd}
+              className={cn(
+                "btn-sheen inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider text-primary-foreground transition-colors duration-200",
+                justAdded ? "bg-brand-green" : "bg-primary",
+              )}
+            >
+              {justAdded ? (
+                <>
+                  <Check className="h-3.5 w-3.5" /> Added
+                </>
+              ) : (
+                "Add to cart"
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+    </li>
   );
 }
