@@ -32,6 +32,9 @@ export const IMAGES = {
   menuCochinillo: "/images/menu-cochinillo.jpg",
   menuBelly: "/images/menu-belly.jpg",
   menuBellyHalf: "/images/menu-belly-half.jpg",
+  menuBellyHero: "/images/menu-belly-hero.jpg",
+  menuLechonXL: "/images/menu-lechon-xl.jpg",
+  menuSarsa: "/images/menu-sarsa.jpg",
   // Ornaments (transparent PNG art)
   ornamentCorner: "/images/ornament-corner.png",
   ornamentCornerChili: "/images/ornament-corner-chili.png",
