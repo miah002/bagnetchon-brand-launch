@@ -38,7 +38,7 @@ function Story() {
             <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
               Our Story
             </p>
-            <h1 className="crackle-text mt-3 font-display text-5xl md:text-6xl leading-[1.05]">
+            <h1 className="mt-3 font-display text-5xl md:text-6xl leading-[1.05]">
               The Journey of Bagnetchon.
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">

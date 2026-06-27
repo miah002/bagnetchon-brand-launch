@@ -73,7 +73,7 @@ function MenuPage() {
       />
       <header className="reveal mx-auto max-w-7xl px-4 pt-12 md:px-8 md:pt-20">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Order Online</p>
-        <h1 className="crackle-text mt-2 font-display text-4xl md:text-6xl">The full crackle menu.</h1>
+        <h1 className="mt-2 font-display text-4xl md:text-6xl">The full crackle menu.</h1>
         <p className="mt-3 max-w-xl text-muted-foreground">
           Add what you crave. We confirm pickup or delivery at checkout.
         </p>

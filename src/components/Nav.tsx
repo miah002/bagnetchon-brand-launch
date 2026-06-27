@@ -81,7 +81,7 @@ export function Nav() {
             />
           ) : (
             <span className="embossed font-display text-2xl font-bold tracking-tight text-brand-cream">
-              <span className="crackle-text">BAGNET</span><span className="text-brand-red">CHON</span>
+              BAGNET<span className="text-brand-red">CHON</span>
             </span>
           )}
         </Link>

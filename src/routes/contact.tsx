@@ -58,7 +58,7 @@ function Contact() {
         <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
           Contact
         </p>
-        <h1 className="crackle-text mt-3 font-display text-5xl md:text-6xl">
+        <h1 className="mt-3 font-display text-5xl md:text-6xl">
           Hungry? Curious? Catering?
         </h1>
         <p className="mt-4 text-muted-foreground">
