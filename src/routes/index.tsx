@@ -56,9 +56,11 @@ function Home() {
               From the hills of Ilocos to the heart of California
             </p>
             <h1 className="mt-5 font-display text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
-              Crispy.
-              <br />
-              Crackling.
+              <span className="crackle-text">
+                Crispy.
+                <br />
+                Crackling.
+              </span>
               <br />
               <span className="text-brand-red">Criminally Good.</span>
             </h1>
@@ -77,7 +79,7 @@ function Home() {
                 to="/menu"
                 className="btn-sheen inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3.5 font-semibold text-primary-foreground shadow-warm"
               >
-                Order Now <ArrowRight className="h-4 w-4" />
+                <span className="crackle-text">Order Now</span> <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/catering"
@@ -238,7 +240,7 @@ function Home() {
           />
           <div className="relative z-10 flex flex-col justify-center p-8 md:p-12">
             <p className="font-display text-sm uppercase tracking-[0.3em] text-accent">Catering</p>
-            <h2 className="embossed mt-3 font-display text-4xl md:text-5xl">
+            <h2 className="crackle-text embossed mt-3 font-display text-4xl md:text-5xl">
               Feed your fiesta — 10 to 500 guests.
             </h2>
             <p className="mt-4 text-brand-cream/80">
@@ -336,7 +338,7 @@ function Home() {
           <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">
             Where we crackle
           </p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">
+          <h2 className="crackle-text mt-2 font-display text-3xl md:text-5xl">
             Southern California, end to end.
           </h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -360,7 +362,7 @@ function Home() {
       {/* NEWSLETTER */}
       <section className="mx-auto max-w-3xl px-4 py-16 text-center md:px-8">
         <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Lechon Drops</p>
-        <h2 className="mt-2 font-display text-3xl md:text-4xl">
+        <h2 className="crackle-text mt-2 font-display text-3xl md:text-4xl">
           New batches, weekend menus, fiesta deals.
         </h2>
         <form

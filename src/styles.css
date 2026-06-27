@@ -66,6 +66,7 @@
   --brand-wood: #26130b; /* Deep Espresso wood — outer chrome */
   --brand-wood-2: #402213; /* Roasted Walnut — panel headers/grain */
   --brand-cream-2: #fffdf9; /* Warm Off-White — cards/rows */
+  --crackle-glint: #f3d79a; /* bright warm gold — the moving glint in .crackle-text */
 
   /* Semantic mapping — parchment base, lechon-red primary, bronze accent */
   --background: var(--brand-cream);
@@ -254,6 +255,41 @@
   line-height: 1;
 }
 
+/* Gilded shimmer "crackle" — a warm gold glint sweeps across text like light
+   catching glossy crackling lechon skin. The base glyphs keep their inherited
+   color (currentColor); only a moving gold band is added, clipped to the text.
+   Reusable on any cream/charcoal heading. NOTE: background-clip:text clips ALL
+   backgrounds, so never put this on an element with its own background (e.g. a
+   filled button) — wrap that element's label in a <span class="crackle-text">. */
+.crackle-text {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 38%,
+    var(--crackle-glint) 50%,
+    currentColor 62%,
+    currentColor 100%
+  );
+  /* 200% size + positions kept within 0–100% guarantees the gradient always
+     fully covers the glyphs, so text is never left transparent/invisible. */
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: crackle-sweep 7s ease-in-out infinite;
+}
+@keyframes crackle-sweep {
+  0% {
+    background-position: 100% 0;
+  }
+  55%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+
 /* Respect reduced-motion: neutralize scroll reveal, smooth scroll, sheen, press */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -270,6 +306,11 @@
   .btn-sheen,
   .pressable {
     transition: none;
+  }
+  .crackle-text {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: currentColor;
   }
 }
 

@@ -142,7 +142,7 @@ function CateringPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div className="reveal">
             <p className="font-display text-sm uppercase tracking-[0.3em] text-primary">Catering</p>
-            <h1 className="mt-3 font-display text-5xl md:text-7xl leading-tight">
+            <h1 className="crackle-text mt-3 font-display text-5xl md:text-7xl leading-tight">
               Feed Your Fiesta.
             </h1>
             <p className="mt-5 max-w-lg text-lg text-muted-foreground">
