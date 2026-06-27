@@ -144,7 +144,7 @@
 .wood-surface {
   background-color: var(--brand-wood);
   background-image:
-    linear-gradient(180deg, rgba(26, 13, 7, 0.58) 0%, rgba(14, 7, 3, 0.72) 100%),
+    linear-gradient(180deg, rgba(26, 13, 7, 0.30) 0%, rgba(14, 7, 3, 0.44) 100%),
     url("/images/texture-wood.jpg");
   background-repeat: no-repeat, repeat;
   background-size:
