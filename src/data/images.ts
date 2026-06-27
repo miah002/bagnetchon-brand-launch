@@ -22,6 +22,13 @@ export const IMAGES = {
   foundersLechon: "/images/founders-lechon.jpg",
   cateringLechon: "/images/catering-lechon.jpg",
   cateringCarving: "/images/catering-carving.jpg",
+  // Real catering event photos (client-supplied)
+  cateringHero: "/images/catering-hero.jpg",
+  cateringWedding: "/images/catering-wedding.jpg",
+  cateringCrowd: "/images/catering-crowd.jpg",
+  cateringCenterpiece: "/images/catering-centerpiece.jpg",
+  cateringService: "/images/catering-service.jpg",
+  cateringCouple: "/images/catering-couple.jpg",
   // Real dish photos (cropped from product sheets)
   menuLechonClassic: "/images/menu-lechon-classic.jpg",
   menuLechonSpicy: "/images/menu-lechon-spicy.jpg",

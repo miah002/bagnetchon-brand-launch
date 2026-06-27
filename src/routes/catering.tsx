@@ -171,7 +171,7 @@ function CateringPage() {
           </div>
           <div className="reveal">
             <Photo
-              src={IMAGES.cateringLechon}
+              src={IMAGES.cateringHero}
               alt="Chef Chedie with a whole roasted lechon at a catered event"
               aspect="4/5"
               rounded="rounded-tl-[3rem] rounded-br-[3rem]"
@@ -186,7 +186,7 @@ function CateringPage() {
       <section className="mx-auto max-w-5xl px-4 md:px-8">
         <div className="reveal grid items-center gap-6 md:grid-cols-2">
           <Photo
-            src={IMAGES.cateringCarving}
+            src={IMAGES.cateringWedding}
             alt="Live lechon carving station at a wedding reception"
             aspect="4/3"
             rounded="rounded-tl-[2rem] rounded-br-[2rem]"
@@ -283,29 +283,28 @@ function CateringPage() {
       <section className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           <PolaroidPhoto
-            src={IMAGES.cateringCarving}
-            alt="Live lechon carving at a wedding"
+            src={IMAGES.cateringCrowd}
+            alt="Live lechon carving station with guests gathered"
             caption="Live carving station"
             tilt="left"
           />
           <PolaroidPhoto
-            src={IMAGES.cateringLechon}
-            alt="Whole roasted lechon centerpiece"
+            src={IMAGES.cateringCenterpiece}
+            alt="Whole roasted lechon centerpiece at a celebration"
             caption="Centerpiece lechon"
             tilt="right"
           />
           <PolaroidPhoto
-            src={IMAGES.fiestaSpread}
-            alt="Full fiesta spread"
+            src={IMAGES.cateringService}
+            alt="Guests serving lechon with Chef's sarsa"
             caption="Fiesta spread"
             tilt="left"
           />
           <PolaroidPhoto
-            src={IMAGES.foundersLechon}
-            alt="Chedie and Mel with a whole lechon"
+            src={IMAGES.cateringCouple}
+            alt="Chef Chedie and Mel on location at an event"
             caption="On location"
             tilt="right"
-            objectPosition="left center"
           />
         </div>
       </section>
