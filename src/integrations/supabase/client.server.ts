@@ -6,7 +6,10 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
 function createSupabaseAdminClient() {
-  const SUPABASE_URL = process.env.SUPABASE_URL;
+  // The project URL is not a secret (it ships in the client bundle), so fall
+  // back to VITE_SUPABASE_URL when the unprefixed SUPABASE_URL isn't set. The
+  // service-role KEY must stay unprefixed (server-only secret, never VITE_).
+  const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
