@@ -1,15 +1,10 @@
-import { supabase } from "@/integrations/supabase/client";
+import { subscribeEmailFn } from "./api/subscribers.functions";
 
 /**
- * Subscribes an email to the newsletter list.
- * Duplicate emails (unique violation, code 23505) are silently ignored.
+ * Subscribes an email to the newsletter via the server-authoritative
+ * `subscribeEmailFn` server function (validation + rate-limiting on the server).
+ * Duplicate emails are silently ignored server-side.
  */
-export async function subscribeEmail(email: string, source = "Website"): Promise<void> {
-  const { error } = await supabase
-    .from("subscribers")
-    .insert({ email: email.trim().toLowerCase(), source });
-
-  if (error && error.code !== "23505") {
-    throw new Error(error.message);
-  }
+export async function subscribeEmail(email: string, source = "Website", hp = ""): Promise<void> {
+  await subscribeEmailFn({ data: { email, source, hp } });
 }

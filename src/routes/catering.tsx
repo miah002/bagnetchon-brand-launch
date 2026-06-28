@@ -8,6 +8,7 @@ import { BaybayinWatermark } from "@/components/BaybayinWatermark";
 import { MessageUsHub } from "@/components/MessageUsHub";
 import { IMAGES } from "@/data/images";
 import { submitInquiry } from "@/lib/inquiries";
+import { Honeypot } from "@/components/Honeypot";
 import { detectSource, SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
 
@@ -79,6 +80,7 @@ function CateringPage() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [hp, setHp] = useState("");
 
   useEffect(() => {
     setF((p) => ({ ...p, source: detectSource() }));
@@ -111,18 +113,21 @@ function CateringPage() {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      await submitInquiry({
-        type: "catering",
-        name: f.name,
-        email: f.email,
-        phone: f.phone,
-        eventDate: f.date,
-        guestCount: Number(f.guests),
-        location: f.location,
-        package: f.package || undefined,
-        notes: f.notes || undefined,
-        source: f.source,
-      });
+      await submitInquiry(
+        {
+          type: "catering",
+          name: f.name,
+          email: f.email,
+          phone: f.phone,
+          eventDate: f.date,
+          guestCount: Number(f.guests),
+          location: f.location,
+          package: f.package || undefined,
+          notes: f.notes || undefined,
+          source: f.source,
+        },
+        hp,
+      );
       setSuccess(true);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Could not submit. Please try again.");
@@ -334,6 +339,7 @@ function CateringPage() {
             noValidate
             className="mt-8 grid gap-5 rounded-2xl border border-border bg-card p-6 shadow-ambient md:p-8"
           >
+            <Honeypot value={hp} onChange={setHp} />
             <div className="grid gap-5 sm:grid-cols-2">
               <CField
                 label="Full Name"

@@ -8,6 +8,11 @@ import { pageMeta } from "@/lib/seo";
 import { formatPrice } from "@/context/CartContext";
 import { DELIVERY_TIERS } from "@/config/delivery";
 import { IMAGES } from "@/data/images";
+import {
+  setInquiryStatus,
+  setOrderStatus,
+  updateOrderDelivery,
+} from "@/lib/api/admin.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () =>
@@ -303,7 +308,7 @@ function InquiriesTab() {
 
   const setStatus = async (id: string, status: Status) => {
     setRows((p) => p.map((r) => (r.id === id ? { ...r, status } : r)));
-    await supabase.from("inquiries").update({ status }).eq("id", id);
+    await setInquiryStatus({ data: { id, status } });
   };
 
   return (
@@ -548,20 +553,22 @@ function OrdersTab() {
 
   const setStatus = async (id: string, status: OrderStatus) => {
     setRows((p) => p.map((r) => (r.id === id ? { ...r, status } : r)));
-    await supabase.from("orders").update({ status }).eq("id", id);
+    await setOrderStatus({ data: { id, status } });
   };
 
   const saveDeliveryFee = async (r: Order, fee: number) => {
-    const newTotal = Number(r.subtotal) + Number(r.tax) + fee;
+    // Optimistic UI; the server recomputes total authoritatively from the
+    // stored subtotal+tax and returns the canonical value to reconcile with.
+    const optimistic = Number(r.subtotal) + Number(r.tax) + fee;
     setRows((p) =>
       p.map((row) =>
-        row.id === r.id ? { ...row, delivery_fee: fee, total: newTotal } : row,
+        row.id === r.id ? { ...row, delivery_fee: fee, total: optimistic } : row,
       ),
     );
-    await supabase
-      .from("orders")
-      .update({ delivery_fee: fee, total: newTotal })
-      .eq("id", r.id);
+    const { total } = await updateOrderDelivery({ data: { id: r.id, deliveryFee: fee } });
+    setRows((p) =>
+      p.map((row) => (row.id === r.id ? { ...row, delivery_fee: fee, total } : row)),
+    );
   };
 
   return (

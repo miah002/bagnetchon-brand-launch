@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Phone, Mail, MapPin, Clock, CheckCircle2, Loader2 } from "lucide-react";
 import { MessageUsHub } from "@/components/MessageUsHub";
 import { BaybayinWatermark } from "@/components/BaybayinWatermark";
+import { Honeypot } from "@/components/Honeypot";
 import { pageMeta } from "@/lib/seo";
 import { submitInquiry } from "@/lib/inquiries";
 import { detectSource } from "@/lib/source";
@@ -27,6 +28,7 @@ function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hp, setHp] = useState("");
 
   const valid = name.trim() && /\S+@\S+\.\S+/.test(email) && message.trim();
 
@@ -36,13 +38,16 @@ function Contact() {
     setSubmitting(true);
     setError(null);
     try {
-      await submitInquiry({
-        type: "contact",
-        name,
-        email,
-        notes: message,
-        source: detectSource(),
-      });
+      await submitInquiry(
+        {
+          type: "contact",
+          name,
+          email,
+          notes: message,
+          source: detectSource(),
+        },
+        hp,
+      );
       setSuccess(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not send. Please try again.");
@@ -102,6 +107,7 @@ function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <Honeypot value={hp} onChange={setHp} />
               <div>
                 <label htmlFor="contact-name" className="text-sm font-medium">
                   Name <span className="text-primary">*</span>

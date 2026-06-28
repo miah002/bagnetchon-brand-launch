@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Loader2, Truck, Store } from "lucide-react";
 import { useCart, formatPrice } from "@/context/CartContext";
 import { createOrder } from "@/lib/orders";
+import { Honeypot } from "@/components/Honeypot";
 import { detectSource, SOURCE_OPTIONS } from "@/lib/source";
 import { pageMeta } from "@/lib/seo";
 
@@ -42,6 +43,7 @@ function Checkout() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [success, setSuccess] = useState<{ ref: string } | null>(null);
+  const [hp, setHp] = useState("");
 
   useEffect(() => {
     setF((p) => ({ ...p, source: detectSource() }));
@@ -106,7 +108,7 @@ function Checkout() {
         deliveryMiles: null,
         total,
         source: f.source,
-      });
+      }, hp);
       cart.clear();
       setSuccess({ ref: order.ref });
     } catch (err) {
@@ -167,6 +169,7 @@ function Checkout() {
       </Link>
       <h1 className="mt-4 font-display text-4xl md:text-5xl">Checkout</h1>
       <form onSubmit={handleSubmit} className="mt-8 grid gap-8 md:grid-cols-[1fr_360px]">
+        <Honeypot value={hp} onChange={setHp} />
         <div className="space-y-8">
           <Section title="Fulfillment">
             <div role="radiogroup" aria-label="Order fulfillment" className="flex gap-3">

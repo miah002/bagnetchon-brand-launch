@@ -369,9 +369,10 @@ function Home() {
             e.preventDefault();
             const fd = new FormData(e.currentTarget);
             const email = String(fd.get("email") ?? "");
+            const hp = String(fd.get("company") ?? "");
             setSubError(false);
             try {
-              await subscribeEmail(email, detectSource());
+              await subscribeEmail(email, detectSource(), hp);
               setSubbed(true);
             } catch {
               setSubError(true);
@@ -381,6 +382,15 @@ function Home() {
           <label htmlFor="newsletter" className="sr-only">
             Email
           </label>
+          {/* Honeypot: hidden from users; bots that fill it are rejected server-side. */}
+          <input
+            type="text"
+            name="company"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", width: 1, height: 1 }}
+          />
           <input
             id="newsletter"
             type="email"

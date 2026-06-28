@@ -3,6 +3,10 @@ import { createStart, createMiddleware } from "@tanstack/react-start";
 import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
 
+// Security headers are applied via nitro `routeRules` in vite.config.ts (baked
+// into the Vercel build output for every route), not here — request middleware
+// could not reliably mutate the streamed SSR response headers.
+
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
     return await next();

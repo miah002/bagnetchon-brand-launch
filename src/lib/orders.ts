@@ -1,5 +1,5 @@
 import type { CartLine } from "@/context/CartContext";
-import { supabase } from "@/integrations/supabase/client";
+import { placeOrder } from "./api/orders.functions";
 
 export interface Order {
   ref: string;
@@ -22,56 +22,35 @@ export interface Order {
   source: string;
 }
 
-function genRef() {
-  return "BGN-" + crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase();
-}
-
 /**
- * Persists an order in Lovable Cloud. Payment stays STUBBED.
+ * Places an order via the server-authoritative `placeOrder` server function.
+ * The browser sends only line ids + qty and customer details — all money is
+ * recomputed on the server from the canonical menu, so the `subtotal/tax/total`
+ * passed in here are ignored and replaced by the server's values.
  *
- * TODO(stripe): create a Stripe Checkout Session here, store
- * stripe_session_id, and redirect the user instead of returning success
- * immediately. Update status='paid' / payment_status='paid' via Stripe webhook.
+ * Payment stays STUBBED (see placeOrder handler for the Stripe TODO).
  */
 export async function createOrder(
   order: Omit<Order, "ref" | "createdAt">,
+  hp = "",
 ): Promise<Order> {
-  const ref = genRef();
-  const payload = {
-    order_ref: ref,
-    fulfillment: order.fulfillment,
-    customer_name: order.customer.name,
-    customer_email: order.customer.email,
-    customer_phone: order.customer.phone,
-    address_street: order.customer.street,
-    address_city: order.customer.city,
-    address_zip: order.customer.zip,
-    source: order.source,
-    items: JSON.parse(JSON.stringify(order.lines)),
-    subtotal: order.subtotal,
-    tax: order.tax,
-    delivery_fee: order.deliveryFee,
-    delivery_miles: order.deliveryMiles ?? null,
-    total: order.total,
-    status: "pending",
-    payment_status: "unpaid",
+  const res = await placeOrder({
+    data: {
+      lines: order.lines.map((l) => ({ id: l.id, qty: l.qty })),
+      fulfillment: order.fulfillment,
+      customer: order.customer,
+      source: order.source,
+      hp,
+    },
+  });
+
+  return {
+    ...order,
+    ref: res.ref,
+    createdAt: res.createdAt,
+    subtotal: res.subtotal,
+    tax: res.tax,
+    deliveryFee: res.deliveryFee,
+    total: res.total,
   };
-
-  const { data: row, error } = await supabase
-    .from("orders")
-    .insert(payload)
-    .select("created_at")
-    .single();
-
-  if (error || !row) {
-    console.error("Order insert failed:", error?.message);
-    throw new Error("Could not place order. Please try again.");
-  }
-
-  // Fire-and-forget owner notification — never blocks success.
-  supabase.functions
-    .invoke("notify-order", { body: { ...payload } })
-    .catch(() => { /* swallow */ });
-
-  return { ...order, ref, createdAt: row.created_at };
 }
