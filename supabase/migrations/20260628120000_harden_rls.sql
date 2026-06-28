@@ -67,6 +67,7 @@ CREATE POLICY "Admins can update inquiries" ON public.inquiries
 CREATE POLICY "Admins can delete inquiries" ON public.inquiries
   FOR DELETE TO authenticated USING (public.is_admin());
 -- Admins may log manual inquiries (DM/phone) from the panel.
+DROP POLICY IF EXISTS "Admins can insert inquiries" ON public.inquiries;
 CREATE POLICY "Admins can insert inquiries" ON public.inquiries
   FOR INSERT TO authenticated WITH CHECK (public.is_admin());
 
