@@ -108,8 +108,15 @@ export const placeOrder = createServerFn({ method: "POST" })
       address: isPickup
         ? "Pickup"
         : `${data.customer.street}, ${data.customer.city} ${data.customer.zip}`,
+      // "2× Beef Kare Kare — Full Tray @ $265" — the n8n Website Orders
+      // workflow parses qty + unit price from this exact shape so the Zoho
+      // invoice always matches what the site charged.
       items: data.lines
-        .map((l) => `${l.qty}× ${MENU.find((m) => m.id === l.id)?.name ?? l.id}`)
+        .map((l) => {
+          const item = MENU.find((m) => m.id === l.id);
+          const rate = item?.price != null ? ` @ $${item.price}` : "";
+          return `${l.qty}× ${item?.name ?? l.id}${rate}`;
+        })
         .join("; "),
       subtotal,
       tax,
