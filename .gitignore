@@ -39,3 +39,18 @@ dist-ssr
 /playwright-report/
 /test-results/
 /blob-report/
+
+# Local MCP server config (personal tooling)
+.mcp.json
+
+# Playwright MCP session artifacts
+.playwright-mcp/
+
+# Client source materials — must never deploy. public/ ships verbatim to the
+# live site; the xlsx holds real customer PII and the raw photo folders are
+# multi-MB originals (optimized copies live in public/images/dishes/).
+public/*.xlsx
+public/Files/
+public/images/Updated Menu Photos/
+public/images/Catering/
+public/images/Menu/

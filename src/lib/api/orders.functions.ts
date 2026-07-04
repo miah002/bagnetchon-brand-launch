@@ -5,6 +5,7 @@ import { throttleByIp } from "./server-utils.server";
 import { MENU } from "@/data/menu";
 import { TAX_RATE } from "@/config/delivery";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { appendOrderToSheet } from "@/lib/integrations/sheets.server";
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
@@ -92,6 +93,30 @@ export const placeOrder = createServerFn({ method: "POST" })
       .catch(() => {
         /* swallow */
       });
+
+    // Row into the owner's Google Sheet (same spreadsheet the order form
+    // feeds). Awaited because Vercel may freeze the instance right after the
+    // response, dropping floating promises — but it never throws and is
+    // capped at 5s, so the order itself can't fail on a sheet outage.
+    await appendOrderToSheet({
+      ref,
+      createdAt: row.created_at,
+      name: data.customer.name,
+      email: data.customer.email,
+      phone: data.customer.phone,
+      fulfillment: data.fulfillment,
+      address: isPickup
+        ? "Pickup"
+        : `${data.customer.street}, ${data.customer.city} ${data.customer.zip}`,
+      items: data.lines
+        .map((l) => `${l.qty}× ${MENU.find((m) => m.id === l.id)?.name ?? l.id}`)
+        .join("; "),
+      subtotal,
+      tax,
+      deliveryFee,
+      total,
+      source: data.source,
+    });
 
     return { ref, createdAt: row.created_at, subtotal, tax, deliveryFee, total };
   });

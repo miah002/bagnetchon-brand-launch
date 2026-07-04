@@ -26,11 +26,13 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+// Fixed-price items only — this card renders a hard "Add" button, so
+// quote-only (weight-priced) roasts don't belong here.
 const BESTSELLER_IDS = [
-  "lechon-classic-full",
-  "lechon-classic-pack",
-  "lechon-spicy-full",
-  "lechon-spicy-half",
+  "sisig-half",
+  "beef-kare-kare",
+  "lumpiang-shanghai",
+  "lechon-sarsa",
 ];
 
 function Home() {
