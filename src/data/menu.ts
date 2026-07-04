@@ -40,7 +40,6 @@ export const MENU: MenuItem[] = [
     category: "Whole Roasts",
     image: IMAGES.dishBellyHalf,
     badge: "Bestseller",
-    requestQuote: true,
     description:
       "Slow-roasted Ilocano-style belly roll, glass-crackling skin. Free Chef's bagnet sarsa. $25/lb raw weight.",
   },
@@ -54,7 +53,6 @@ export const MENU: MenuItem[] = [
     price: 220,
     category: "Whole Roasts",
     image: IMAGES.dishBellyFull,
-    requestQuote: true,
     description:
       "Slow-roasted Ilocano-style belly roll, glass-crackling skin. Free Chef's bagnet sarsa. $25/lb raw weight.",
   },
@@ -69,7 +67,6 @@ export const MENU: MenuItem[] = [
     category: "Whole Roasts",
     image: IMAGES.dishBellyTruffle1,
     badge: "Truffle",
-    requestQuote: true,
     description:
       "Half belly finished with black truffle — an earthy, luxe upgrade on the classic. Priced by raw weight.",
   },
@@ -84,7 +81,6 @@ export const MENU: MenuItem[] = [
     category: "Whole Roasts",
     image: IMAGES.dishBellyTruffle2,
     badge: "Truffle",
-    requestQuote: true,
     description:
       "Full belly finished with black truffle — the centerpiece for a premium feast. Priced by raw weight.",
   },
@@ -100,7 +96,6 @@ export const MENU: MenuItem[] = [
     price: 380,
     category: "Whole Roasts",
     image: IMAGES.dishCochinillo1,
-    requestQuote: true,
     description:
       "Spanish-style suckling cochinillo, paper-crisp skin. A delicate, elegant centerpiece.",
   },
@@ -116,7 +111,6 @@ export const MENU: MenuItem[] = [
     price: 450,
     category: "Whole Roasts",
     image: IMAGES.dishDeLeche1,
-    requestQuote: true,
     description:
       "Milky-young suckling lechon, tender and rich. The traditional fiesta showpiece.",
   },
@@ -133,7 +127,6 @@ export const MENU: MenuItem[] = [
     category: "Whole Roasts",
     image: IMAGES.dishLechonMedium,
     badge: "Centerpiece",
-    requestQuote: true,
     description:
       "Traditional whole roasted pig, 41–50 lbs raw weight. On-site carving available.",
   },
@@ -147,7 +140,6 @@ export const MENU: MenuItem[] = [
     price: 500,
     category: "Whole Roasts",
     image: IMAGES.dishLechonMedium,
-    requestQuote: true,
     description:
       "Traditional whole roasted pig, 51–59 lbs raw weight. On-site carving available.",
   },
@@ -161,7 +153,6 @@ export const MENU: MenuItem[] = [
     price: 550,
     category: "Whole Roasts",
     image: IMAGES.dishLechonLarge,
-    requestQuote: true,
     description:
       "Whole roasted pig, 60–74 lbs raw weight. On-site carving available.",
   },
@@ -175,7 +166,6 @@ export const MENU: MenuItem[] = [
     price: 600,
     category: "Whole Roasts",
     image: IMAGES.dishLechonXL1,
-    requestQuote: true,
     description:
       "Whole roasted pig, 75–85 lbs raw weight. The grand centerpiece. 7-day lead time.",
   },
@@ -190,7 +180,6 @@ export const MENU: MenuItem[] = [
     price: 50,
     category: "Whole Roasts",
     image: IMAGES.lechonCloseup,
-    requestQuote: true,
     description:
       "Whole roasted pork leg — crackling skin over fall-apart meat. Priced by raw weight.",
   },

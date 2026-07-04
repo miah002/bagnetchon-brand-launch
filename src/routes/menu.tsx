@@ -30,7 +30,7 @@ export const Route = createFileRoute("/menu")({
 const SECTION_ORDER: MenuCategory[] = ["Trays & Packs", "Whole Roasts"];
 const SECTION_BLURB: Record<MenuCategory, string> = {
   "Trays & Packs": "Order online for pickup or delivery — packs and trays for any table.",
-  "Whole Roasts": "Our showpiece roasts, priced by weight. Tap a size, then request a quote.",
+  "Whole Roasts": "Our showpiece roasts. Tap a size, then add to your order. Starting prices shown; final price set by raw weight.",
 };
 
 function MenuPage() {
