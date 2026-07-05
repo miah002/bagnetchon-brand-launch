@@ -240,9 +240,9 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
           </div>
           <button
             onClick={onSignOut}
-            className="wood-surface pressable mt-1 inline-flex items-center gap-2 rounded-full border border-[var(--brand-gold)]/50 px-4 py-2 text-sm font-medium text-brand-cream"
+            className="wood-surface pressable mt-1 inline-flex items-center gap-2 rounded-full border border-[var(--brand-gold-bright)]/50 px-4 py-2 text-sm font-medium text-brand-cream"
           >
-            <LogOut className="h-4 w-4 text-[var(--brand-gold)]" />
+            <LogOut className="h-4 w-4 text-[var(--brand-gold-bright)]" />
             Sign out
           </button>
         </header>
@@ -259,7 +259,7 @@ function Inbox({ onSignOut, email }: { onSignOut: () => void; email: string }) {
               onClick={() => setTab(t)}
               className={`rounded-full px-4 py-2 text-sm font-medium capitalize transition-colors ${
                 tab === t
-                  ? "bg-[var(--brand-terracotta)] text-brand-cream shadow-[0_1px_4px_rgba(38,19,11,0.35)]"
+                  ? "bg-[var(--brand-gold)] text-[var(--brand-cream-2)] shadow-[0_1px_4px_rgba(38,19,11,0.35)]"
                   : "text-[var(--brand-charcoal)]/70 hover:bg-[var(--brand-gold)]/15"
               }`}
             >
