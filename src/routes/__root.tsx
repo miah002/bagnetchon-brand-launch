@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Bagnet + Lechon. Crispy, crackling, criminally good Filipino food in Anaheim, CA. Order online or book catering.",
       },
-      { name: "theme-color", content: "#211910" },
+      { name: "theme-color", content: "#2b160a" },
       { property: "og:site_name", content: SITE.name },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

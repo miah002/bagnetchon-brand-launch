@@ -41,6 +41,8 @@
   --color-brand-red: var(--brand-red);
   --color-brand-green: var(--brand-green);
   --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-bright: var(--brand-gold-bright);
+  --color-brand-copper: var(--brand-copper);
   --color-brand-charcoal: var(--brand-charcoal);
   --color-brand-cream: var(--brand-cream);
   --color-brand-wood: var(--brand-wood);
@@ -56,16 +58,18 @@
 :root {
   --radius: 1rem;
 
-  /* Brand palette — Bagnetchon heritage (Gemini detailed spec) */
-  --brand-red: #a62615; /* Chili Red — deep brick (AA-safe as text) */
+  /* Brand palette — Bagnetchon mahogany heritage (client palette 2026-07) */
+  --brand-red: #a62615; /* Chili Red — deep brick (AA-safe as text/buttons) */
   --brand-green: #45a046; /* Leaf Green (logo) */
-  --brand-gold: #cca580; /* Muted Copper Gold — filigree/accents */
-  --brand-terracotta: #8c583a; /* Warm Terracotta — active/selected states */
-  --brand-charcoal: #26130b; /* Deep Espresso — text on parchment */
-  --brand-cream: #f5efe4; /* Vintage Alabaster — parchment container */
-  --brand-wood: #26130b; /* Deep Espresso wood — outer chrome */
-  --brand-wood-2: #402213; /* Roasted Walnut — panel headers/grain */
-  --brand-cream-2: #fffdf9; /* Warm Off-White — cards/rows */
+  --brand-gold: #8c6239; /* Golden-Brown — active tabs, borders, on-light accents */
+  --brand-gold-bright: #cca580; /* Muted Copper — filigree/text accents on wood */
+  --brand-copper: #d94d29; /* Copper Orange — chili motifs, large accents only */
+  --brand-terracotta: #8c583a; /* Warm Terracotta — selected states (unchanged) */
+  --brand-charcoal: #0a0a0a; /* Jet Black — all main text on light panels */
+  --brand-cream: #f2eada; /* Antique Cream — parchment panels */
+  --brand-wood: #2b160a; /* Deep Espresso — outer chrome */
+  --brand-wood-2: #52301a; /* Warm Mahogany — panel headers/grain */
+  --brand-cream-2: #fefdfb; /* Warm Off-White — cards/table rows */
 
   /* Semantic mapping — parchment base, lechon-red primary, bronze accent */
   --background: var(--brand-cream);
@@ -80,7 +84,7 @@
   --secondary-foreground: var(--brand-charcoal);
   --muted: #e9dbc3;
   --muted-foreground: #6b4a33;
-  --accent: var(--brand-gold);
+  --accent: var(--brand-gold-bright);
   --accent-foreground: var(--brand-wood);
   --destructive: #a62615;
   --destructive-foreground: #fffdf9;
