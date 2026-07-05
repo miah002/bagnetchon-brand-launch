@@ -106,7 +106,7 @@
   --secondary-foreground: var(--brand-cream);
   --muted: #3a1a0d;
   --muted-foreground: #cbb08c;
-  --accent: var(--brand-gold);
+  --accent: var(--brand-gold-bright);
   --accent-foreground: var(--brand-wood);
   --border: rgb(197 155 115 / 25%);
   --input: rgb(197 155 115 / 28%);
