@@ -91,9 +91,9 @@ export function Nav() {
             <Link
               key={l.to}
               to={l.to}
-              className="relative text-sm font-medium text-brand-cream/85 transition-colors hover:text-brand-gold"
+              className="relative text-sm font-medium text-brand-cream/85 transition-colors hover:text-brand-gold-bright"
               activeProps={{
-                className: "text-brand-gold underline underline-offset-8 decoration-2",
+                className: "text-brand-gold-bright underline underline-offset-8 decoration-2",
               }}
               activeOptions={{ exact: l.to === "/" }}
             >
@@ -105,7 +105,7 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <a
             href="tel:+15625449882"
-            className="hidden items-center gap-2 rounded-full border border-[var(--brand-gold)]/60 px-3 py-2 text-sm font-medium text-brand-cream hover:border-[var(--brand-gold)] hover:text-brand-gold md:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-[var(--brand-gold)]/60 px-3 py-2 text-sm font-medium text-brand-cream hover:border-[var(--brand-gold)] hover:text-brand-gold-bright md:inline-flex"
             aria-label="Call Bagnetchon"
           >
             <Phone className="h-4 w-4" />
