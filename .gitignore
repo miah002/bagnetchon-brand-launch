@@ -54,3 +54,6 @@ public/Files/
 public/images/Updated Menu Photos/
 public/images/Catering/
 public/images/Menu/
+
+# Generated theme-asset working folder (image-gen CLI output; never deploy raw)
+assets-src/
