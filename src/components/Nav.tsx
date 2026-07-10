@@ -152,7 +152,7 @@ export function Nav() {
           />
           <div
             ref={drawerRef}
-            className="absolute right-0 top-0 h-full w-80 max-w-[88%] animate-in slide-in-from-right duration-200 bg-background p-6 shadow-2xl"
+            className="absolute right-0 top-0 h-full w-80 max-w-[88%] animate-in slide-in-from-right duration-200 bg-background p-6 text-foreground shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <span className="font-display text-xl font-bold">
