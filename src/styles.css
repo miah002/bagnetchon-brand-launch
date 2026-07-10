@@ -424,6 +424,49 @@
   letter-spacing: 0.12em;
 }
 
+/* Ledger table — mobile card mode. Below the sm breakpoint, admin data
+   tables (8-column inquiries, orders w/ expandable detail, subscribers)
+   stop trying to fit as a scrolling table and stack into labeled cards
+   instead: label above value, since several cells hold multi-line content
+   (contact info, event details) that a side-by-side label:value row would
+   force back onto one flex line. .ledger-full-row (loading/empty states,
+   the orders detail-row's own 2-col grid) has no data-label and is left
+   as a plain full-width block. */
+@media (max-width: 639px) {
+  .ledger-table thead {
+    display: none;
+  }
+  .ledger-table,
+  .ledger-table tbody,
+  .ledger-table tr,
+  .ledger-table td {
+    display: block;
+    width: 100%;
+  }
+  .ledger-table td {
+    max-width: none !important;
+    padding: 0.4rem 1rem;
+    text-align: left;
+  }
+  .ledger-table tr {
+    border-top: 1px solid rgba(140, 98, 57, 0.15);
+    padding: 0.5rem 0;
+  }
+  .ledger-table tr:first-child {
+    border-top: none;
+  }
+  .ledger-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.125rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-gold);
+  }
+}
+
 /* Photo fallback gradient */
 .photo-fallback {
   background:

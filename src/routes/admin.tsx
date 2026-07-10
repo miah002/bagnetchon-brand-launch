@@ -357,7 +357,7 @@ function InquiriesTab() {
       )}
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
-        <table className="w-full text-left text-sm">
+        <table className="ledger-table w-full text-left text-sm">
           <thead className="ledger-head text-xs uppercase tracking-wider">
             <tr>
               <Th>Date</Th>
@@ -373,28 +373,28 @@ function InquiriesTab() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
+                <td colSpan={8} className="ledger-full-row px-4 py-12 text-center text-muted-foreground">
                   Loading…
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
+                <td colSpan={8} className="ledger-full-row px-4 py-12 text-center text-muted-foreground">
                   No inquiries yet.
                 </td>
               </tr>
             ) : (
               filtered.map((r) => (
                 <tr key={r.id} className="border-t border-[var(--brand-gold)]/15 odd:bg-[var(--brand-cream)]/40">
-                  <Td>{new Date(r.created_at).toLocaleString()}</Td>
-                  <Td>{r.source}</Td>
-                  <Td className="capitalize">{r.type}</Td>
-                  <Td>{r.name}</Td>
-                  <Td>
+                  <Td label="Date">{new Date(r.created_at).toLocaleString()}</Td>
+                  <Td label="Source">{r.source}</Td>
+                  <Td label="Type" className="capitalize">{r.type}</Td>
+                  <Td label="Name">{r.name}</Td>
+                  <Td label="Contact">
                     <div>{r.email}</div>
                     {r.phone && <div className="text-xs text-muted-foreground">{r.phone}</div>}
                   </Td>
-                  <Td>
+                  <Td label="Event">
                     {r.event_date && <div>{r.event_date}</div>}
                     {r.guest_count != null && <div className="text-xs">{r.guest_count} guests</div>}
                     {r.location && (
@@ -402,10 +402,10 @@ function InquiriesTab() {
                     )}
                     {r.package && <div className="text-xs text-primary">{r.package}</div>}
                   </Td>
-                  <Td className="max-w-[24rem]">
+                  <Td label="Message" className="max-w-[24rem]">
                     <div className="line-clamp-3 text-xs">{r.message ?? "—"}</div>
                   </Td>
-                  <Td>
+                  <Td label="Status">
                     <select
                       aria-label="Status"
                       value={r.status}
@@ -573,7 +573,7 @@ function OrdersTab() {
 
   return (
     <div className="overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
-      <table className="w-full text-left text-sm">
+      <table className="ledger-table w-full text-left text-sm">
         <thead className="ledger-head text-xs uppercase tracking-wider">
           <tr>
             <Th></Th>
@@ -588,13 +588,13 @@ function OrdersTab() {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
+              <td colSpan={7} className="ledger-full-row px-4 py-12 text-center text-muted-foreground">
                 Loading…
               </td>
             </tr>
           ) : rows.length === 0 ? (
             <tr>
-              <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
+              <td colSpan={7} className="ledger-full-row px-4 py-12 text-center text-muted-foreground">
                 No orders yet.
               </td>
             </tr>
@@ -610,22 +610,22 @@ function OrdersTab() {
                     <Td>
                       <span className="wood-surface inline-flex h-8 w-8 items-center justify-center rounded-md border border-[var(--brand-gold)]/40">
                         {expanded ? (
-                          <ChevronDown className="h-4 w-4 text-[var(--brand-gold)]" />
+                          <ChevronDown className="h-4 w-4 text-[var(--brand-gold-bright)]" />
                         ) : (
-                          <ChevronRight className="h-4 w-4 text-[var(--brand-gold)]" />
+                          <ChevronRight className="h-4 w-4 text-[var(--brand-gold-bright)]" />
                         )}
                       </span>
                     </Td>
-                    <Td className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</Td>
-                    <Td className="font-mono text-xs">{r.order_ref}</Td>
-                    <Td>
+                    <Td label="Date" className="whitespace-nowrap">{new Date(r.created_at).toLocaleString()}</Td>
+                    <Td label="Ref" className="font-mono text-xs">{r.order_ref}</Td>
+                    <Td label="Customer">
                       <div className="font-medium">{r.customer_name}</div>
                       <div className="text-xs text-muted-foreground">{r.customer_email}</div>
                       <div className="text-xs text-muted-foreground">{r.customer_phone}</div>
                     </Td>
-                    <Td className="capitalize">{r.fulfillment ?? "delivery"}</Td>
-                    <Td className="text-right font-semibold tabular-nums">{formatPrice(Number(r.total))}</Td>
-                    <Td onClick={(e) => e.stopPropagation()}>
+                    <Td label="Fulfillment" className="capitalize">{r.fulfillment ?? "delivery"}</Td>
+                    <Td label="Total" className="text-right font-semibold tabular-nums">{formatPrice(Number(r.total))}</Td>
+                    <Td label="Status" onClick={(e) => e.stopPropagation()}>
                       <select
                         aria-label="Order status"
                         value={r.status}
@@ -642,7 +642,7 @@ function OrdersTab() {
                   </tr>
                   {expanded && (
                     <tr key={`${r.id}-detail`} className="border-t border-[var(--brand-gold)]/15 bg-[var(--brand-gold)]/8">
-                      <td colSpan={7} className="px-6 py-4">
+                      <td colSpan={7} className="ledger-full-row px-6 py-4">
                         <div className="grid gap-4 md:grid-cols-2">
                           {/* Items */}
                           <div>
@@ -757,7 +757,7 @@ function SubscribersTab() {
 
   return (
     <div className="overflow-x-auto rounded-2xl border border-[var(--brand-gold)]/30 bg-[var(--brand-cream-2)] shadow-ambient">
-      <table className="w-full text-left text-sm">
+      <table className="ledger-table w-full text-left text-sm">
         <thead className="ledger-head text-xs uppercase tracking-wider">
           <tr>
             <Th>Date</Th>
@@ -768,22 +768,22 @@ function SubscribersTab() {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">
+              <td colSpan={3} className="ledger-full-row px-4 py-12 text-center text-muted-foreground">
                 Loading…
               </td>
             </tr>
           ) : rows.length === 0 ? (
             <tr>
-              <td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">
+              <td colSpan={3} className="ledger-full-row px-4 py-12 text-center text-muted-foreground">
                 No subscribers yet.
               </td>
             </tr>
           ) : (
             rows.map((r) => (
               <tr key={r.id} className="border-t border-[var(--brand-gold)]/15">
-                <Td>{new Date(r.created_at).toLocaleString()}</Td>
-                <Td>{r.email}</Td>
-                <Td>{r.source}</Td>
+                <Td label="Date">{new Date(r.created_at).toLocaleString()}</Td>
+                <Td label="Email">{r.email}</Td>
+                <Td label="Source">{r.source}</Td>
               </tr>
             ))
           )}
@@ -800,13 +800,19 @@ function Td({
   children,
   className = "",
   onClick,
+  label,
 }: {
   children: React.ReactNode;
   className?: string;
   onClick?: (e: React.MouseEvent) => void;
+  label?: string;
 }) {
   return (
-    <td className={`px-4 py-3 align-top ${className}`} onClick={onClick}>
+    <td
+      className={`px-4 py-3 align-top ${className}`}
+      onClick={onClick}
+      data-label={label}
+    >
       {children}
     </td>
   );
