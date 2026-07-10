@@ -21,6 +21,7 @@ const pairs = [
   ["#d94d29", "#f2eada", 3.0, "copper large accents on cream"],
   ["#8c6239", "#2b160a", 3.0, "golden-brown borders on wood (non-text)"],
   ["#2b160a", "#cca580", 4.5, "accent-foreground on accent (dark badge/hover text)"],
+  ["#cca580", "#20100a", 4.5, "ledger-head th text on wood gradient (gold-bright, not plain gold)"],
 ];
 let fail = 0;
 for (const [fg, bg, floor, label] of pairs) {
